@@ -1,12 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
 }
 
-.container {
-    width: 300px;
+.login-container {
+    width: 30%;
     margin: 100px auto;
     padding: 20px;
     background: white;
@@ -16,6 +19,7 @@ body {
 
 h2 {
     text-align: center;
+    margin-bottom: 20px;
     color: #333;
 }
 
@@ -41,4 +45,38 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: #4cae4c;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+#show-password{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+    .login-container {
+        width: 80%;
+    }
+    
+}
+@media screen and (max-width: 600px) {
+    .login-container {
+        width: 90%;
+    }
+    .form-group{
+        text-align: center;
+    }
+    
+}
+
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
 }
