@@ -9,8 +9,9 @@ const port = 3000;
 //const conn = require('./dbconn.js');
 
 // static resourse & template engine
-app.use(express.static('Public'));
-app.use(express.static('Asset'));
+app.use(express.static(path.join(__dirname, 'Public/Login')));
+app.use(express.static(path.join(__dirname, 'Public')));
+app.use(express.static(path.join(__dirname, 'Asset')));
 // routing 
 app.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, "/Public/Login/login.html"));
