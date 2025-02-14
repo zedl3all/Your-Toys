@@ -1,9 +1,15 @@
 const mysql = require('mysql');
+const fs = require('fs');
+const path = require('path');
+
+const passwordPath = path.join(__dirname, 'password.json');
+const passwordData = JSON.parse(fs.readFileSync(passwordPath, 'utf8'));
+
 const conn = mysql.createConnection({
     host: "10.0.15.21",
-    user: "s66070xxxx",
-    password: "xxxx", 
-    database: "d6607xxx"
+    user: passwordData.username,
+    password: passwordData.password,
+    database: passwordData.database
 });
 
 // open the MySQL connection

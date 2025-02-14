@@ -6,14 +6,18 @@ const app = express();
 const port = 3000;
 
 // เพิ่มใช้งานไฟล์
-const conn = require('./dbconn.js');
+//const conn = require('./dbconn.js');
 
 // static resourse & template engine
 app.use(express.static('Public'));
 app.use(express.static('Asset'));
 // routing 
-app.get('/', function (req, res) {
+app.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, "/Public/Login/login.html"));
+});
+
+app.get('/register', function (req, res) {
+    res.sendFile(path.join(__dirname, "/Public/Register/register.html"));
 });
 
 
