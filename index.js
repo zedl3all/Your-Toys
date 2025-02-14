@@ -9,7 +9,7 @@ const port = 3000;
 const conn = require('./dbconn.js');
 
 // static resourse & template engine
-app.use(express.static('Public/Login'));
+app.use(express.static('Public'));
 app.use(express.static('Asset'));
 // routing 
 app.get('/', function (req, res) {
