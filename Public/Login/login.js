@@ -1,5 +1,19 @@
 initializeLogin();
 
+async function validateUser(username, password) {
+    const response = await fetch('/validateUser', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+    });
+
+    const result = await response.json();
+    console.log(result);
+    return result;
+}
+
 function initializeLogin() {
     document.addEventListener('DOMContentLoaded', function() {
         const loginForm = document.getElementById('loginForm');
@@ -7,7 +21,7 @@ function initializeLogin() {
         const passwordInput = document.getElementById('password');
         const errorMessage = document.getElementById('error-message');
 
-        loginForm.addEventListener('submit', function(event) {
+        loginForm.addEventListener('submit', async function(event) {
             event.preventDefault();
             const username = usernameInput.value.trim();
             const password = passwordInput.value.trim();
@@ -17,8 +31,10 @@ function initializeLogin() {
                 return;
             }
 
-            // Simulate a login process
-            if (username === 'admin' && password === 'password') {
+            const isValid = await validateUser(username, password);
+            console.log(username, password);
+            console.log(isValid);
+            if (isValid) {
                 alert('Login successful!');
                 window.location.href = '/home';
             } else {
