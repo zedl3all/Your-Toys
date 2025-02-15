@@ -20,7 +20,6 @@ let db = new sqlite3.Database('lala.db', (err) => {
 app.use(express.json());
 
 // static resourse & template engine
-app.use(express.static(path.join(__dirname, 'Public/Login')));
 app.use(express.static(path.join(__dirname, 'Public')));
 app.use(express.static(path.join(__dirname, 'Asset')));
 // routing 
