@@ -8,7 +8,6 @@ const port = 3000;
 // using sqlite3
 const sqlite3 = require('sqlite3').verbose();
 
-
 // Connect to SQLite database
 let db = new sqlite3.Database('lala.db', (err) => {
     if (err) {
