@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,19 @@
     <link rel="stylesheet" href="/Login/login.css">
     <link rel="icon" href="/Asset/Logo.svg" type="image/svg+xml">
 </head>
+
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        <form id="loginForm">
+        <div class="toggle-container">
+            <div class="toggle-switch">
+                <div class="toggle-option active" data-userType="customer" onclick="toggleUserType(this, 'customer')">
+                    Customer</div>
+                <div class="toggle-option" data-userType="employee" onclick="toggleUserType(this, 'employee')">Employee
+                </div>
+            </div>
+        </div>
+        <form id="loginForm" data-user-type="customer">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
@@ -29,4 +39,5 @@
     </div>
     <script src="login.js"></script>
 </body>
+
 </html>

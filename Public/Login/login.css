@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -52,31 +53,56 @@ input[type="submit"]:hover {
     margin-bottom: 15px;
 }
 
-#show-password{
+#show-password {
     width: 20px;
     height: 20px;
     cursor: pointer;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    background-color: #f4f4f4;
+    border-radius: 25px;
+    padding: 4px;
+}
+
+.toggle-option {
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.toggle-option.active {
+    background-color: #5cb85c;
+    color: white;
 }
 
 @media screen and (max-width: 1200px) {
     .login-container {
         width: 80%;
     }
-    
 }
+
 @media screen and (max-width: 600px) {
     .login-container {
         width: 90%;
     }
-    .form-group{
+
+    .form-group {
         text-align: center;
     }
-    
-}
-
-
-.error-message {
-    color: red;
-    margin-top: 10px;
-    text-align: center;
 }
