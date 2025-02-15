@@ -36,18 +36,18 @@ h2 {
     border-radius: 5px;
 }
 
-button {
+input[type="submit"] {
     width: 100%;
     padding: 10px;
     background-color: #5cb85c;
-    color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
+        color: white;
+        font-size: 16px;
     cursor: pointer;
-    font-size: 16px;
 }
 
-button:hover {
+input[type="submit"]:hover {
     background-color: #4cae4c;
     cursor: pointer;
 }
