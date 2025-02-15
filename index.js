@@ -8,6 +8,9 @@ const port = 3000;
 // using sqlite3
 const sqlite3 = require('sqlite3').verbose();
 
+// using EJS
+app.set('view engine', 'ejs');
+
 // Connect to SQLite database
 let db = new sqlite3.Database('lala.db', (err) => {
     if (err) {
@@ -22,6 +25,8 @@ app.use(express.json());
 // static resourse & template engine
 app.use(express.static(path.join(__dirname, 'Public')));
 app.use(express.static(path.join(__dirname, 'Asset')));
+app.set('views', path.join(__dirname, 'Views'));
+
 // routing 
 app.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, "/Public/Login/login.html"));
@@ -63,6 +68,12 @@ app.post('/validateUser', async (req, res) => {
     }
 });
 
+app.get('/test', (req, res) => { // test
+    res.render('Test/index');
+});
+
+
+// start server
 app.listen(port, () => {
     console.log(`listening to port ${port}`);
 });
