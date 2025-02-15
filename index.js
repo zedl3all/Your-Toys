@@ -72,6 +72,10 @@ app.get('/test', (req, res) => { // test
     res.render('Test/index');
 });
 
+// 404 Not Found routing
+app.use((req, res, next) => {
+    res.status(404).sendFile(path.join(__dirname, 'Public/404.html'));
+});
 
 // start server
 app.listen(port, () => {
