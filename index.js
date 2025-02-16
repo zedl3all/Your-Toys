@@ -81,7 +81,7 @@ app.use((req, res, next) => {
 app.post('/registerUser', async (req, res) => {
     const { username, password, firstName, lastName, email, address, phone } = req.body;
     try {
-        const query = 'INSERT INTO users (username, password, first_name, last_name, email, address) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        const query = 'INSERT INTO users (username, password, first_name, last_name, email, address, phone) VALUES (?, ?, ?, ?, ?, ?, ?)';
         conn.query(query, [username, password, firstName, lastName, email, address, phone], (error, results) => {
             if (error) {
                 console.error(error);
