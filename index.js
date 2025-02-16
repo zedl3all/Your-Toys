@@ -78,6 +78,24 @@ app.use((req, res, next) => {
 });
 
 // start server
+app.post('/registerUser', async (req, res) => {
+    const { username, password, firstName, lastName, email, address, phone } = req.body;
+    try {
+        const query = 'INSERT INTO users (username, password, first_name, last_name, email, address) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        conn.query(query, [username, password, firstName, lastName, email, address, phone], (error, results) => {
+            if (error) {
+                console.error(error);
+                res.status(500).json({ success: false, message: 'Registration failed' });
+            } else {
+                res.json({ success: true, message: 'User registered successfully' });
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Registration failed' });
+    }
+});
+
 app.listen(port, () => {
     console.log(`listening to port ${port}`);
 });
