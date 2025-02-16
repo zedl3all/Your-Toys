@@ -1,0 +1,193 @@
+<head>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding-top: 70px;
+        }
+
+        nav {
+            background-color: #f8f8f8;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+        }
+
+        .nav-left,
+        .nav-center,
+        .nav-right {
+            flex: 1;
+        }
+
+        .nav-center {
+            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-right {
+            text-align: right;
+            display: flex;
+            align-items: center;
+            justify-content: right;
+            gap: 20px;
+        }
+
+        .nav-left{
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            cursor: pointer;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            margin-right: 20px;
+            margin-left: 2rem;
+        }
+
+        .login {
+            padding: 10px 20px;
+            background-color: #FAD401;
+            color: #33322B;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .login:hover {
+            background-color: #c9ab01;
+        }
+
+        .bi-cart {
+            width: 30px;
+            height: 30px;
+            font-size: 30px;
+            color: #33322B;
+            cursor: pointer;
+            margin-right: 2rem;
+        }
+        .bi-cart:hover {
+            color: #c9ab01;
+        }
+
+        #mySearch {
+            width: 100%;
+            font-size: 18px;
+            padding: 11px;
+            border: 2px solid #33322B;
+            border-radius: 5px;
+        }
+
+        /* Style the navigation menu */
+        #myMenu {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: none;
+            /* Hide the menu initially */
+            position: absolute;
+            top: 40px;
+            /* Adjust this value to position the menu */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            border: 1px solid #ddd;
+            width: 80%;
+            z-index: 1000;
+        }
+
+        /* Style the navigation links */
+        #myMenu li a {
+            padding: 12px;
+            text-decoration: none;
+            color: black;
+            display: block;
+        }
+
+        #myMenu li a:hover {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-left">
+            <div class="logo" onclick="location.href='/'">
+                <img src="/Asset/Logo.svg" alt="Logo">
+                <h1>YourToy</h1>
+            </div>
+        </div>
+        <div class="nav-center">
+            <input type="text" id="mySearch" onkeyup="myFunction()" placeholder="Search.." title="Type in a category">
+            <ul id="myMenu">
+                <li><a href="/test/?tag=HTML">HTML</a></li>
+                <li><a href="#">CSS</a></li>
+                <li><a href="#">JavaScript</a></li>
+                <li><a href="#">PHP</a></li>
+                <li><a href="#">Python</a></li>
+                <li><a href="#">jQuery</a></li>
+                <li><a href="#">SQL</a></li>
+                <li><a href="#">Bootstrap</a></li>
+                <li><a href="#">Node.js</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <button class="login" onclick="location.href='/login'">Login</button>
+            <span style="border: #33322B solid 1px; height: 2rem; opacity: 0.3;"></span>
+            <a class="bi bi-cart" href="/cart"></a>
+        </div>
+    </nav>
+    <script>
+        function myFunction() {
+            // Declare variables
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("mySearch");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myMenu");
+            li = ul.getElementsByTagName("li");
+
+            // Loop through all list items, and hide those who don't match the search query
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+
+        // Show the menu when the search input is focused
+        document.getElementById("mySearch").addEventListener("focus", function() {
+            document.getElementById("myMenu").style.display = "block";
+        });
+
+        // Hide the menu when the search input loses focus
+        document.getElementById("mySearch").addEventListener("blur", function() {
+            setTimeout(function() {
+                document.getElementById("myMenu").style.display = "none";
+            }, 200); // Delay to allow click event to register
+        });
+    </script>
+</body>
