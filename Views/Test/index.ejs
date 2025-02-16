@@ -3,38 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <title>Test</title>
     <style>
         body {
-            margin: 0;
-            padding: 0;
             font-family: Arial, sans-serif;
-            height: 5000px;
+            background-color: gray;
         }
+
+        .swiper {
+            width: 100%;
+            height: 300px;
+        }
+
+        .product-container {
+            display: flex;
+            justify-items: center;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .card-product {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-product:hover {
+            transform: scale(1.05);
+            transition: 0.3s;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .container {
+            margin-top: 50px;
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .swiper-slide{
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            background-color: wheat;
+            border-radius: 50px;
+        }
+
+        .swiper-button-next{
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+
+        .swiper-button-prev{
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+
     </style>
     <%- include("navbar.ejs") %>
 </head>
 
 <body>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget libero ac risus ultrices commodo sit amet nec risus. Aliquam a risus vitae erat interdum blandit. Praesent vitae condimentum tellus, finibus fringilla nisl. In mauris tortor, semper sit amet tincidunt vel, molestie non nisi. Nam imperdiet quam in condimentum posuere. Nam nec purus nisi. Fusce viverra metus a nunc iaculis cursus. Ut dictum id ante quis aliquet. Morbi placerat sollicitudin nulla, eu rutrum erat tempor vel. Nulla lacinia ut tortor at aliquet. Praesent semper massa eget ligula elementum blandit. Nam semper, leo at eleifend imperdiet, augue lacus posuere magna, id sollicitudin risus justo eu nulla. Sed quis semper dui. Curabitur laoreet justo odio, sed pellentesque mauris viverra non. Nulla at pellentesque urna, sodales commodo arcu. Vestibulum ultrices, augue eu maximus molestie, nulla est mollis risus, eget eleifend sem justo ac metus.
+    <div class="container">
+        <h1>Test</h1>
 
-Vestibulum viverra a eros sed volutpat. Aenean nulla risus, vehicula nec velit vel, consequat elementum est. Proin ut purus id neque auctor porta a egestas odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris tempus dolor vitae vestibulum sollicitudin. Donec pretium urna sit amet lectus feugiat, sit amet rhoncus magna commodo. Integer et lorem a erat consectetur lobortis eu vitae diam. Proin at semper nibh.
+        <!-- Slider main container -->
+        <div class="swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                <div class="swiper-slide">
+                    <div class="product-container">
+                        <div class="card-product">
+                            <img src="https://via.placeholder.com/150" alt="Product Image" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-title">Product Title</h3>
+                                <p class="product-description">Product Description</p>
+                                <p class="product-price">Product Price</p>
+                            </div>
+                        </div>
 
-Proin ullamcorper mauris sapien, eget vestibulum lacus facilisis consectetur. Fusce luctus pharetra ipsum, tristique lobortis lectus cursus volutpat. Suspendisse ultrices blandit sapien, in varius nunc condimentum sit amet. Maecenas vel pretium nulla. Aliquam erat volutpat. Duis a orci vitae turpis bibendum rutrum. Donec ipsum ante, semper sed facilisis ut, tincidunt et velit. Sed vestibulum ut dolor quis vestibulum. Cras turpis sem, sagittis vel feugiat eu, eleifend a lectus. Mauris et accumsan libero. In in finibus nulla, nec feugiat magna. Pellentesque et libero vitae nibh fermentum euismod. Nunc auctor rhoncus urna, sed fermentum neque blandit id. Duis consequat laoreet velit, eget luctus tellus maximus vehicula. Nulla pharetra pulvinar magna, ut sagittis augue ullamcorper vel.
+                        <div class="card-product">
+                            <img src="https://via.placeholder.com/150" alt="Product Image" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-title">Product Title</h3>
+                                <p class="product-description">Product Description</p>
+                                <p class="product-price">Product Price</p>
+                            </div>
+                        </div>
+                        <div class="card-product">
+                            <img src="https://via.placeholder.com/150" alt="Product Image" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-title">Product Title</h3>
+                                <p class="product-description">Product Description</p>
+                                <p class="product-price">Product Price</p>
+                            </div>
+                        </div>
 
-Nunc quis venenatis tortor, a posuere velit. Suspendisse elementum mi nisi, in blandit leo pharetra vitae. Proin imperdiet, arcu id convallis auctor, urna ex dignissim neque, vitae finibus erat ex pretium dolor. Pellentesque fermentum velit nec est tincidunt fringilla. Quisque at ligula orci. Nullam tellus odio, lobortis sed viverra in, vestibulum sit amet eros. Duis lectus ex, dapibus eget ultrices vitae, aliquet eu libero. Aliquam sagittis eu neque feugiat vulputate. Phasellus dignissim ullamcorper ullamcorper. Phasellus at molestie felis. Phasellus accumsan, metus ac consequat fringilla, massa lectus porta mauris, eu pellentesque nisi justo vitae velit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris et turpis vel lectus hendrerit hendrerit. Sed ultricies pulvinar mauris, sit amet fringilla lectus consectetur elementum. Donec eu urna semper, mollis nisl ac, iaculis mi.
+                        <div class="card-product">
+                            <img src="https://via.placeholder.com/150" alt="Product Image" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-title">Product Title</h3>
+                                <p class="product-description">Product Description</p>
+                                <p class="product-price">Product Price</p>
+                            </div>
+                        </div>
 
-Aliquam imperdiet dapibus arcu quis egestas. Suspendisse sit amet eleifend lorem. Phasellus vel vulputate nisi, vitae posuere ante. Sed ac ornare mauris, ut mollis purus. Etiam nunc libero, elementum eu lorem nec, vestibulum dignissim augue. Ut ligula leo, tempor et pulvinar ac, rutrum id est. Nam accumsan pretium condimentum. Nulla molestie ut lectus consectetur aliquet. Integer semper felis ligula, in varius massa fringilla quis. Praesent sit amet dictum metus. Aliquam erat volutpat. Fusce sit amet egestas ex. Mauris sit amet est vel magna mattis malesuada sed eget nulla. Quisque vel varius lacus. Integer arcu purus, gravida semper nulla et, posuere lacinia quam. Phasellus ultrices pellentesque metus ac suscipit.
+                        <div class="card-product">
+                            <img src="https://via.placeholder.com/150" alt="Product Image" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-title">Product Title</h3>
+                                <p class="product-description">Product Description</p>
+                                <p class="product-price">Product Price</p>
+                            </div>
+                        </div>
 
-Quisque scelerisque, est pretium malesuada tempor, ante tellus placerat felis, eget commodo diam augue in lorem. Etiam fermentum, dolor quis aliquam dapibus, augue turpis pretium urna, eu cursus erat urna vel felis. Vestibulum ullamcorper pharetra tincidunt. Phasellus justo leo, blandit nec euismod quis, pellentesque et nulla. Quisque scelerisque ornare est, sed volutpat dolor faucibus eget. Vestibulum iaculis, risus sit amet viverra bibendum, enim ipsum aliquam enim, eu egestas sem nisl et neque. Pellentesque rutrum vulputate erat, in placerat tellus elementum et. Donec nunc dui, blandit a ipsum vel, pulvinar hendrerit nisi. Sed id tincidunt mi. Cras semper neque in maximus viverra. Nulla sodales massa hendrerit erat fringilla vehicula nec vel lacus. Pellentesque varius velit vel sapien interdum, vitae maximus velit dapibus. Integer ullamcorper metus vitae tellus lacinia venenatis. Cras metus dolor, ullamcorper malesuada nisl ac, eleifend sodales metus. Quisque iaculis luctus commodo.
+                    </div>
+                </div>
+                <div class="swiper-slide">Slide 2</div>
+                <div class="swiper-slide">Slide 3</div>
+            </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
 
-Ut ut ligula lacinia, congue ipsum vel, aliquet lectus. Nulla eleifend neque in euismod euismod. Integer pulvinar facilisis urna, et varius augue viverra ac. Aliquam quam libero, gravida et ultricies ac, pharetra at elit. Curabitur vulputate enim a lorem tristique tristique. Sed nulla turpis, iaculis eu varius id, maximus ut nisi. Quisque lacus eros, ornare non vulputate in, interdum sed erat. Vestibulum sodales odio mi, eu porttitor augue auctor vel. Aliquam erat volutpat. Etiam aliquam est sed sagittis molestie. Nam sit amet bibendum turpis. Duis dapibus tortor sed gravida cursus. Maecenas augue risus, gravida ut tellus vel, mattis dignissim risus. Quisque mattis augue turpis, sit amet lobortis metus placerat vel. Nam consequat egestas ligula, vitae molestie purus blandit at. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
 
-Donec auctor, felis nec interdum porttitor, nisl dolor porttitor turpis, ac finibus arcu ante id velit. Praesent massa ipsum, lacinia vel ultrices vitae, blandit porttitor justo. Aenean eu ullamcorper sem. Aenean rutrum odio eget eros ornare tristique et accumsan risus. Cras vel laoreet tellus. Proin ultrices lorem ligula, non pretium enim lobortis nec. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras imperdiet massa at ante suscipit luctus. Phasellus eleifend diam nec nunc lacinia, sed aliquet erat dignissim.
 
-Maecenas fermentum nibh tortor, id porttitor lacus tristique eu. Quisque luctus tincidunt ligula, quis aliquet dolor tincidunt eu. Nunc feugiat nisi at fermentum pulvinar. Nullam bibendum porttitor lacinia. Vivamus tincidunt dolor in lectus condimentum placerat. Morbi lorem ligula, mollis id ultrices at, posuere sed nibh. Proin egestas tortor lacus. Phasellus facilisis mauris elit, quis placerat odio cursus non. Suspendisse placerat lectus id velit venenatis, ut pretium eros sollicitudin. Aliquam erat volutpat. Vestibulum sed risus volutpat, molestie ex eget, ultrices lacus. Cras non risus sed tellus scelerisque dictum. Phasellus non pretium nibh.
 
-Cras ac turpis ut erat pulvinar mollis. Nunc semper gravida euismod. In pretium at quam sit amet venenatis. Morbi dignissim mollis semper. Sed eget neque ut lectus suscipit auctor sit amet non mauris. Nunc viverra mauris vitae lorem feugiat ornare. Curabitur tempus velit ut condimentum mattis. Proin lacinia convallis iaculis. Phasellus venenatis dui non arcu mollis ornare vitae vitae risus.
+    <script>
+        const swiper = new Swiper('.swiper', {
+            // Optional parameters
+            direction: 'horizontal',
+            loop: true,
+
+
+            // If we need pagination
+            pagination: {
+                el: '.swiper-pagination',
+            },
+
+            // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+
+        });
+    </script>
+
 </body>
 
 </html>
