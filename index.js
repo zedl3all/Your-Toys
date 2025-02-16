@@ -23,7 +23,7 @@ let db = new sqlite3.Database('lala.db', (err) => {
 app.use(express.json());
 
 // static resourse & template engine
-app.use('/Asset',express.static(path.join(__dirname, '/Asset')));
+app.use('/Asset', express.static(path.join(__dirname, '/Asset')));
 app.use(express.static(path.join(__dirname, '/Public')));
 app.set('views', path.join(__dirname, 'Views'));
 
@@ -42,9 +42,9 @@ app.post('/validateUser', async (req, res) => {
     try {
         let query;
         if (userType === 'employee') {
-            query = 'SELECT * FROM employees WHERE employee_username = ? AND employee_password = ?';
+            query = 'SELECT * FROM users WHERE username = ? AND password = ? AND (role_id = 0 OR role_id = 1 OR role_id = 2)';
         } else if (userType === 'customer') {
-            query = 'SELECT * FROM customers WHERE customer_username = ? AND customer_password = ?';
+            query = 'SELECT * FROM users WHERE username = ? AND password = ?  AND role_id = 3';
         } else {
             res.status(400).json({ error: 'Invalid user type' });
             return;
