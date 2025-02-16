@@ -14,5 +14,6 @@ Separate login from user and employee with selective button.
 
 ## Installation
 ```bash
-npm init -y
-npm install sqlite3 express
+git clone https://github.com/zedl3all/Your-Toys/tree/work-in-sql
+npm install sqlite3 express ejs
+```
