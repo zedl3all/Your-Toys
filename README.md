@@ -13,7 +13,20 @@ Separate login from user and employee with selective button.
 - preview able to select/custom a product ex. heigh, wide, add a picture to product
 
 ## Installation
-```bash
-git clone https://github.com/zedl3all/Your-Toys/tree/work-in-sql
-npm install sqlite3 express ejs
-```
+To set up the project locally, follow these steps:
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/zedl3all/Your-Toys/tree/work-in-sql
+    ```
+
+2. Navigate to the project directory:
+    ```bash
+    cd Your-Toys
+    ```
+
+3. Install the required dependencies:
+    ```bash
+    npm install sqlite3 express ejs
+    ```
+
