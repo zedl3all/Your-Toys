@@ -23,8 +23,8 @@ let db = new sqlite3.Database('lala.db', (err) => {
 app.use(express.json());
 
 // static resourse & template engine
-app.use(express.static(path.join(__dirname, 'Public')));
-app.use(express.static(path.join(__dirname, 'Asset')));
+app.use('/Asset',express.static(path.join(__dirname, '/Asset')));
+app.use(express.static(path.join(__dirname, '/Public')));
 app.set('views', path.join(__dirname, 'Views'));
 
 // routing 
