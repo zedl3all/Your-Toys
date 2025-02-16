@@ -1,31 +1,38 @@
+initializeRegister();
 
-//ยังใช้ไม่ได้
+async function registerUser(data) {
+    const response = await fetch('/registerUser', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    console.log(result);
+    return result;
+}
 
-// initializeRegister();
+function initializeRegister() {
+    document.addEventListener('DOMContentLoaded', function() {
+        const registerForm = document.getElementById('registerForm');
+        // const passwordInput = document.getElementById('password');
+        // const confirmPasswordInput = document.getElementById('confirm-password');
 
-// function initializeRegister() {
-//     document.addEventListener('DOMContentLoaded', function() {
-//         const registerForm = document.getElementById('registerForm');
-//         const passwordInput = document.getElementById('password');
-//         const confirmPasswordInput = document.getElementById('confirm-password');
+        registerForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
 
-//         registerForm.addEventListener('submit', function(event) {
-//             event.preventDefault();
-
-//             const password = passwordInput.value.trim();
-//             const confirmPassword = confirmPasswordInput.value.trim();
-
-//             // Check if passwords match
-//             if (password !== confirmPassword) {
-//                 alert('Passwords do not match!');
-//                 return;
-//             }
-
-//             // Simulate a successful registration (replace this with actual registration logic)
-//             setTimeout(function() {
-//                 alert('Registration successful!');
-//                 window.location.href = '/login'; // Redirect to the login page
-//             }, 1000);
-//         });
-//     });
-// }
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            const result = await registerUser(data);
+            console.log(data);
+            console.log(result);
+            if (result.success) {
+                alert('Register successful!');
+                window.location.href = '/login';
+            } else {
+                alert('Registration failed: ' + result.message);
+            }
+        });
+    });
+}
