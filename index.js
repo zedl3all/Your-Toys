@@ -22,7 +22,7 @@ let db = new sqlite3.Database('lala.db', (err) => {
 // constdb.runquire('./ddb.run;
 app.use(express.json());
 
-// static resourse & template engine
+// static resource & template engine
 app.use('/Asset', express.static(path.join(__dirname, '/Asset')));
 app.use(express.static(path.join(__dirname, '/Public')));
 app.set('views', path.join(__dirname, 'Views'));
