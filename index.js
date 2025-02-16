@@ -11,7 +11,7 @@ const sqlite3 = require('sqlite3').verbose();
 // using EJS
 app.set('view engine', 'ejs');
 
-// Connect to SQLite database
+//db.runo SQLite database
 let db = new sqlite3.Database('lala.db', (err) => {
     if (err) {
         return console.error(err.message);
@@ -19,7 +19,7 @@ let db = new sqlite3.Database('lala.db', (err) => {
     console.log('Connected to the SQlite database.');
 });
 
-// const conn = require('./dbconn.js');
+// constdb.runquire('./ddb.run;
 app.use(express.json());
 
 // static resourse & template engine
@@ -72,28 +72,33 @@ app.get('/test', (req, res) => { // test
     res.render('Test/index');
 });
 
-// 404 Not Found routing
-app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'Public/404.html'));
+app.get('/product', (req, res) => { // test
+    res.render('Test/product');
 });
 
-// start server
 app.post('/registerUser', async (req, res) => {
     const { username, password, firstName, lastName, email, address, phone } = req.body;
+    console.log(`Received registration request for user: ${username}`);
     try {
-        const query = 'INSERT INTO users (username, password, first_name, last_name, email, address, phone) VALUES (?, ?, ?, ?, ?, ?, ?)';
-        conn.query(query, [username, password, firstName, lastName, email, address, phone], (error, results) => {
+        const query = 'INSERT INTO users (username, password, role_id, email, address, phone) VALUES (?, ?, 3, ?, ?, ?)';
+        db.run(query, [username, password, email, address, phone], (error, results) => {
             if (error) {
-                console.error(error);
+                console.error(`Error inserting user: ${error.message}`);
                 res.status(500).json({ success: false, message: 'Registration failed' });
             } else {
+                console.log(`User ${username} registered successfully.`);
                 res.json({ success: true, message: 'User registered successfully' });
             }
         });
     } catch (error) {
-        console.error(error);
+        console.error(`Caught error: ${error.message}`);
         res.status(500).json({ success: false, message: 'Registration failed' });
     }
+});
+
+// 404 Not Found routing
+app.use((req, res, next) => {
+    res.status(404).sendFile(path.join(__dirname, 'Public/404.html'));
 });
 
 app.listen(port, () => {
