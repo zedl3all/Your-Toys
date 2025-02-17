@@ -62,7 +62,7 @@
             padding: 20px;
         }
 
-        .swiper-slide{
+        .swiper-slide {
             display: flex;
             gap: 20px;
             align-items: center;
@@ -71,18 +71,20 @@
             border-radius: 50px;
         }
 
-        .swiper-button-next{
+        .swiper-button-next {
             border: 1px solid black;
             border-radius: 10px;
         }
 
-        .swiper-button-prev{
+        .swiper-button-prev {
             border: 1px solid black;
             border-radius: 10px;
         }
+
         .ad-swiper {
             width: 100%;
             height: 70vh;
+            margin: 40px auto;
         }
 
         .ad-swiper-slide {
@@ -93,6 +95,24 @@
             background-position: center;
         }
 
+        .ad-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .small-ad-swiper {
+            width: 80%; /* Adjust this value as needed */
+            margin: 40px auto;
+            overflow: hidden; /* Ensure content does not overflow */
+        }
+
+        .small-ad-swiper .swiper-slide img {
+            width: 100%;
+            height: auto;
+            object-fit: cover; /* Ensure images fit within the slide */
+        }
+
     </style>
     <%- include("navbar.ejs") %>
 </head>
@@ -101,14 +121,31 @@
 
     <div class="ad-swiper swiper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide ad-swiper-slide" style="background-image: url('https://via.placeholder.com/1920x1080?text=Ad+1');"></div>
-            <div class="swiper-slide ad-swiper-slide" style="background-image: url('https://via.placeholder.com/1920x1080?text=Ad+2');"></div>
-            <div class="swiper-slide ad-swiper-slide" style="background-image: url('https://via.placeholder.com/1920x1080?text=Ad+3');"></div>
+            <div class="swiper-slide ad-swiper-slide" style="background-image: url('');"></div>
+            <div class="swiper-slide ad-swiper-slide" style="background-image: url('');"></div>
+            <div class="swiper-slide ad-swiper-slide" style="background-image: url('');"></div>
         </div>
         <div class="swiper-pagination"></div>
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
     </div>
+
+    <!-- Slider main container for small ads -->
+    <div class="swiper small-ad-swiper">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div class="swiper-slide ad-swiper-slide" style="background-image: url('');"></div>
+            <div class="swiper-slide ad-swiper-slide" style="background-image: url('');"></div>
+            <div class="swiper-slide ad-swiper-slide" style="background-image: url('');"></div>
+        </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+
     <div class="container">
         <h1>Test</h1>
 
@@ -176,14 +213,11 @@
         </div>
     </div>
 
-
-
     <script>
         const swiper = new Swiper('.swiper', {
             // Optional parameters
             direction: 'horizontal',
             loop: true,
-
 
             // If we need pagination
             pagination: {
@@ -195,10 +229,26 @@
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
-
         });
 
         const adSwiper = new Swiper('.ad-swiper', {
+            direction: 'horizontal',
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false
+            },
+        });
+
+        const smallAdSwiper = new Swiper('.small-ad-swiper', {
             direction: 'horizontal',
             loop: true,
             pagination: {
