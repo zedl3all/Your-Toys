@@ -1,0 +1,78 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>Cart</h1>
+    <div class="cart">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th></th>
+                    <th>Quantity</th>
+                    <th></th>
+                    <th>Total</th>
+                    <th>Detail</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let i = 0; i < cart.length; i++) { %>
+                    <tr>
+                        <td><img src="Asset/Logo.svg"></td>
+                        <td><%= cart[i].name %></td>
+                        <td><%= cart[i].price %></td>
+                        <td><a href="/cart/remove/<%= cart[i].id %>">Remove</a></td>
+                        <td><%= cart[i].quantity %></td>
+                        <td><a href="/cart/add/<%= cart[i].id %>">Add</a></td>
+                        <td><%= cart[i].price * cart[i].quantity %></td>
+                        <td><a href="/detail/<%= cart[i].id %>">Detail</a></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h2>Total: <%= total %></h2>
+    </div>
+    <div>
+        <a href="/products">Continue Shopping</a>
+        <a href="/checkout">Checkout</a>
+    </div>
+</body>
+
+</html>

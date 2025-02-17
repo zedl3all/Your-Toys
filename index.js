@@ -76,6 +76,48 @@ app.get('/product', (req, res) => { // test
     res.render('Test/product');
 });
 
+//for test cart, for real use, use database//
+const cart = [
+    { id: 1, name: 'Product 1', price: 100, quantity: 2 },
+    { id: 2, name: 'Product 2', price: 200, quantity: 1 }
+];
+
+app.get('/cart', (req, res) => {
+    // Example cart data
+    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    res.render('Test/cart', { cart, total });
+});
+
+app.get('/cart/add/:id', (req, res) => {
+    const productId = req.params.id;
+    // Logic to add product to cart
+    // Example: Increase quantity of the product in the cart
+    const product = cart.find(item => item.id == productId);
+    if (product) {
+        product.quantity += 1;
+    } else {
+        // Add new product to cart if it doesn't exist
+        cart.push({ id: productId, name: `Product ${productId}`, price: 100, quantity: 1 });
+    }
+    res.redirect('/cart');
+});
+
+app.get('/cart/remove/:id', (req, res) => {
+    const productId = req.params.id;
+    // Logic to remove product from cart
+    // Example: Decrease quantity of the product in the cart
+    const productIndex = cart.findIndex(item => item.id == productId);
+    if (productIndex !== -1) {
+        if (cart[productIndex].quantity > 1) {
+            cart[productIndex].quantity -= 1;
+        } else {
+            // Remove product from cart if quantity is 1
+            cart.splice(productIndex, 1);
+        }
+    }
+    res.redirect('/cart');
+});
+
 app.post('/registerUser', async (req, res) => {
     const { username, password, firstName, lastName, email, address, phone } = req.body;
     console.log(`Received registration request for user: ${username}`);
