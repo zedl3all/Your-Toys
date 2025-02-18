@@ -52,6 +52,26 @@ input[type="submit"]:hover {
     cursor: pointer;
 }
 
+.login-link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.login-link p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.login-link a {
+    color: #5cb85c;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
 
 @media screen and (max-width: 1200px) {
     .container {

@@ -91,6 +91,27 @@ input[type="submit"]:hover {
     color: white;
 }
 
+.register-link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.register-link p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.register-link a {
+    color: #5cb85c;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
 @media screen and (max-width: 1200px) {
     .login-container {
         width: 80%;

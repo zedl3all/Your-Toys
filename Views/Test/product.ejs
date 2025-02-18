@@ -56,6 +56,27 @@
         button:hover {
             background: #e0a800;
         }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group input[type="file"] {
+            padding: 3px;
+        }
     </style>
     <%- include("navbar.ejs") %>
 </head>
@@ -67,26 +88,53 @@
                 <img src="Asset/Logo.svg" alt="Apple Pencil Pro">
             </div>
             <div class="product-details">
-                <h1>Apple Pencil Pro</h1>
-                <p>Brand: APPLE | SKU: 195949573101</p>
-                <p>Apple Pencil Pro enhances your writing and drawing experience with advanced features, making
-                    creativity easier and more intuitive.</p>
-                <h3>Compatible iPads:</h3>
-                <ul>
-                    <li>iPad Pro 13-inch (M4)</li>
-                    <li>iPad Pro 11-inch (M4)</li>
-                    <li>iPad Air 13-inch (M2)</li>
-                    <li>iPad Air 11-inch (M2)</li>
-                    <li>iPad Mini 7 (A17 Pro)</li>
-                </ul>
-                <div class="must-have">
-                    <input type="checkbox" id="add-tips">
-                    <label for="add-tips">Apple Pencil Tips - 4 pack (฿690)</label>
+                <h1>Standy</h1>
+                <p>Modify</p>
+                
+                <!-- Detail input field -->
+                <div class="form-group">
+                    <label for="details">Details:</label>
+                    <input type="text" id="details" name="details" placeholder="Enter product details">
                 </div>
+                
+                <!-- Size selector -->
+                <div class="form-group">
+                    <label for="size">Size:</label>
+                    <select id="size" name="size" onchange="toggleCustomSizeInput(this)">
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                        <option value="etc">Etc.</option>
+                    </select>
+                </div>
+                
+                <!-- Custom size input field -->
+                <div class="form-group" id="custom-size-group" style="display: none;">
+                    <label for="custom-size">Custom Size:</label>
+                    <input type="text" id="custom-size" name="custom-size" placeholder="Enter custom size">
+                </div>
+                
+                <!-- Image file input field -->
+                <div class="form-group">
+                    <label for="image">Upload Image:</label>
+                    <input type="file" id="image" name="image" accept="image/*">
+                </div>
+                <h3>Price</h3>
+
                 <button>Add to Cart</button>
             </div>
         </div>
     </main>
+<script>
+    function toggleCustomSizeInput(selectElement) {
+        const customSizeGroup = document.getElementById('custom-size-group');
+        if (selectElement.value === 'etc') {
+            customSizeGroup.style.display = 'block';
+        } else {
+            customSizeGroup.style.display = 'none';
+        }
+    }
+</script>
 </body>
 
 </html>

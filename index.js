@@ -119,7 +119,7 @@ app.get('/cart/remove/:id', (req, res) => {
 });
 
 app.post('/registerUser', async (req, res) => {
-    const { username, password, firstName, lastName, email, address, phone } = req.body;
+    const { username, password, email, address, phone } = req.body;
     console.log(`Received registration request for user: ${username}`);
     try {
         const query = 'INSERT INTO users (username, password, role_id, email, address, phone) VALUES (?, ?, 3, ?, ?, ?)';
