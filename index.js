@@ -138,6 +138,10 @@ app.post('/registerUser', async (req, res) => {
     }
 });
 
+app.get('/manageProduct', (req, res) => {
+    res.render('Test/manageProduct');
+});
+
 // 404 Not Found routing
 app.use((req, res, next) => {
     res.status(404).sendFile(path.join(__dirname, 'Public/404.html'));
