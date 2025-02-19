@@ -178,30 +178,34 @@
             }
         }
 
-        // Show the menu when the search input is focused
-        document.getElementById("mySearch").addEventListener("focus", function() {
+        function toggleMenuDisplay() {
+            document.getElementById("mySearch").addEventListener("focus", function() {
             document.getElementById("myMenu").style.display = "block";
-        });
+            });
 
-        // Hide the menu when the search input loses focus
-        document.getElementById("mySearch").addEventListener("blur", function() {
+            document.getElementById("mySearch").addEventListener("blur", function() {
             setTimeout(function() {
                 document.getElementById("myMenu").style.display = "none";
-            }, 200); // Delay to allow click event to register
-        });
+            }, 200);
+            });
+        }
 
-        if (localStorage.getItem('isLoggedIn')) {
+        function handleLoginState() {
+            if (localStorage.getItem('isLoggedIn')) {
             document.querySelector('.login').innerText = 'Logout';
             document.querySelector('.login').addEventListener('click', () => {
                 localStorage.clear();
                 location.reload();
             });
 
-            // document.querySelector('.nav-right').insertAdjacentHTML('afterbegin', '<a class="bi bi-person" href="/profile"></a>');
             const username = localStorage.getItem('username');
             if (username) {
                 document.querySelector('.nav-right').insertAdjacentHTML('afterbegin', `<span>Welcome, ${username}</span>`);
             }
+            }
         }
+
+        toggleMenuDisplay();
+        handleLoginState();
     </script>
 </body>
