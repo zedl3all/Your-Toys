@@ -47,7 +47,11 @@ function initializeLogin() {
             console.log(isValid);
             if (isValid) {
                 alert('Login successful!');
-                window.location.href = '/home';
+                localStorage.clear();
+                localStorage.setItem('isLoggedIn', true);
+                localStorage.setItem('username', username);
+                localStorage.setItem('userType', userType);
+                window.location.href = '/test';
             } else {
                 errorMessage.textContent = 'Invalid username or password.';
             }

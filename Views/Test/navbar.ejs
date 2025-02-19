@@ -189,5 +189,13 @@
                 document.getElementById("myMenu").style.display = "none";
             }, 200); // Delay to allow click event to register
         });
+
+        if (localStorage.getItem('isLoggedIn')) {
+            document.querySelector('.login').innerText = 'Logout';
+            document.querySelector('.login').addEventListener('click', () => {
+                localStorage.clear();
+                location.reload();
+            });
+        }
     </script>
 </body>
