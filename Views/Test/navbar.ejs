@@ -192,11 +192,21 @@
 
         function handleLoginState() {
             if (localStorage.getItem('isLoggedIn')) {
-            document.querySelector('.login').innerText = 'Logout';
-            document.querySelector('.login').addEventListener('click', () => {
+            const loginButton = document.querySelector('.login');
+            loginButton.innerText = 'Logout';
+            loginButton.style.backgroundColor = '#33322B';
+            loginButton.style.color = '#FAD401';
+            loginButton.addEventListener('click', () => {
                 localStorage.clear();
                 location.reload();
             });
+            loginButton.addEventListener('mouseover', () => {
+                loginButton.style.backgroundColor = '#24231e';
+            });
+            loginButton.addEventListener('mouseout', () => {
+                loginButton.style.backgroundColor = '#33322B';
+            });
+            loginButton.style.cursor = 'pointer';
 
             const username = localStorage.getItem('username');
             if (username) {
