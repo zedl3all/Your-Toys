@@ -39,6 +39,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
         }
 
         .product-image {
@@ -71,14 +72,28 @@
             border-radius: 50px;
         }
 
-        .swiper-button-next {
-            border: 1px solid black;
-            border-radius: 10px;
+        .swiper-button-next,
+        .swiper-button-prev {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
 
-        .swiper-button-prev {
-            border: 1px solid black;
-            border-radius: 10px;
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: 20px;
         }
 
         .ad-swiper {
@@ -102,21 +117,21 @@
         }
 
         .small-ad-swiper {
-            width: 80%; /* Adjust this value as needed */
+            width: 80%;
             margin: 40px auto;
-            overflow: hidden; /* Ensure content does not overflow */
+            overflow: hidden;
         }
 
         .small-ad-swiper .swiper-slide img {
             width: 100%;
             height: auto;
-            object-fit: cover; /* Ensure images fit within the slide */
+            object-fit: cover;
         }
 
         .view-all-link {
             font-size: 16px;
-            color: inherit; /* Inherit color from parent */
-            text-decoration: none;
+            color: inherit;
+            text-decoration: underline;
             margin-left: 10px;
         }
 
@@ -128,25 +143,36 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .title-with-link {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px; /* Adjust this value as needed */
+            padding: 0 20px;
         }
 
         .view-all-link {
             font-size: 16px;
-            color: inherit; /* Inherit color from parent */
-            text-decoration: none;
+            color: inherit;
+            text-decoration: underline;
         }
 
         .view-all-link:hover {
             text-decoration: underline;
         }
 
+        .card-product-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card-product-link:hover .card-product {
+            transform: scale(1.05);
+            transition: 0.3s;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-product-link:hover .product-title,
+        .card-product-link:hover .product-description,
+        .card-product-link:hover .product-price {
+            color: inherit;
+            text-decoration: none;
+        }
     </style>
     <%- include("navbar.ejs") %>
 </head>
@@ -181,7 +207,7 @@
     </div>
 
     <div class="container">
-        <h1 class="title-with-link">Test <a href="/product" class="view-all-link">ดูทั้งหมด></a></h1>
+        <h1 class="title-with-link">Test <a href='/category' class="view-all-link">ดูทั้งหมด></a></h1>
 
         <!-- Slider main container -->
         <div class="swiper">
@@ -190,7 +216,7 @@
                 <!-- Slides -->
                 <div class="swiper-slide">
                     <div class="product-container">
-                        <div class="card-product">
+                        <div class="card-product" onclick="location.href='/product?id=1'">
                             <img src="Asset/Logo.svg" alt="Product Image" class="product-image">
                             <div class="product-info">
                                 <h3 class="product-title">Product Title</h3>
@@ -199,15 +225,7 @@
                             </div>
                         </div>
 
-                        <div class="card-product">
-                            <img src="Asset/Logo.svg" alt="Product Image" class="product-image">
-                            <div class="product-info">
-                                <h3 class="product-title">Product Title</h3>
-                                <p class="product-description">Product Description</p>
-                                <p class="product-price">Product Price</p>
-                            </div>
-                        </div>
-                        <div class="card-product">
+                        <div class="card-product" onclick="location.href='/product?id=2'">
                             <img src="Asset/Logo.svg" alt="Product Image" class="product-image">
                             <div class="product-info">
                                 <h3 class="product-title">Product Title</h3>
@@ -216,7 +234,7 @@
                             </div>
                         </div>
 
-                        <div class="card-product">
+                        <div class="card-product" onclick="location.href='/product?id=3'">
                             <img src="Asset/Logo.svg" alt="Product Image" class="product-image">
                             <div class="product-info">
                                 <h3 class="product-title">Product Title</h3>
@@ -225,7 +243,16 @@
                             </div>
                         </div>
 
-                        <div class="card-product">
+                        <div class="card-product" onclick="location.href='/product?id=4'">
+                            <img src="Asset/Logo.svg" alt="Product Image" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-title">Product Title</h3>
+                                <p class="product-description">Product Description</p>
+                                <p class="product-price">Product Price</p>
+                            </div>
+                        </div>
+
+                        <div class="card-product" onclick="location.href='/product?id=5'">
                             <img src="Asset/Logo.svg" alt="Product Image" class="product-image">
                             <div class="product-info">
                                 <h3 class="product-title">Product Title</h3>
