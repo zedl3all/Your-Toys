@@ -196,6 +196,12 @@
                 localStorage.clear();
                 location.reload();
             });
+
+            // document.querySelector('.nav-right').insertAdjacentHTML('afterbegin', '<a class="bi bi-person" href="/profile"></a>');
+            const username = localStorage.getItem('username');
+            if (username) {
+                document.querySelector('.nav-right').insertAdjacentHTML('afterbegin', `<span>Welcome, ${username}</span>`);
+            }
         }
     </script>
 </body>
