@@ -7,12 +7,11 @@
     <title>Manage Product</title>
     <link rel="stylesheet" href="/Views/manageProduct/manageProduct.css">
 </head>
-
 <body>
     <div class="product-container">
         <h2>Manage Product</h2>
         <div class="add-product-link">
-            <a href="/addProduct">Add Product</a>
+            <a href="#" onclick="openAddModal()">Add Product</a>
         </div>
         <table>
             <thead>
@@ -41,7 +40,10 @@
                         </div>
                     </td>
                     <td><img src="/path/to/image1.jpg" alt="Product 1" width="50"></td>
-                    <td><a href="#" class="edit-link" onclick="openEditModal(1)">Edit</a></td>
+                    <td>
+                        <a href="#" class="edit-link" onclick="openEditModal(1)">Edit</a><a href="#" class="remove-link" onclick="removeProduct(1)">Remove</a>
+                    </td>
+                    
                 </tr>
                 <tr>
                     <td>Product 2</td>
@@ -56,14 +58,16 @@
                         </div>
                     </td>
                     <td><img src="/path/to/image2.jpg" alt="Product 2" width="50"></td>
-                    <td><a href="#" class="edit-link" onclick="openEditModal(2)">Edit</a></td>
+                    <td>
+                        <a href="#" class="edit-link" onclick="openEditModal(2)">Edit</a><a href="#" class="remove-link" onclick="removeProduct(2)">Remove</a>
+                    </td>
                 </tr>
                 <!-- Add more product rows as needed -->
             </tbody>
         </table>
     </div>
 
-    <!-- The Modal -->
+    <!-- The Edit Modal -->
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeEditModal()">&times;</span>
@@ -99,6 +103,46 @@
                     <input type="file" id="editImage" name="image" accept="image/*">
                 </div>
                 <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- The Add Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddModal()">&times;</span>
+            <h2>Add Product</h2>
+            <form id="addForm">
+                <div class="form-group">
+                    <label for="addProductName">Product Name:</label>
+                    <input type="text" id="addProductName" name="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="addDescription">Description:</label>
+                    <textarea id="addDescription" name="description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="addPrice">Price:</label>
+                    <input type="number" id="addPrice" name="price" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="addSize">Size:</label>
+                    <select id="addSize" name="size">
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                        <option value="etc">Etc.</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="addAmount">Amount:</label>
+                    <input type="number" id="addAmount" name="amount" required>
+                </div>
+                <div class="form-group">
+                    <label for="addImage">Upload Image:</label>
+                    <input type="file" id="addImage" name="image" accept="image/*">
+                </div>
+                <button type="submit">Add Product</button>
             </form>
         </div>
     </div>

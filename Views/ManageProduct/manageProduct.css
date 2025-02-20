@@ -35,6 +35,7 @@ h2 {
     padding: 10px 20px;
     border-radius: 5px;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .add-product-link a:hover {
@@ -63,16 +64,19 @@ th {
     background-color: #f4f4f4;
 }
 
-.edit-link {
+.edit-link,
+.remove-link {
     background-color: #007bff;
-        color: #fff;
+    color: #fff;
         padding: 5px 10px;
         border-radius: 5px;
     text-decoration: none;
     cursor: pointer;
+    margin-right: 5px;
 }
 
-.edit-link:hover {
+.edit-link:hover,
+.remove-link:hover {
     background-color: #0056b3;
 }
 
@@ -99,6 +103,7 @@ th {
     width: 50px;
     text-align: center;
 }
+
 /* Modal styles */
 .modal {
     display: none;

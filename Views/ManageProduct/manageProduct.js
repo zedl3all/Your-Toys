@@ -17,57 +17,66 @@ function updateAmount(productId, change) {
             }
         }
 function openEditModal(productId) {
-            // Fetch product details and populate the form
-            fetch(`/getProduct/${productId}`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('editProductName').value = data.productName;
-                    document.getElementById('editDescription').value = data.description;
-                    document.getElementById('editPrice').value = data.price;
-                    document.getElementById('editSize').value = data.size;
-                    document.getElementById('editAmount').value = data.amount;
-                    // Handle image upload if needed
-                })
-                .catch(error => console.error('Error fetching product details:', error));
-
-            // Display the modal
             document.getElementById('editModal').style.display = 'block';
+
+            // Fetch product details and populate the form
+            // fetch(`/getProduct/${productId}`)
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         document.getElementById('editProductName').value = data.productName;
+            //         document.getElementById('editDescription').value = data.description;
+            //         document.getElementById('editPrice').value = data.price;
+            //         document.getElementById('editSize').value = data.size;
+            //         document.getElementById('editAmount').value = data.amount;
+            //         // Show the modal
+            //         document.getElementById('editModal').style.display = 'block';
+            //     })
+            //     .catch(error => {
+            //         console.error('Error fetching product details:', error);
+            //     });
         }
 
         function closeEditModal() {
             document.getElementById('editModal').style.display = 'none';
         }
 
-        // Close the modal when clicking outside of it
-        window.onclick = function(event) {
-            const modal = document.getElementById('editModal');
-            if (event.target == modal) {
-                modal.style.display = 'none';
+        function openAddModal() {
+            document.getElementById('addModal').style.display = 'block';
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').style.display = 'none';
+        }
+
+        function removeProduct(productId) {
+            if (confirm('Are you sure you want to remove this product?')) {
+                fetch(`/removeProduct/${productId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Product removed successfully!');
+                        location.reload();
+                    } else {
+                        alert('Failed to remove product: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error removing product:', error);
+                    alert('An error occurred while removing the product.');
+                });
             }
         }
 
-        // Handle form submission
-        document.getElementById('editForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const formData = new FormData(this);
-            const productId = formData.get('productId'); // Ensure you have a hidden input for productId in the form
-
-            fetch(`/updateProduct/${productId}`, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Product updated successfully!');
-                    closeEditModal();
-                    // Optionally, refresh the page or update the product row in the table
-                } else {
-                    alert('Failed to update product: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error updating product:', error);
-                alert('An error occurred while updating the product.');
-            });
-        });
+        // Close the modal when clicking outside of it
+        window.onclick = function(event) {
+            const editModal = document.getElementById('editModal');
+            const addModal = document.getElementById('addModal');
+            if (event.target == editModal) {
+                editModal.style.display = 'none';
+            }
+            if (event.target == addModal) {
+                addModal.style.display = 'none';
+            }
+        }
