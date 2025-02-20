@@ -25,7 +25,7 @@ app.use(express.json());
 // static resource & template engine
 app.use('/Asset', express.static(path.join(__dirname, '/Asset')));
 app.use(express.static(path.join(__dirname, '/Public')));
-app.set('views', path.join(__dirname, 'Views'));
+app.use('/Views', express.static(path.join(__dirname, '/Views')));
 
 // routing 
 app.get('/login', function (req, res) {
@@ -68,8 +68,8 @@ app.post('/validateUser', async (req, res) => {
     }
 });
 
-app.get('/test', (req, res) => { // test
-    res.render('Test/index');
+app.get('/', (req, res) => { // test
+    res.render('Home/home');
 });
 
 app.get('/product', (req, res) => { // test

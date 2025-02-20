@@ -1,0 +1,161 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: gray;
+}
+
+.swiper {
+    width: 100%;
+    height: 300px;
+}
+
+.product-container {
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.card-product {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.product-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.card-product:hover {
+    transform: scale(1.05);
+    transition: 0.3s;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+    margin-top: 50px;
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.swiper-slide {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    background-color: wheat;
+    border-radius: 50px;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    font-size: 20px;
+}
+
+.ad-swiper {
+    width: 100%;
+    height: 70vh;
+    margin: 40px auto;
+}
+
+.ad-swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+}
+
+.ad-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.small-ad-swiper {
+    width: 80%;
+    margin: 40px auto;
+    overflow: hidden;
+}
+
+.small-ad-swiper .swiper-slide img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.view-all-link {
+    font-size: 16px;
+    color: inherit;
+    text-decoration: underline;
+    margin-left: 10px;
+}
+
+.view-all-link:hover {
+    text-decoration: underline;
+}
+
+.title-with-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.view-all-link {
+    font-size: 16px;
+    color: inherit;
+    text-decoration: underline;
+}
+
+.view-all-link:hover {
+    text-decoration: underline;
+}
+
+.card-product-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.card-product-link:hover .card-product {
+    transform: scale(1.05);
+    transition: 0.3s;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.card-product-link:hover .product-title,
+.card-product-link:hover .product-description,
+.card-product-link:hover .product-price {
+    color: inherit;
+    text-decoration: none;
+}
