@@ -73,7 +73,7 @@ app.get('/', (req, res) => { // test
 });
 
 app.get('/product', (req, res) => { // test
-    res.render('Test/product');
+    res.render('Product/product');
 });
 
 //for test cart, for real use, use database//
@@ -139,7 +139,7 @@ app.post('/registerUser', async (req, res) => {
 });
 
 app.get('/manageProduct', (req, res) => {
-    res.render('Test/manageProduct');
+    res.render('ManageProduct/manageProduct');
 });
 
 // 404 Not Found routing

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Product</title>
+    <link rel="stylesheet" href="/Views/manageProduct/manageProduct.css">
+</head>
+
+<body>
+    <div class="product-container">
+        <h2>Manage Product</h2>
+        <div class="add-product-link">
+            <a href="/addProduct">Add Product</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Size</th>
+                    <th>Amount</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Example product rows -->
+                <tr>
+                    <td>Product 1</td>
+                    <td>Sample description for product 1</td>
+                    <td>$10.00</td>
+                    <td>Medium</td>
+                    <td>
+                        <div class="amount-controls">
+                            <button onclick="updateAmount(1, -1)">-</button>
+                            <input type="number" id="amount-1" value="50" onchange="updateAmountDirectly(1)">
+                            <button onclick="updateAmount(1, 1)">+</button>
+                        </div>
+                    </td>
+                    <td><img src="/path/to/image1.jpg" alt="Product 1" width="50"></td>
+                    <td><a href="/editProduct/1" class="edit-link">Edit</a></td>
+                </tr>
+                <tr>
+                    <td>Product 2</td>
+                    <td>Sample description for product 2</td>
+                    <td>$20.00</td>
+                    <td>Large</td>
+                    <td>
+                        <div class="amount-controls">
+                            <button onclick="updateAmount(2, -1)">-</button>
+                            <input type="number" id="amount-2" value="30" onchange="updateAmountDirectly(2)">
+                            <button onclick="updateAmount(2, 1)">+</button>
+                        </div>
+                    </td>
+                    <td><img src="/path/to/image2.jpg" alt="Product 2" width="50"></td>
+                    <td><a href="/editProduct/2" class="edit-link">Edit</a></td>
+                </tr>
+                <!-- Add more product rows as needed -->
+            </tbody>
+        </table>
+    </div>
+    <script src="/Views/manageProduct/manageProduct.js"></script>
+</body>
+
+
+</html>
