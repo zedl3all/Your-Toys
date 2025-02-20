@@ -41,7 +41,7 @@
                         </div>
                     </td>
                     <td><img src="/path/to/image1.jpg" alt="Product 1" width="50"></td>
-                    <td><a href="/editProduct/1" class="edit-link">Edit</a></td>
+                    <td><a href="#" class="edit-link" onclick="openEditModal(1)">Edit</a></td>
                 </tr>
                 <tr>
                     <td>Product 2</td>
@@ -56,14 +56,54 @@
                         </div>
                     </td>
                     <td><img src="/path/to/image2.jpg" alt="Product 2" width="50"></td>
-                    <td><a href="/editProduct/2" class="edit-link">Edit</a></td>
+                    <td><a href="#" class="edit-link" onclick="openEditModal(2)">Edit</a></td>
                 </tr>
                 <!-- Add more product rows as needed -->
             </tbody>
         </table>
     </div>
+
+    <!-- The Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Edit Product</h2>
+            <form id="editForm">
+                <div class="form-group">
+                    <label for="editProductName">Product Name:</label>
+                    <input type="text" id="editProductName" name="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editDescription">Description:</label>
+                    <textarea id="editDescription" name="description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editPrice">Price:</label>
+                    <input type="number" id="editPrice" name="price" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="editSize">Size:</label>
+                    <select id="editSize" name="size">
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                        <option value="etc">Etc.</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editAmount">Amount:</label>
+                    <input type="number" id="editAmount" name="amount" required>
+                </div>
+                <div class="form-group">
+                    <label for="editImage">Upload Image:</label>
+                    <input type="file" id="editImage" name="image" accept="image/*">
+                </div>
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
     <script src="/Views/manageProduct/manageProduct.js"></script>
 </body>
-
 
 </html>
