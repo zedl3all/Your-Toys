@@ -51,7 +51,7 @@ function initializeLogin() {
                 localStorage.setItem('isLoggedIn', true);
                 localStorage.setItem('username', username);
                 localStorage.setItem('userType', userType);
-                window.location.href = '/test';
+                window.location.href = '/';
             } else {
                 errorMessage.textContent = 'Invalid username or password.';
             }
