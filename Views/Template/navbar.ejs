@@ -135,7 +135,8 @@
             position: fixed;
             z-index: 1;
             top: 0;
-            right: 0; /* Change from left: 0 to right: 0 */
+            right: 0;
+            /* Change from left: 0 to right: 0 */
             background-color: #111;
             overflow-x: hidden;
             transition: 0.5s;
@@ -159,9 +160,11 @@
         .sidenav .closebtn {
             position: absolute;
             top: 0;
-            left: 0px; /* Change from right: 25px to left: 25px */
+            left: 0px;
+            /* Change from right: 25px to left: 25px */
             font-size: 36px;
-            margin-right: 50px; /* Change from margin-left to margin-right */
+            margin-right: 50px;
+            /* Change from margin-left to margin-right */
         }
 
         @media screen and (max-height: 450px) {
@@ -173,6 +176,20 @@
                 font-size: 18px;
             }
         }
+
+        #mySearch,#yourtoy {
+            transition: 0.3s;
+        }
+
+        @media screen and (max-width: 800px) {
+            #mySearch,
+            #yourtoy {
+                opacity: 0;
+                height: 0;
+                width: 0;
+                overflow: hidden;
+            }
+        }
     </style>
 </head>
 
@@ -181,7 +198,7 @@
         <div class="nav-left">
             <div class="logo" onclick="location.href='/'">
                 <img src="/Asset/Logo.svg" alt="Logo">
-                <h1>YourToy</h1>
+                <h1 id="yourtoy">YourToy</h1>
             </div>
         </div>
         <div class="nav-center">
