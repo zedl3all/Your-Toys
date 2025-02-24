@@ -43,6 +43,7 @@ function initializeLogin() {
             }
 
             const isValid = await validateUser(username, password, userType);
+            console.log(isValid);
             console.log(username, password, userType);
             console.log(isValid);
             if (isValid) {
@@ -50,7 +51,8 @@ function initializeLogin() {
                 localStorage.clear();
                 localStorage.setItem('isLoggedIn', true);
                 localStorage.setItem('username', username);
-                localStorage.setItem('userType', userType);
+                localStorage.setItem('user_id', isValid.user_id);
+                localStorage.setItem('role_id', isValid.role_id);
                 window.location.href = '/';
             } else {
                 errorMessage.textContent = 'Invalid username or password.';

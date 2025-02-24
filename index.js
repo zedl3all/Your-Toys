@@ -40,15 +40,15 @@ app.post('/validateUser', async (req, res) => {
     const { username, password, userType } = req.body;
     console.log(`Received request to validate ${userType}: ${username}`);
     try {
-        let query;
-        if (userType === 'employee') {
-            query = 'SELECT * FROM users WHERE username = ? AND password = ? AND (role_id = 0 OR role_id = 1 OR role_id = 2)';
-        } else if (userType === 'customer') {
-            query = 'SELECT * FROM users WHERE username = ? AND password = ?  AND role_id = 3';
-        } else {
-            res.status(400).json({ error: 'Invalid user type' });
-            return;
-        }
+        let query = 'SELECT * FROM users WHERE username = ? AND password = ?';
+        // if (userType === 'employee') {
+        //     query = 'SELECT * FROM users WHERE username = ? AND password = ? AND (role_id = 0 OR role_id = 1 OR role_id = 2)';
+        // } else if (userType === 'customer') {
+        //     query = 'SELECT * FROM users WHERE username = ? AND password = ?  AND role_id = 3';
+        // } else {
+        //     res.status(400).json({ error: 'Invalid user type' });
+        //     return;
+        // }
         console.log(`Executing query: ${query} with parameters: ${username}, ${password}`);
         db.get(query, [username, password], (error, row) => {
             if (error) {
@@ -56,7 +56,7 @@ app.post('/validateUser', async (req, res) => {
                 res.status(500).json(false);
             } else if (row) {
                 console.log(`${userType} ${username} validated successfully.`);
-                res.json(true);
+                res.json(row);
             } else {
                 console.log(`${userType} ${username} validation failed.`);
                 res.json(false);
