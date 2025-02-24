@@ -151,6 +151,7 @@
             display: block;
             transition: 0.3s;
             text-align: center;
+            transition: 0.3s;
         }
 
         .sidenav a:hover {
@@ -177,11 +178,18 @@
             }
         }
 
-        #mySearch,#yourtoy {
+        #mySearch,
+        #yourtoy {
+            transition: 0.3s;
+        }
+
+        #sidenav-search {
+            display: none;
             transition: 0.3s;
         }
 
         @media screen and (max-width: 800px) {
+
             #mySearch,
             #yourtoy {
                 opacity: 0;
@@ -189,6 +197,17 @@
                 width: 0;
                 overflow: hidden;
             }
+
+            #sidenav-search {
+                display: block;
+            }
+
+            #myMenu{
+                left: 50%;
+                right: 50%;
+                width: 200%;
+            }
+
         }
     </style>
 </head>
@@ -202,7 +221,7 @@
             </div>
         </div>
         <div class="nav-center">
-            <input type="text" id="mySearch" onkeyup="myFunction()" placeholder="Search.." title="Type in a category">
+            <input type="text" id="mySearch" onkeyup="search()" placeholder="Search.." title="Type in a category">
             <ul id="myMenu">
                 <li><a href="/test/?tag=HTML">HTML</a></li>
                 <li><a href="#">CSS</a></li>
@@ -218,6 +237,7 @@
         <div class="nav-right">
             <div id="Sidenav" class="sidenav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <a id="sidenav-search" onclick="openSearch()">Search</a>
                 <a href="/cart">Cart</a>
                 <a href="/order">Order</a>
             </div>
@@ -228,7 +248,7 @@
         </div>
     </nav>
     <script>
-        function myFunction() {
+        function search() {
             // Declare variables
             var input, filter, ul, li, a, i;
             input = document.getElementById("mySearch");
@@ -248,14 +268,27 @@
         }
 
         function toggleMenuDisplay() {
-            document.getElementById("mySearch").addEventListener("focus", function () {
-                document.getElementById("myMenu").style.display = "block";
+            const searchInput = document.getElementById("mySearch");
+            const menu = document.getElementById("myMenu");
+
+            searchInput.addEventListener("focus", function () {
+                if (searchInput.value.trim() !== "") {
+                    menu.style.display = "block";
+                }
             });
 
-            document.getElementById("mySearch").addEventListener("blur", function () {
+            searchInput.addEventListener("blur", function () {
                 setTimeout(function () {
-                    document.getElementById("myMenu").style.display = "none";
+                    menu.style.display = "none";
                 }, 200);
+            });
+
+            searchInput.addEventListener("input", function () {
+                if (searchInput.value.trim() !== "") {
+                    menu.style.display = "block";
+                } else {
+                    menu.style.display = "none";
+                }
             });
         }
 
@@ -284,8 +317,7 @@
                 // Normal User
                 let logout = document.createElement('a');
                 logout.onclick = function () {
-                    localStorage.removeItem('isLoggedIn');
-                    localStorage.removeItem('username');
+                    localStorage.clear();
                     location.href = '/';
                 };
                 logout.innerHTML = 'Logout';
@@ -305,6 +337,68 @@
         function closeNav() {
             document.getElementById("Sidenav").style.width = "0";
         }
+
+        function blurHandler() {
+            let search = document.getElementById("mySearch");
+            search.style.opacity = 0;
+            search.style.height = "0";
+            search.style.width = "0";
+            search.style.overflow = "hidden";
+            search.style.position = "static";
+            search.style.zIndex = "0";
+            search.style.padding = "0";
+        }
+
+        function openSearch() {
+            let search = document.getElementById("mySearch");
+            closeNav();
+
+            search.style.opacity = 1;
+            search.style.height = "50px";
+            search.style.width = "80%";
+            search.style.overflow = "visible";
+            search.style.position = "fixed";
+            search.style.top = "5%";
+            search.style.left = "50%";
+            search.style.transform = "translate(-50%, -50%)";
+            search.style.zIndex = "1001";
+            search.style.backgroundColor = "white";
+            search.style.border = "2px solid #33322B";
+            search.style.padding = "10px";
+            search.focus();
+
+            // Add blur event listener to close the search bar when it loses focus
+            if (window.innerWidth <= 800) {
+                search.addEventListener("blur", blurHandler);
+            }
+        }
+
+        function resetSearchBar() {
+            let search = document.getElementById("mySearch");
+            search.style.opacity = "";
+            search.style.height = "";
+            search.style.width = "100%";
+            search.style.overflow = "";
+            search.style.position = "";
+            search.style.top = "";
+            search.style.left = "";
+            search.style.transform = "";
+            search.style.zIndex = "";
+            search.style.backgroundColor = "";
+            search.style.border = "2px solid #33322B";
+            search.style.padding = "11px";
+            search.removeEventListener("blur", blurHandler); // Remove the blur event listener
+            search.blur();
+        }
+
+        window.addEventListener("resize", function () {
+            let search = document.getElementById("mySearch");
+            if (window.innerWidth > 800) {
+                resetSearchBar();
+            } else {
+                search.focus(); // Add focus when width is less than or equal to 800
+            }
+        });
 
         toggleMenuDisplay();
         handleLoginState();
