@@ -142,6 +142,10 @@ app.get('/manageProduct', (req, res) => {
     res.render('ManageProduct/manageProduct');
 });
 
+app.get('/Packing', (req, res) => {
+    res.render('Packing/packing');
+});
+
 // 404 Not Found routing
 app.use((req, res, next) => {
     res.status(404).sendFile(path.join(__dirname, 'Public/404.html'));
