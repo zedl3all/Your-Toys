@@ -150,6 +150,10 @@ app.get('/Packing', (req, res) => {
     res.render('Packing/packing');
 });
 
+app.get('/Tracking', (req, res) => {
+    res.render('Tracking/tracking');
+});
+
 // 404 Not Found routing
 app.use((req, res, next) => {
     res.status(404).sendFile(path.join(__dirname, 'Public/404.html'));
