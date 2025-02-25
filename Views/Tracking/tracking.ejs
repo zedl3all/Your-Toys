@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Stepper</title>
+    <link rel="stylesheet" href="/Views/Tracking/tracking.css">
+    <%- include("../Template/navbar.ejs") %>
+</head>
+
+<body>
+    <div class="container">
+        <div class="stepper">
+            <div class="progress-line">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="step-container">
+                <div class="step active">1</div>
+                <span class="step-label">Details</span>
+            </div>
+            <div class="step-container">
+                <div class="step">2</div>
+                <span class="step-label">Status</span>
+            </div>
+            <div class="step-container">
+                <div class="step">3</div>
+                <span class="step-label">Photo</span>
+            </div>
+            <div class="step-container">
+                <div class="step">4</div>
+                <span class="step-label">Confirm</span>
+            </div>
+        </div>
+        <div class="buttons">
+            <button id="prevBtn" disabled>Previous</button>
+            <button id="nextBtn">Next</button>
+        </div>
+    </div>
+
+    <script src="/Views/Tracking/tracking.js"></script>
+</body>
+
+</html>
