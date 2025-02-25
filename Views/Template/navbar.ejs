@@ -340,13 +340,15 @@
 
         function blurHandler() {
             let search = document.getElementById("mySearch");
-            search.style.opacity = 0;
-            search.style.height = "0";
-            search.style.width = "0";
-            search.style.overflow = "hidden";
-            search.style.position = "static";
-            search.style.zIndex = "0";
-            search.style.padding = "0";
+            setTimeout(function () {
+                search.style.opacity = 0;
+                search.style.height = "0";
+                search.style.width = "0";
+                search.style.overflow = "hidden";
+                search.style.position = "static";
+                search.style.zIndex = "0";
+                search.style.padding = "0";
+            }, 200);
         }
 
         function openSearch() {
