@@ -174,6 +174,18 @@ app.get('/categories', (req, res) => {
     });
 });
 
+app.get('/products', (req, res) => {
+    const query = 'SELECT * FROM products';
+    db.all(query, [], (err, rows) => {
+        if (err) {
+            console.error(`Error fetching products: ${err.message}`);
+            res.status(500).json({ success: false, message: 'Failed to fetch products' });
+        } else {
+            res.json({ success: true, products: rows });
+        }
+    });
+});
+
 // 404 Not Found routing
 app.use((req, res, next) => {
     res.status(404).sendFile(path.join(__dirname, 'Public/404.html'));

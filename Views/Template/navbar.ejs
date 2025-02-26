@@ -429,7 +429,28 @@
             }
         }
 
+        async function fetchProduct() {
+            try {
+                const response = await fetch('/products');
+                const data = await response.json();
+                if (data.success) {
+                    const menu = document.getElementById('myMenu');
+                    data.products.forEach(product => {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.href = `/Product/${product.id}`;
+                        a.appendChild(document.createTextNode("Product :"+product.name))
+                        li.appendChild(a);
+                        menu.appendChild(li);
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', fetchCategories);
+        document.addEventListener('DOMContentLoaded', fetchProduct);
     </script>
 </body>
 </html>
