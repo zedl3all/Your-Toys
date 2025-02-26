@@ -30,7 +30,7 @@ body {
     padding: 0 20px;
 }
 
-.cat1 {
+.cat {
     width: 100%;
     margin: 0 auto;
     position: relative;
@@ -45,12 +45,21 @@ body {
 .item {
     border: 1px solid black;
     width: 150px;
-    height: 150px;
+    height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
+    justify-items: center;
     background-color: #f9f9f9;
     margin: 10px;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.item img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
     border-radius: 5px;
 }
 
