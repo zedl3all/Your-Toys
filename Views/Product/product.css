@@ -10,62 +10,114 @@ body {
 
 .product-container {
     display: flex;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    gap: 40px;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    max-width: 1600px;
+    width: 100%;
+    margin: 20px;
+}
+
+p {
+    margin-bottom: 8px;
 }
 
 .product-gallery img {
     width: 300px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .product-details {
+    flex: 1;
     margin-left: 20px;
 }
 
 .product-details h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    line-height: 1.2;
 }
 
 .must-have {
-    margin-top: 10px;
+    margin-top: 20px;
+    padding: 15px;
+    background: #fff9e6;
+    border-radius: 10px;
+    border-left: 4px solid #FFC107;
 }
 
 button {
-    background: #FFC107;
+    background: linear-gradient(45deg, #FFC107, #ffdb4d);
     border: none;
-    padding: 10px 20px;
+    padding: 12px 30px;
     font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-button:hover {
-    background: #e0a800;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    color: #333;
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e6ed;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-size: 15px;
+    min-height: 120px;
+    resize: vertical;
+    font-family: inherit;
+    line-height: 1.5;
+    background-color: #fff;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: #FFC107;
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
+}
+
+.form-group textarea::placeholder {
+    color: #94a3b8;
+    opacity: 0.7;
 }
 
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 12px;
+    border: 2px solid #e0e6ed;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-size: 15px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #FFC107;
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
 }
 
 .form-group input[type="file"] {
-    padding: 3px;
+    padding: 8px;
+    background: #f8f9fa;
 }
