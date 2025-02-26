@@ -162,6 +162,18 @@ app.get('/Tracking', (req, res) => {
     res.render('Tracking/tracking');
 });
 
+app.get('/categories', (req, res) => {
+    const query = 'SELECT * FROM categories';
+    db.all(query, [], (err, rows) => {
+        if (err) {
+            console.error(`Error fetching categories: ${err.message}`);
+            res.status(500).json({ success: false, message: 'Failed to fetch categories' });
+        } else {
+            res.json({ success: true, categories: rows });
+        }
+    });
+});
+
 // 404 Not Found routing
 app.use((req, res, next) => {
     res.status(404).sendFile(path.join(__dirname, 'Public/404.html'));
