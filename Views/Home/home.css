@@ -92,3 +92,42 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+@media screen and (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+
+    .ad-item {
+        height: 50vh;
+    }
+
+}
+
+@media screen and (max-width: 576px) {
+
+    .ad-item {
+        height: 40vh;
+    }
+
+    .slick-prev,
+    .slick-next {
+        width: 30px;
+        height: 30px;
+    }
+    
+}
+
+@media screen and (max-width: 400px) {
+
+    .ad-item {
+        height: 25vh;
+    }
+
+    .slick-prev,
+    .slick-next {
+        width: 20px;
+        height: 20px;
+    }
+    
+}
