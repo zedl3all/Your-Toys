@@ -14,7 +14,7 @@ body {
 .stepper {
     display: flex;
     justify-content: space-between;
-    width: 400px;
+    width: 700px;
     position: relative;
     margin-bottom: 20px;
     align-items: center;
@@ -29,29 +29,31 @@ body {
 }
 
 .step {
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     background: #ccc;
-    color: white;
-    text-align: center;
-    font-weight: bold;
     position: relative;
     z-index: 2;
+    display: flex;
+    justify-content: center;
+        align-items: center;
 }
 
-.step.active {
-    background: #e91e63;
+.step img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
 }
 
-.step.completed {
-    background: #e91e63;
+.step.active img,
+.step.completed img {
+    border: 3px solid #e91e63;
 }
 
 .step-label {
-    margin-top: 5px;
-    font-size: 12px;
+    margin-top: 20px;
+    font-size: 24px;
     color: #666;
 }
 
@@ -63,9 +65,9 @@ body {
 
 .progress-line {
     position: absolute;
-    top: 40%;
-    left: 10%;
-    width: 80%;
+    top: 30%;
+    left: 12%;
+        width: 75%;
     height: 5px;
     background: #ccc;
     z-index: 1;
