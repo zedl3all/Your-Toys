@@ -1,9 +1,11 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
     <style>
         * {
             box-sizing: border-box;
@@ -18,11 +20,18 @@
             align-items: center;
             display: flex;
             flex-direction: column;
+            padding-top: 70px; /* Adjust for navbar */
+        }
+
+        nav {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .table {
-            width: 100%;
+            width: 80%;
             border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         th, td {
@@ -31,48 +40,66 @@
             text-align: center;
         }
 
+        .cart {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .total, .actions {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .actions a {
+            margin: 0 10px;
+        }
     </style>
 </head>
 
 <body>
-    <h1>Cart</h1>
-    <div class="cart">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th></th>
-                    <th>Quantity</th>
-                    <th></th>
-                    <th>Total</th>
-                    <th>Detail</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% for (let i = 0; i < cart.length; i++) { %>
+    <%- include('../Template/navbar') %>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Cart</h1>
+        <div class="cart">
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
                     <tr>
-                        <td><img src="Asset/Logo.svg"></td>
-                        <td><%= cart[i].name %></td>
-                        <td><%= cart[i].price %></td>
-                        <td><a href="/cart/remove/<%= cart[i].id %>">Remove</a></td>
-                        <td><%= cart[i].quantity %></td>
-                        <td><a href="/cart/add/<%= cart[i].id %>">Add</a></td>
-                        <td><%= cart[i].price * cart[i].quantity %></td>
-                        <td><a href="/detail/<%= cart[i].id %>">Detail</a></td>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th></th>
+                        <th>Quantity</th>
+                        <th></th>
+                        <th>Total</th>
+                        <th>Detail</th>
                     </tr>
-                <% } %>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <% for (let i = 0; i < cart.length; i++) { %>
+                        <tr>
+                            <td><img src="Asset/Logo.svg" alt="Product Image" style="width: 50px; height: 50px;"></td>
+                            <td><%= cart[i].name %></td>
+                            <td><%= cart[i].price %></td>
+                            <td><a href="/cart/remove/<%= cart[i].id %>" class="btn btn-danger btn-sm">Remove</a></td>
+                            <td><%= cart[i].quantity %></td>
+                            <td><a href="/cart/add/<%= cart[i].id %>" class="btn btn-success btn-sm">Add</a></td>
+                            <td><%= cart[i].price * cart[i].quantity %></td>
+                            <td><a href="/detail/<%= cart[i].id %>" class="btn btn-info btn-sm">Detail</a></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+        <div class="total">
+            <h2>Total: <%= total %></h2>
+        </div>
+        <div class="actions">
+            <a href="/products" class="btn btn-primary">Continue Shopping</a>
+            <a href="/checkout" class="btn btn-warning">Checkout</a>
+        </div>
     </div>
-    <div>
-        <h2>Total: <%= total %></h2>
-    </div>
-    <div>
-        <a href="/products">Continue Shopping</a>
-        <a href="/checkout">Checkout</a>
-    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
