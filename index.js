@@ -84,10 +84,6 @@ app.get('/test', (req, res) => { // test
     res.render('Test/test');
 });
 
-app.get('/testhome', (req, res) => { // test
-    res.render('Test/home');
-});
-
 //for test cart, for real use, use database//
 const cart = [
     { id: 1, name: 'Product 1', price: 100, quantity: 2 },

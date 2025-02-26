@@ -7,99 +7,46 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <!-- Swiper -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Slick Carousel -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <!-- Css -->
-    <link rel="stylesheet" href="/Views/Home/home.css">
+    <link rel="stylesheet" href="/Views/Test/home.css">
     <title>YourToy Shop</title>
     <%- include("../Template/navbar.ejs") %>
 </head>
 
 <body>
     <!-- Slider main container for ads -->
-    <div class="ad-swiper swiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide ad-swiper-slide" style="background-image: url('');"></div>
-            <div class="swiper-slide ad-swiper-slide" style="background-image: url('');"></div>
-            <div class="swiper-slide ad-swiper-slide" style="background-image: url('');"></div>
+    <div class="container-ad">
+        <div class="ad1">
+            <div class="slide-ads">
+                <div class="item ad-item" style="background-image: url('/Asset/Ads/ads1.jpg'); background-position: center;"></div>
+                <div class="item ad-item" style="background-image: url('/Asset/Ads/ads2.jpg');"></div>
+                <div class="item ad-item" style="background-image: url('/Asset/Ads/ads3.jpg');"></div>
+            </div>
         </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
     </div>
 
     <div class="container">
         <h1 class="title-with-link">Test <a href='/ProductAll' class="view-all-link">ดูทั้งหมด></a></h1>
-
-        <!-- Slider main container -->
-        <div class="swiper">
-            <!-- Additional required wrapper -->
-            <div class="swiper-wrapper">
-                <!-- Slides -->
-                <div class="swiper-slide">
-                    <div class="product-container">
-                        <div class="card-product" onclick="location.href='/product?id=1'">
-                            <img src="/Asset/Logo.svg" alt="Product Image" class="product-image">
-                            <div class="product-info">
-                                <h3 class="product-title">Product Title</h3>
-                                <p class="product-description">Product Description</p>
-                                <p class="product-price">Product Price</p>
-                            </div>
-                        </div>
-
-                        <div class="card-product" onclick="location.href='/product?id=2'">
-                            <img src="/Asset/Logo.svg" alt="Product Image" class="product-image">
-                            <div class="product-info">
-                                <h3 class="product-title">Product Title</h3>
-                                <p class="product-description">Product Description</p>
-                                <p class="product-price">Product Price</p>
-                            </div>
-                        </div>
-
-                        <div class="card-product" onclick="location.href='/product?id=3'">
-                            <img src="/Asset/Logo.svg" alt="Product Image" class="product-image">
-                            <div class="product-info">
-                                <h3 class="product-title">Product Title</h3>
-                                <p class="product-description">Product Description</p>
-                                <p class="product-price">Product Price</p>
-                            </div>
-                        </div>
-
-                        <div class="card-product" onclick="location.href='/product?id=4'">
-                            <img src="/Asset/Logo.svg" alt="Product Image" class="product-image">
-                            <div class="product-info">
-                                <h3 class="product-title">Product Title</h3>
-                                <p class="product-description">Product Description</p>
-                                <p class="product-price">Product Price</p>
-                            </div>
-                        </div>
-
-                        <div class="card-product" onclick="location.href='/product?id=5'">
-                            <img src="/Asset/Logo.svg" alt="Product Image" class="product-image">
-                            <div class="product-info">
-                                <h3 class="product-title">Product Title</h3>
-                                <p class="product-description">Product Description</p>
-                                <p class="product-price">Product Price</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="swiper-slide">Slide 2</div>
-                <div class="swiper-slide">Slide 3</div>
+        <div class="cat1">
+            <div class="product-slide">
+                <div class="item">Item 1</div>
+                <div class="item">Item 2</div>
+                <div class="item">Item 3</div>
+                <div class="item">Item 4</div>
+                <div class="item">Item 5</div>
+                <div class="item">Item 6</div>
+                <div class="item">Item 7</div>
+                <div class="item">Item 8</div>
             </div>
-            <!-- If we need pagination -->
-            <div class="swiper-pagination"></div>
-
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
         </div>
     </div>
 
     <!-- Import Js -->
-    <script src="/Views/Home/home.js"></script>
-
+    <script src="/Views/test/home.js"></script>
 </body>
 
 </html>
