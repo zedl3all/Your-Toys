@@ -17,7 +17,7 @@
     <%- include("../Template/navbar.ejs") %>
     <style>
         .cat1 {
-            width: 80%;
+            width: 100%;
             margin: 0 auto;
             position: relative;
         }
@@ -28,7 +28,7 @@
         }
         .item {
             border: 1px solid black;
-            height: 100px;
+            height: 150px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -85,14 +85,15 @@
     <div class="container-ad">
         <div class="ad1">
             <div class="slide-ads">
-                <div class="item ad-item" style="background-image: url('');">Ad 1</div>
-                <div class="item ad-item" style="background-image: url('');">Ad 2</div>
-                <div class="item ad-item" style="background-image: url('');">Ad 3</div>
+                <div class="item ad-item" style="background-image: url('/Asset/Ads/ads1.jpg');"></div>
+                <div class="item ad-item" style="background-image: url('/Asset/Ads/ads2.jpg');"></div>
+                <div class="item ad-item" style="background-image: url('/Asset/Ads/ads3.jpg');"></div>
             </div>
         </div>
     </div>
 
     <div class="container">
+        <h1 class="title-with-link">Test <a href='/ProductAll' class="view-all-link">ดูทั้งหมด></a></h1>
         <div class="cat1">
             <div class="slide">
                 <div class="item">Item 1</div>
