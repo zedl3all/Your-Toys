@@ -67,10 +67,34 @@ app.post('/validateUser', async (req, res) => {
         res.status(500).json(false);
     }
 });
-
-app.get('/', (req, res) => { // test
-    res.render('Home/home');
+app.get('/getcat', (req, res) => {
+    // req.params.id
+    const query = `SELECT * FROM products Join pro_cat ON products.id == pro_cat.p_id ORDER BY c_id, p_id;`;
+    db.all(query, (err, rows) => {
+        if (err) {
+            console.log(err.message);
+        }
+        console.log(rows);
+        res.send(JSON.stringify(rows));       
+    });
 });
+
+app.get("/", (req, res) => {
+    const endpoint = 'http://localhost:3000/getcat';    
+    fetch(endpoint)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);
+            res.render('Home/home', { data: result });            
+        })
+        .catch(error => {
+            console.log(error);
+        });
+});
+
+// app.get('/', (req, res) => { // test
+//     res.render('Home/home');
+// });
 
 app.get('/product', (req, res) => { // test
     res.render('Product/product');
