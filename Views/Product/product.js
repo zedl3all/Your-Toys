@@ -14,7 +14,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalPriceElement = document.getElementById('totalPrice');
     let lastValidX = 1;
     let lastValidY = 1;
+    let debounceTimer;
+    let isTyping = false;
 
+    // Get aspect ratio from data attribute and set initial values
     const aspectRatio = numberX.dataset.aspectRatio || '1:1';
     const [originalX, originalY] = aspectRatio.split(':').map(Number);
     const ratio = originalY / originalX;
@@ -30,6 +33,17 @@ document.addEventListener('DOMContentLoaded', function () {
     numberY.value = originalY;
     lastValidX = originalX;
     lastValidY = originalY;
+
+    function debounce(func, delay) {
+        return function () {
+            const context = this;
+            const args = arguments;
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                func.apply(context, args);
+            }, delay);
+        };
+    }
 
     function calculatePrice(x, y) {
         let price;
@@ -59,43 +73,60 @@ document.addEventListener('DOMContentLoaded', function () {
         return price;
     }
 
-    function updateRatio(source, target, isXInput) {
-        const value = parseFloat(source.value);
-        const minValue = isXInput ? originalX : originalY;
-
-        if (!isNaN(value) && value >= minValue) {
-            if (isXInput) {
-                const newY = (value * ratio).toFixed(1); // Round to 1 decimal place
-                target.value = newY;
-                calculatePrice(value, parseFloat(newY));
-                return value;
-            } else {
-                const newX = (value / ratio).toFixed(1); // Round to 1 decimal place
-                target.value = newX;
-                calculatePrice(parseFloat(newX), value);
-                return value;
-            }
-        } else if (source.value === '') {
-            target.value = '';
-            return isXInput ? lastValidX : lastValidY;
-        } else {
-            source.value = isXInput ? originalX : originalY;
-            target.value = isXInput ? originalY : originalX;
-            calculatePrice(originalX, originalY);
-            return isXInput ? originalX : originalY;
-        }
-    }
-
-    // Initial price calculation
-    calculatePrice(originalX, originalY);
+    const debouncedCalculate = debounce(function (x, y) {
+        calculatePrice(x, y);
+    }, 500); // 500ms delay
 
     numberX.addEventListener('input', function () {
-        lastValidX = updateRatio(numberX, numberY, true);
-        lastValidY = parseFloat(numberY.value);
+        isTyping = true;
+        const xValue = parseFloat(this.value) || 0;
+
+        if (xValue > 0) {
+            debouncedCalculate(xValue, parseFloat(numberY.value) || 0);
+        }
     });
 
     numberY.addEventListener('input', function () {
-        lastValidY = updateRatio(numberY, numberX, false);
-        lastValidX = parseFloat(numberX.value);
+        isTyping = true;
+        const yValue = parseFloat(this.value) || 0;
+
+        if (yValue > 0) {
+            debouncedCalculate(parseFloat(numberX.value) || 0, yValue);
+        }
     });
+
+    numberX.addEventListener('blur', function () {
+        isTyping = false;
+        enforceRatio('x');
+    });
+
+    numberY.addEventListener('blur', function () {
+        isTyping = false;
+        enforceRatio('y');
+    });
+
+    // Enforce ratio when user is done typing
+    function enforceRatio(sourceField) {
+        let xValue = parseFloat(numberX.value) || 0;
+        let yValue = parseFloat(numberY.value) || 0;
+
+        // Ensure minimum values
+        if (xValue < originalX) xValue = originalX;
+        if (yValue < originalY) yValue = originalY;
+
+        if (sourceField === 'x') {
+            yValue = (xValue * ratio).toFixed(1);
+        } else {
+            xValue = (yValue / ratio).toFixed(1);
+        }
+
+        numberX.value = xValue;
+        numberY.value = yValue;
+        lastValidX = xValue;
+        lastValidY = yValue;
+
+        calculatePrice(xValue, yValue);
+    }
+
+    calculatePrice(originalX, originalY);
 });
