@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Product</title>
     <link rel="stylesheet" href="/Views/manageProduct/manageProduct.css">
+    <script src="/Views/ManageProduct/manageProduct.js"></script>
+    <script src="/Views/manageProductews/manageProduct/manageProduct.js"></script>
 </head>
+
 <body>
     <div class="product-container">
         <h2>Manage Product</h2>
@@ -19,15 +22,41 @@
                     <th>Product Name</th>
                     <th>Description</th>
                     <th>Price</th>
-                    <th>Size</th>
-                    <th>Amount</th>
+                    <th>Ratio</th>
+                    <th>Current Amount</th>
                     <th>Image</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Example product rows -->
-                <tr>
+                <% data.forEach((item)=>{ %>
+                    <tr>
+                        <td>
+                            <%= item.name %>
+                        </td>
+                        <td>
+                            <%= item.description %>
+                        </td>
+                        <td>
+                            <%= item.price %>
+                        </td>
+                        <td>
+                            <%= item.size %>
+                        </td>
+                        <td>
+                            <%= item.amount %>
+                        </td>
+                        <td><img src="/Asset/Product/<%=item.image%>" alt="Product ID:<%= item.id %>" width="50"></td>
+                        <td>
+                            <a href="#" class="edit-link"
+                                onclick="event.preventDefault(); openEditModal('<%= item.id %>')">Edit</a><a href="#"
+                                class="remove-link"
+                                onclick="event.preventDefault(); removeProduct('<%= item.id %>')">Remove</a>
+                        </td>
+                    </tr>
+                    <% }); %>
+                        <!-- <tr>
                     <td>Product 1</td>
                     <td>Sample description for product 1</td>
                     <td>$10.00</td>
@@ -44,8 +73,8 @@
                         <a href="#" class="edit-link" onclick="openEditModal(1)">Edit</a><a href="#" class="remove-link" onclick="removeProduct(1)">Remove</a>
                     </td>
                     
-                </tr>
-                <tr>
+                </tr> -->
+                        <!-- <tr>
                     <td>Product 2</td>
                     <td>Sample description for product 2</td>
                     <td>$20.00</td>
@@ -61,8 +90,8 @@
                     <td>
                         <a href="#" class="edit-link" onclick="openEditModal(2)">Edit</a><a href="#" class="remove-link" onclick="removeProduct(2)">Remove</a>
                     </td>
-                </tr>
-                <!-- Add more product rows as needed -->
+                </tr> -->
+                        <!-- Add more product rows as needed -->
             </tbody>
         </table>
     </div>
@@ -86,17 +115,23 @@
                     <input type="number" id="editPrice" name="price" step="0.01" required>
                 </div>
                 <div class="form-group">
-                    <label for="editSize">Size:</label>
-                    <select id="editSize" name="size">
+                    <label for="editSize">Ratio:</label>
+                    <div class="ratio-inputs">
+                        <input type="number" id="number_x" name="number_x" min="1" value="1">
+                        <span>:</span>
+                        <input type="number" id="number_y" name="number_y" min="1" value="1">
+                    </div>
+                    <input type="hidden" id="editSize" name="size">
+                    <!-- <select id="editSize" name="size">
                         <option value="small">Small</option>
                         <option value="medium">Medium</option>
                         <option value="large">Large</option>
                         <option value="etc">Etc.</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="form-group">
                     <label for="editAmount">Amount:</label>
-                    <input type="number" id="editAmount" name="amount" required>
+                    <input type="number" id="editAmount" name="amount" step="1" required>
                 </div>
                 <div class="form-group">
                     <label for="editImage">Upload Image:</label>
@@ -146,8 +181,6 @@
             </form>
         </div>
     </div>
-
-    <script src="/Views/manageProduct/manageProduct.js"></script>
 </body>
 
 </html>

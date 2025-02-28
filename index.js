@@ -221,7 +221,55 @@ app.post('/registerUser', async (req, res) => {
 });
 
 app.get('/manageProduct', (req, res) => {
-    res.render('ManageProduct/manageProduct');
+    const query = 'SELECT * FROM products ';
+    db.all(query, (err, rows) => {
+      if (err) {
+        console.log(err.message);
+      }
+      console.log(rows);
+      res.render('ManageProduct/manageProduct', { data: rows });
+    });
+    // res.render('ManageProduct/manageProduct');
+});
+
+app.get('/manageProduct/product/:id', (req, res) => {
+    const id = req.params.id;
+    const query = 'SELECT * FROM products WHERE id = ?';
+    db.get(query, [id], (err, rows) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+      if (!rows) {
+        return res.status(404).send('Product not found');
+      }
+      console.log(rows);
+      res.send(JSON.stringify(rows));
+    });
+});
+
+// Update a product
+app.put('/manageProduct/products/:id', (req, res) => {
+    const id = req.params.id;
+    console.log("Received update request:", req.body);
+    const { productName, description, price, size, amount } = req.body;
+    
+    let query = 'UPDATE products SET name = ?, description = ?, price = ?, size = ?, amount = ?';
+    let params = [productName, description, price, size, amount];
+    
+    query += ' WHERE id = ?';
+    params.push(id);
+    
+    db.run(query, params, function(err) {
+        if (err) {
+            console.error("Database error:", err.message);
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ 
+            message: 'Product updated successfully',
+            id: id
+        });
+    });
 });
 
 app.get('/Packing', (req, res) => {
