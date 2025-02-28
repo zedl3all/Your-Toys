@@ -36,9 +36,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function debounce(func, delay) {
         return function () {
+            clearTimeout(debounceTimer);
             const context = this;
             const args = arguments;
-            clearTimeout(debounceTimer);
+            totalPriceElement.textContent = "Calculating...";
             debounceTimer = setTimeout(() => {
                 func.apply(context, args);
             }, delay);
@@ -46,22 +47,42 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function calculatePrice(x, y) {
-        let price;
+        totalPriceElement.textContent = "Calculating...";
 
-        // Calculate price based on the specific ratio characteristics
-        if (Math.abs(x - y) < 0.001) { // Use small epsilon for float comparison
+        let price;
+        console.log(`Input values: x=${x}, y=${y}, basePrice=${basePrice}`);
+
+        // Convert to numeric values
+        x = parseFloat(x);
+        y = parseFloat(y);
+
+        // Validate inputs
+        if (isNaN(x) || isNaN(y) || x <= 0 || y <= 0) {
+            console.log("Invalid input values, using defaults");
+            x = originalX;
+            y = originalY;
+        }
+
+        // Calculate ratio outside conditionals for cleaner code
+        const ratio = Math.max(x, y) / Math.min(x, y);
+        console.log(`Ratio (max/min): ${ratio}`);
+
+        // Reset price calculation
+        if (Math.abs(x - y) < 0.001) { // Use epsilon for float comparison
             price = basePrice * x;
-            console.log("Using equal sides formula");
-        } else if (Math.max(x, y) / Math.min(x, y) > 5) {
+            console.log(`Equal sides formula: ${basePrice} * ${x} = ${price}`);
+        } else if (ratio > 5) {
             price = basePrice * ((x + y) / 2);
-            console.log("Using average formula for extreme ratio");
-        } else if (Math.max(x, y) / Math.min(x, y) > 2) {
+            console.log(`Average formula for extreme ratio: ${basePrice} * (${x} + ${y})/2 = ${price}`);
+        } else if (ratio > 2) {
             price = basePrice * Math.max(x, y);
-            console.log("Using maximum formula for unbalanced ratio");
+            console.log(`Maximum formula for unbalanced ratio: ${basePrice} * ${Math.max(x, y)} = ${price}`);
         } else {
             price = basePrice * (x * y);
-            console.log("Using product formula for standard ratio");
+            console.log(`Product formula for standard ratio: ${basePrice} * (${x} * ${y}) = ${price}`);
         }
+
+        console.log(`Final price for ratio ${x}:${y} = ${price}`);
 
         // Format with commas and 2 decimal places
         const formattedPrice = parseFloat(price).toLocaleString('en-US', {
@@ -69,7 +90,9 @@ document.addEventListener('DOMContentLoaded', function () {
             maximumFractionDigits: 2
         });
 
+        clearTimeout(debounceTimer);
         totalPriceElement.textContent = `${formattedPrice}฿`;
+
         return price;
     }
 
