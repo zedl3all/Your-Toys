@@ -34,6 +34,17 @@ input[type="number"] {
     appearance: textfield;
 }
 
+.btn.btn-add2cart {
+    background-color: #FAD401 !important;
+    color: #33322B !important;
+    border: none !important;
+}
+
+.btn.btn-add2cart:hover {
+    background-color: #c9ab01 !important;
+    color: #33322B !important;
+}
+
 @media (max-width: 990px) {
     .product-image {
         min-height: 250px;
