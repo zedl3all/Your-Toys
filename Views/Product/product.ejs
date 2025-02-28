@@ -16,16 +16,19 @@
                 <img src="Asset/Logo.svg">
             </div>
             <div class="product-details">
-                <h1>Standy</h1>
+                <h1>
+                    <%= data.name%>
+                </h1>
                 <p>Personalize it just the way you like.</p>
                 <!-- Detail input field -->
                 <div class="form-group">
                     <label for="details">Description:</label>
-                    <textarea id="description" name="description" rows="4" placeholder="Enter product description"></textarea>
+                    <textarea id="description" name="description" rows="4"
+                        placeholder="Enter product description"></textarea>
 
                 </div>
-                
-                <!-- Size selector -->
+
+                <!-- Size selector
                 <div class="form-group">
                     <label for="size">Size:</label>
                     <select id="size" name="size" onchange="toggleCustomSizeInput(this)">
@@ -34,20 +37,31 @@
                         <option value="large">Large</option>
                         <option value="etc">Etc.</option>
                     </select>
+                </div> -->
+
+                <div class="form-group">
+                    <label for="aspect-ratio">Ratio:</label>
+                    <div class="aspect-ratio-container">
+                        <input type="number" id="number_x" name="number_x" min="1" value="1"
+                            data-aspect-ratio="<%= data.size %>">
+                        <span class="ratio-separator">:</span>
+                        <input type="number" id="number_y" name="number_y" min="1" value="1">
+                    </div>
                 </div>
-                
+
                 <!-- Custom size input field -->
                 <div class="form-group" id="custom-size-group" style="display: none;">
                     <label for="custom-size">Custom Size:</label>
                     <input type="text" id="custom-size" name="custom-size" placeholder="Enter custom size">
                 </div>
-                
+
                 <!-- Image file input field -->
                 <div class="form-group">
-                    <label for="image">Upload Image:</label>
+                    <label for="image">Upload Artwork:</label>
                     <input type="file" id="image" name="image" accept="image/*">
                 </div>
-                <h3>Price</h3><br>
+                <h3>Price ~ <%= data.price%>
+                </h3><br>
                 <button>Add to Cart</button>
             </div>
         </div>

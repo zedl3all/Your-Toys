@@ -107,8 +107,17 @@ app.get("/", (req, res) => {
 //     res.render('Home/home');
 // });
 
-app.get('/product', (req, res) => { // test
-    res.render('Product/product');
+app.get('/product/:id', (req, res) => { // test
+    const id = req.params.id;
+    const query = 'SELECT * FROM products WHERE id = ?';
+    db.get(query, [id], (err, rows) => {
+      if (err) {
+        console.log(err.message);
+        return res.status(500).send('Database error');
+      }
+      console.log(rows);
+      res.render('Product/product', { data: rows });
+    });
 });
 
 app.get('/productAll', (req, res) => { // test

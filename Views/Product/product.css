@@ -121,3 +121,42 @@ button {
     padding: 8px;
     background: #f8f9fa;
 }
+
+.aspect-ratio-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 200px;
+}
+
+.aspect-ratio-container input[type="number"] {
+    width: 70px;
+    padding: 8px;
+    border: 2px solid #e0e6ed;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.ratio-separator {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 18px;
+}
+
+.aspect-ratio-container input[type="number"]:focus {
+    outline: none;
+    border-color: #FFC107;
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
+}
+
+/* Remove spinners for number inputs */
+.aspect-ratio-container input[type="number"]::-webkit-inner-spin-button,
+.aspect-ratio-container input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.aspect-ratio-container input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
