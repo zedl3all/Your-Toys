@@ -67,29 +67,40 @@ app.post('/validateUser', async (req, res) => {
         res.status(500).json(false);
     }
 });
-app.get('/getcat', (req, res) => {
-    // req.params.id
-    const query = `SELECT * FROM products Join pro_cat ON products.id == pro_cat.p_id ORDER BY c_id, p_id;`;
-    db.all(query, (err, rows) => {
-        if (err) {
-            console.log(err.message);
-        }
-        console.log(rows);
-        res.send(JSON.stringify(rows));       
-    });
-});
+// app.get('/getcat', (req, res) => {
+//     // req.params.id
+//     const query = `SELECT * FROM products Join pro_cat ON products.id == pro_cat.p_id ORDER BY c_id, p_id;`;
+//     db.all(query, (err, rows) => {
+//         if (err) {
+//             console.log(err.message);
+//         }
+//         console.log(rows);
+//         res.send(JSON.stringify(rows));       
+//     });
+// });
 
 app.get("/", (req, res) => {
-    const endpoint = 'http://localhost:3000/getcat';    
-    fetch(endpoint)
-        .then(response => response.json())
-        .then(result => {
-            console.log(result);
-            res.render('Home/home', { data: result });            
-        })
-        .catch(error => {
-            console.log(error);
+    const categoriesQuery = 'SELECT * FROM categories';
+    const productsQuery = 'SELECT * FROM products Join pro_cat ON products.id == pro_cat.p_id ORDER BY c_id, p_id;';
+
+    db.all(categoriesQuery, [], (err, categories) => {
+        if (err) {
+            console.error(`Error fetching categories: ${err.message}`);
+            res.status(500).send('Failed to fetch categories');
+            return;
+        }
+
+        db.all(productsQuery, [], (err, products) => {
+            if (err) {
+                console.error(`Error fetching products: ${err.message}`);
+                res.status(500).send('Failed to fetch products');
+                return;
+            }
+            console.log(categories);
+            console.log(products);
+            res.render('Home/home', { categories, products });
         });
+    });
 });
 
 // app.get('/', (req, res) => { // test
