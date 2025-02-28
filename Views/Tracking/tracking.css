@@ -95,11 +95,36 @@ button {
     cursor: pointer;
     margin: 0 5px;
     background: #FFC107;
-        color: #33322B;
+    color: #33322B;
     border-radius: 5px;
 }
 
 button:disabled {
     background: #ccc;
     cursor: not-allowed;
+}
+/* Order Details Styles */
+.order-details {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    text-align: left;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.order-details h2 {
+    margin-bottom: 20px;
+    color: #33322B;
+}
+
+.order-details p {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+.order-details p strong {
+    color: #33322B;
 }
