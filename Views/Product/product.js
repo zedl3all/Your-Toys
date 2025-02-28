@@ -7,9 +7,11 @@ function toggleCustomSizeInput(selectElement) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const numberX = document.getElementById('number_x');
     const numberY = document.getElementById('number_y');
+    const basePrice = parseFloat(document.getElementById('basePrice').value);
+    const totalPriceElement = document.getElementById('totalPrice');
     let lastValidX = 1;
     let lastValidY = 1;
 
@@ -17,15 +19,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const aspectRatio = numberX.dataset.aspectRatio || '1:1';
     const [originalX, originalY] = aspectRatio.split(':').map(Number);
     const ratio = originalY / originalX; // Calculate the ratio multiplier
-    
+
     // Set minimum values based on original ratio
     numberX.min = originalX;
     numberY.min = originalY;
-    
+
     numberX.value = originalX;
     numberY.value = originalY;
     lastValidX = originalX;
     lastValidY = originalY;
+
+    function calculatePrice(x, y) {
+        const area = x * y;
+        const totalPrice = (area * basePrice).toFixed(2);
+
+        const formattedPrice = parseFloat(totalPrice).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+        totalPriceElement.textContent = `${formattedPrice}฿`;
+        return totalPrice;
+    }
 
     function updateRatio(source, target, isXInput) {
         const value = parseInt(source.value);
@@ -33,31 +48,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!isNaN(value) && value >= minValue) {
             if (isXInput) {
-                // If X is changed, multiply by ratio to get Y
-                target.value = Math.round(value * ratio);
+                const newY = Math.round(value * ratio);
+                target.value = newY;
+                calculatePrice(value, newY);
                 return value;
             } else {
-                // If Y is changed, divide by ratio to get X
-                target.value = Math.round(value / ratio);
+                const newX = Math.round(value / ratio);
+                target.value = newX;
+                calculatePrice(newX, value);
                 return value;
             }
         } else if (source.value === '') {
             target.value = '';
             return isXInput ? lastValidX : lastValidY;
         } else {
-            // Reset to minimum values if input is less than original ratio
             source.value = isXInput ? originalX : originalY;
             target.value = isXInput ? originalY : originalX;
+            calculatePrice(originalX, originalY);
             return isXInput ? originalX : originalY;
         }
     }
 
-    numberX.addEventListener('input', function() {
+    // Initial price calculation
+    calculatePrice(originalX, originalY);
+
+    numberX.addEventListener('input', function () {
         lastValidX = updateRatio(numberX, numberY, true);
         lastValidY = parseInt(numberY.value);
     });
 
-    numberY.addEventListener('input', function() {
+    numberY.addEventListener('input', function () {
         lastValidY = updateRatio(numberY, numberX, false);
         lastValidX = parseInt(numberX.value);
     });
