@@ -38,10 +38,10 @@
                             <% if(item.c_id == catbox.id){ %> 
                             <div class="item" onclick="window.location.href='/Product/<%=item.id%>'">
                                 <% if(item.image == null){ %> 
-                                <img src="/Asset/Product/figure1.jpg" alt="figure1">
+                                <img src="/Asset/Product/dummy.jpg" alt="figure1">
                                 <% }; %> 
                                 <% if(item.image != null){ %> 
-                                    <img src="/Asset/Product/<%=item.image%>" alt="figure1">
+                                    <img src="/Asset/Product/<%=catbox.name%>/<%=item.image%>" alt="figure1">
                                     <% }; %> 
                                 <h3><%=item.name%></h3>
                                 <h3>Price: ฿<%=item.price%></h3>
