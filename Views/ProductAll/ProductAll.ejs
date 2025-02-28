@@ -42,11 +42,12 @@
                         </div>
                         <div id="categoryCollapse" class="collapse show">
                             <div class="list-group list-group-flush">
-                                <% ['Category1', 'Category2', 'Category3'].forEach(category => { %>
-                                    <button class="list-group-item list-group-item-action"
+                                <% categories.forEach(category => { %>
+                                    <!-- <button class="list-group-item list-group-item-action"
                                             onclick="selectCategory('<%= category %>')">
-                                        <%= category %>
-                                    </button>
+                                        <%= category.name %>
+                                    </button> -->
+                                    <a href="/ProductAll/<%= category.id %>" class="list-group-item list-group-item-action"><%= category.name %></a>
                                 <% }) %>
                             </div>
                         </div>
@@ -61,10 +62,10 @@
                     </div>
                     <div class="offcanvas-body">
                         <div class="list-group">
-                            <% ['Category1', 'Category2', 'Category3'].forEach(category => { %>
+                            <% categories.forEach(category => { %>
                                 <button class="list-group-item list-group-item-action"
                                         onclick="selectCategory('<%= category %>')">
-                                    <%= category %>
+                                    <%= category.name %>
                                 </button>
                             <% }) %>
                         </div>
@@ -75,12 +76,12 @@
             <!-- Main Content -->
             <div class="col-lg-10">
                 <div class="mb-4">
-                    <h2 class="text-center">Best Seller สินค้าขายดี</h2>
-                    <p class="text-muted text-center">12 รายการ</p>
+                    <h2 class="text-center"><%=cat[0].name%></h2>
+                    <p class="text-muted text-center"><%=products.length%> ชิ้น</p>
                 </div>
 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
-                    <% for(let i = 0; i < 4; i++) { %>
+                    <!-- <% for(let i = 0; i < 4; i++) { %>
                         <div class="col">
                             <div class="card h-100 shadow-sm product-card" onclick="location.href='/product?id=1'">
                                 <img src="/Asset/Logo.svg" class="card-img-top p-3" alt="Product Image">
@@ -91,7 +92,20 @@
                                 </div>
                             </div>
                         </div>
-                    <% } %>
+                    <% } %> -->
+                    <% products.forEach(item => { %>
+                        <div class="col">
+                            <div class="card h-100 shadow-sm product-card" onclick="location.href='/Product/<%=item.id%>'">
+                                <img src="/Asset/Product/<%=item.image%>" class="card-img-top p-3" alt="Product Image">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%=item.name%></h5>
+                                    <p class="card-text text-muted"><%=item.description%></p>
+                                    <p class="card-text fw-bold">฿ <%=item.price%></p>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                    
                 </div>
             </div>
         </div>

@@ -102,6 +102,36 @@ app.get("/", (req, res) => {
         });
     });
 });
+app.get("/ProductAll/:id", (req, res) => {
+    const categoriesQuery = 'SELECT * FROM categories';
+    const selectcat = `SELECT * FROM categories where categories.id = ${req.params.id}`;
+    const productsQuery = `SELECT * FROM products JOIN pro_cat ON products.id == pro_cat.p_id where pro_cat.c_id = ${req.params.id};`;
+
+    db.all(categoriesQuery, [], (err, categories) => {
+        if (err) {
+            console.error(`Error fetching categories: ${err.message}`);
+            res.status(500).send('Failed to fetch categories');
+            return;
+        }
+
+        db.all(productsQuery, [], (err, products) => {
+            if (err) {
+                console.error(`Error fetching products: ${err.message}`);
+                res.status(500).send('Failed to fetch products');
+                return;
+            }
+            db.all(selectcat, [], (err, cat) => {
+                if (err) {
+                    console.error(`Error fetching products: ${err.message}`);
+                    res.status(500).send('Failed to fetch products');
+                    return;
+                }
+            console.log(cat)
+            res.render('ProductAll/ProductAll', { categories, products, cat });
+        });
+        });
+    });
+});
 
 // app.get('/', (req, res) => { // test
 //     res.render('Home/home');
