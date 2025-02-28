@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const numberX = document.getElementById('number_x');
     const numberY = document.getElementById('number_y');
     const basePrice = parseFloat(document.getElementById('basePrice').value);
-    const grandPriceElement = document.getElementById('grandPrice');
+    const totalPriceElement = document.getElementById('totalPrice');
     let lastValidX = 1;
     let lastValidY = 1;
 
@@ -31,9 +31,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function calculatePrice(x, y) {
         const area = x * y;
-        const grandPrice = (area * basePrice).toFixed(2);
-        grandPriceElement.textContent = `${grandPrice}฿`;
-        return grandPrice;
+        const totalPrice = (area * basePrice).toFixed(2);
+
+        const formattedPrice = parseFloat(totalPrice).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+        totalPriceElement.textContent = `${formattedPrice}฿`;
+        return totalPrice;
     }
 
     function updateRatio(source, target, isXInput) {
