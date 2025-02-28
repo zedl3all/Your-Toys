@@ -15,14 +15,16 @@ document.addEventListener('DOMContentLoaded', function () {
     let lastValidX = 1;
     let lastValidY = 1;
 
-    // Get aspect ratio from data attribute and set initial values
     const aspectRatio = numberX.dataset.aspectRatio || '1:1';
     const [originalX, originalY] = aspectRatio.split(':').map(Number);
-    const ratio = originalY / originalX; // Calculate the ratio multiplier
+    const ratio = originalY / originalX;
 
     // Set minimum values based on original ratio
     numberX.min = originalX;
     numberY.min = originalY;
+
+    numberX.step = "0.1";
+    numberY.step = "0.1";
 
     numberX.value = originalX;
     numberY.value = originalY;
@@ -30,32 +32,47 @@ document.addEventListener('DOMContentLoaded', function () {
     lastValidY = originalY;
 
     function calculatePrice(x, y) {
-        const area = x * y;
-        const totalPrice = (area * basePrice).toFixed(2);
+        let price;
 
-        const formattedPrice = parseFloat(totalPrice).toLocaleString('en-US', {
+        // Calculate price based on the specific ratio characteristics
+        if (Math.abs(x - y) < 0.001) { // Use small epsilon for float comparison
+            price = basePrice * x;
+            console.log("Using equal sides formula");
+        } else if (Math.max(x, y) / Math.min(x, y) > 5) {
+            price = basePrice * ((x + y) / 2);
+            console.log("Using average formula for extreme ratio");
+        } else if (Math.max(x, y) / Math.min(x, y) > 2) {
+            price = basePrice * Math.max(x, y);
+            console.log("Using maximum formula for unbalanced ratio");
+        } else {
+            price = basePrice * (x * y);
+            console.log("Using product formula for standard ratio");
+        }
+
+        // Format with commas and 2 decimal places
+        const formattedPrice = parseFloat(price).toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
         });
 
         totalPriceElement.textContent = `${formattedPrice}฿`;
-        return totalPrice;
+        return price;
     }
 
     function updateRatio(source, target, isXInput) {
-        const value = parseInt(source.value);
+        const value = parseFloat(source.value);
         const minValue = isXInput ? originalX : originalY;
 
         if (!isNaN(value) && value >= minValue) {
             if (isXInput) {
-                const newY = Math.round(value * ratio);
+                const newY = (value * ratio).toFixed(1); // Round to 1 decimal place
                 target.value = newY;
-                calculatePrice(value, newY);
+                calculatePrice(value, parseFloat(newY));
                 return value;
             } else {
-                const newX = Math.round(value / ratio);
+                const newX = (value / ratio).toFixed(1); // Round to 1 decimal place
                 target.value = newX;
-                calculatePrice(newX, value);
+                calculatePrice(parseFloat(newX), value);
                 return value;
             }
         } else if (source.value === '') {
@@ -74,11 +91,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     numberX.addEventListener('input', function () {
         lastValidX = updateRatio(numberX, numberY, true);
-        lastValidY = parseInt(numberY.value);
+        lastValidY = parseFloat(numberY.value);
     });
 
     numberY.addEventListener('input', function () {
         lastValidY = updateRatio(numberY, numberX, false);
-        lastValidX = parseInt(numberX.value);
+        lastValidX = parseFloat(numberX.value);
     });
 });
