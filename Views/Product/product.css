@@ -1,162 +1,48 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    background-color: #f8f9fa;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
 }
 
-.product-container {
-    display: flex;
-    gap: 40px;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    max-width: 1600px;
+.product-image {
     width: 100%;
-    margin: 20px;
+    height: auto;
+    object-fit: contain;
+    min-height: 350px;
+    max-height: 500px;
 }
 
-p {
-    margin-bottom: 8px;
+.form-control:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
-.product-gallery img {
-    width: 300px;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+input[type="number"] {
+    min-width: 70px;
 }
 
-.product-details {
-    flex: 1;
-    margin-left: 20px;
-}
-
-.product-details h1 {
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 8px;
-    line-height: 1.2;
-}
-
-.must-have {
-    margin-top: 20px;
-    padding: 15px;
-    background: #fff9e6;
-    border-radius: 10px;
-    border-left: 4px solid #FFC107;
-}
-
-button {
-    background: linear-gradient(45deg, #FFC107, #ffdb4d);
-    border: none;
-    padding: 12px 30px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    color: #333;
-    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: #2c3e50;
-}
-
-.form-group textarea {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #e0e6ed;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    font-size: 15px;
-    min-height: 120px;
-    resize: vertical;
-    font-family: inherit;
-    line-height: 1.5;
-    background-color: #fff;
-}
-
-.form-group textarea:focus {
-    outline: none;
-    border-color: #FFC107;
-    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
-}
-
-.form-group textarea::placeholder {
-    color: #94a3b8;
-    opacity: 0.7;
-}
-
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #e0e6ed;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    font-size: 15px;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: #FFC107;
-    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
-}
-
-.form-group input[type="file"] {
-    padding: 8px;
-    background: #f8f9fa;
-}
-
-.aspect-ratio-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    max-width: 200px;
-}
-
-.aspect-ratio-container input[type="number"] {
-    width: 70px;
-    padding: 8px;
-    border: 2px solid #e0e6ed;
-    border-radius: 8px;
-    text-align: center;
-}
-
-.ratio-separator {
-    font-weight: bold;
-    color: #2c3e50;
-    font-size: 18px;
-}
-
-.aspect-ratio-container input[type="number"]:focus {
-    outline: none;
-    border-color: #FFC107;
-    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
-}
-
-/* Remove spinners for number inputs */
-.aspect-ratio-container input[type="number"]::-webkit-inner-spin-button,
-.aspect-ratio-container input[type="number"]::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-.aspect-ratio-container input[type="number"] {
-    appearance: textfield;
+input[type="number"] {
     -moz-appearance: textfield;
+}
+
+@media (max-width: 990px) {
+    .product-image {
+        min-height: 250px;
+        max-height: 350px;
+    }
+}
+
+@media (max-width: 768px) {
+    .btn-lg {
+        padding: .5rem 1rem;
+        font-size: 1rem;
+    }
 }

@@ -5,73 +5,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/Views/product/product.css">
     <%- include("../Template/navbar.ejs") %>
 </head>
 
-<body>
-    <main>
-        <div class="product-container">
-            <div class="product-gallery">
-                <img src="Asset/Logo.svg">
-            </div>
-            <div class="product-details">
-                <h1>
-                    <%= data.name%>
-                </h1>
-                <p>Personalize it just the way you like.</p>
-                <!-- Detail input field -->
-                <div class="form-group">
-                    <label for="details">Description:</label>
-                    <textarea id="description" name="description" rows="4"
-                        placeholder="Enter product description"></textarea>
-
-                </div>
-
-                <!-- Size selector
-                <div class="form-group">
-                    <label for="size">Size:</label>
-                    <select id="size" name="size" onchange="toggleCustomSizeInput(this)">
-                        <option value="small">Small</option>
-                        <option value="medium">Medium</option>
-                        <option value="large">Large</option>
-                        <option value="etc">Etc.</option>
-                    </select>
-                </div> -->
-
-                <div class="form-group">
-                    <label for="aspect-ratio">Ratio:</label>
-                    <div class="aspect-ratio-container">
-                        <input type="number" id="number_x" name="number_x" min="1" value="1"
-                            data-aspect-ratio="<%= data.size %>">
-                        <span class="ratio-separator">:</span>
-                        <input type="number" id="number_y" name="number_y" min="1" value="1">
+<body class="bg-light">
+    <main class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Product Gallery -->
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-0">
+                            <img src="/Asset/Product/<%=data.image%>" class="img-fluid rounded product-image"
+                                alt="<%= data.name %>">
+                        </div>
+                        <div class="card-footer bg-white border-0 p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-success px-3 py-2">Available</span>
+                                <div class="small text-muted">Product ID: <%= data.id %>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Custom size input field -->
-                <div class="form-group" id="custom-size-group" style="display: none;">
-                    <label for="custom-size">Custom Size:</label>
-                    <input type="text" id="custom-size" name="custom-size" placeholder="Enter custom size">
-                </div>
+                <!-- Product Details -->
+                <div class="col-lg-7">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white py-3">
+                            <h2 class="card-title fw-bold mb-1">
+                                <%= data.name %>
+                            </h2>
+                            <p class="text-muted mb-0">Personalize it just the way you like.</p>
+                        </div>
+                        <div class="card-body p-4">
+                            <!-- Description Field -->
+                            <div class="mb-4">
+                                <h5 class="form-label fw-medium">Description:</h5>
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body">
+                                        <p class="mb-0">
+                                            <%= data.description %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
 
-                <!-- Image file input field -->
-                <div class="form-group">
-                    <label for="image">Upload Artwork:</label>
-                    <input type="file" id="image" name="image" accept="image/*">
-                </div>
-                <input type="hidden" id="basePrice" value="<%= data.price %>">
+                            <!-- น่าเป็นห่วง -->
+                            <!-- Specify detail Field -->
+                            <div class="mb-4">
+                                <label for="specify" class="form-label fw-medium">Specify:</label>
+                                <textarea id="specify" name="specify" rows="3" class="form-control"
+                                    placeholder="Enter product specify"></textarea>
+                            </div>
 
-                <!-- Update the price display section -->
-                <div class="price-container">
-                    <h3>Base Price: <%= data.price %>฿</h3><br>
-                    <h2>Total Price: <span id="totalPrice"><%= data.price %>฿</span></h2>
-                </div><br>
-                <button>Add to Cart</button>
+                            <!-- Aspect Ratio Field -->
+                            <div class="mb-4">
+                                <label for="number_x" class="form-label fw-medium">Aspect Ratio:</label>
+                                <div class="d-flex align-items-center">
+                                    <div class="input-group" style="max-width: 200px;">
+                                        <input type="number" id="number_x" name="number_x" min="1" value="1"
+                                            class="form-control text-center" data-aspect-ratio="<%= data.size %>">
+                                        <span class="input-group-text bg-white fw-bold">:</span>
+                                        <input type="number" id="number_y" name="number_y" min="1" value="1"
+                                            class="form-control text-center">
+                                    </div>
+                                    <div class="ms-3 text-muted small">
+                                        <i class="bi bi-info-circle"></i> Original ratio <%= data.size %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- น่าเป็นห่วง -->
+                            <!-- Image Upload Field -->
+                            <div class="mb-4">
+                                <label for="image" class="form-label fw-medium">Upload Artwork:</label>
+                                <input type="file" id="image" name="image" accept="image/*" class="form-control">
+                                <div class="form-text">Supported formats: JPG and PNG. Max 10MB.</div>
+                            </div>
+
+                            <!-- Hidden base price -->
+                            <input type="hidden" id="basePrice" value="<%= data.price %>">
+
+                            <!-- Price Container -->
+                            <div class="card bg-light border-0 mb-4">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-muted">Base Price:</span>
+                                        <span class="fw-medium">
+                                            <%= data.price %>฿
+                                        </span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fs-5 fw-bold">Total Price:</span>
+                                        <span class="fs-4 fw-bold text-success" id="totalPrice">
+                                            <%= data.price %>฿
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- น่าเป็นห่วง -->
+                            <!-- Add to Cart Button -->
+                            <button
+                                class="btn btn-primary btn-lg w-100 d-flex align-items-center justify-content-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-cart-plus me-2" viewBox="0 0 16 16">
+                                    <path
+                                        d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z" />
+                                    <path
+                                        d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                                </svg>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
-    <script src="/Views/product/product.js"></script>
+
+    <!-- Custom product script -->
+    <script src="/Views/Product/product.js"></script>
 </body>
 
 </html>
