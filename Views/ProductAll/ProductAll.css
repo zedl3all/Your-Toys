@@ -1,89 +1,469 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Prompt', 'Kanit', sans-serif;
-  }
-  
-  body {
-      background-color: #f5f5f5;
-      padding: 20px;
-      font-family: 'Arial', sans-serif;
-      background-color: #f8f9fa;
-      color: #333;
-  }
-  
-  .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-  }
-  
-  .item-count{
-      margin: 20px 0;
-      font-size: 1.2em;
-      color: #6c757d;
-  }
-  
-  @media (max-width: 992px) {
-      .product-grid {
-          grid-template-columns: repeat(3, 1fr);
-      }
-  }
-  
-  @media (max-width: 768px) {
-      .product-grid {
-          grid-template-columns: repeat(2, 1fr);
-      }
-  }
-  
-  @media (max-width: 576px) {
-      .product-grid {
-          grid-template-columns: 1fr;
-      }
-  }
+}
 
-  .container {
-      margin-top: 100px;
-  }
-  .header {
-      text-align: center;
-      margin-bottom: 30px;
-  }
-  .header h1 {
-      font-size: 2.5em;
-      color: black;
-  }
-  .card-product {
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      overflow: hidden;
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: pointer;
-      background-color: #fff;
-  }
-  .card-product:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  }
-  .product-image {
-      width: 100%;
-      height: auto;
-  }
-  .product-info {
-      padding: 15px;
-      text-align: center;
-  }
-  .product-title {
-      font-size: 1.2em;
-      margin-bottom: 10px;
-      color: black;
-  }
-  .product-description {
-      color: #777;
-      margin-bottom: 10px;
-  }
-  .product-price {
-      font-size: 1.1em;
-      color: #333;
-  }
+body {
+    background-color: #f5f5f5;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.main-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.menu-container {
+    width: 250px; /* ลดขนาดจาก 300px เป็น 250px */
+    background-color: #f4f4f4;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    cursor: pointer;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.menu-header h2 {
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: #333;
+    font-weight: 500;
+}
+
+.menu-toggle {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+.menu-toggle.open {
+    transform: rotate(180deg);
+}
+
+.menu-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.menu-content.open {
+    max-height: 1000px;
+}
+
+.category-list {
+    list-style: none;
+}
+
+.category-item {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.category-item:hover {
+    background-color: #eaeaea;
+}
+
+.category-box {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    background-color: white;
+}
+
+.category-label {
+    font-size: 14px;
+    color: #333;
+}
+
+.container {
+    flex: 1;
+    margin-top: 30px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    color: black;
+}
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the product cards */
+    gap: 20px;
+}
+
+.item-count {
+    margin: 20px 0;
+    font-size: 1.2em;
+    color: #6c757d;
+}
+
+@media (max-width: 1200px) {
+
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card-product {
+    flex: 1 1 200px; /* Allow the card to grow and shrink */
+    max-width: 300px; /* Set a maximum width for the card */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.card-product:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+}
+
+.product-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.product-title {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: black;
+}
+
+.product-description {
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.product-price {
+    font-size: 1.1em;
+    color: #333;
+}
+
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: contain; /* Changed from cover to contain */
+    padding: 1rem; /* Add padding around image */
+}
+
+.card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+@media (max-width: 1200px) {
+    .col-xl-3 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+}
+
+@media (max-width: 992px) {
+    .col-lg-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    
+    .card-img-top {
+        height: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    .card-img-top {
+        height: 160px; /* Increased height for mobile */
+    }
+
+    .product-card {
+        max-width: 400px; /* Limit max width on mobile */
+        margin: 0 auto; /* Center the card */
+    }
+
+    .card-body {
+        padding: 1.25rem;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-img-top {
+        height: 140px;
+    }
+
+    .product-card {
+        max-width: 100%;
+    }
+}
+
+/* Update sidebar styles */
+.sidebar-wrapper {
+    height: 100%;
+    min-width: 180px; /* Reduced from 200px */
+}
+
+.sidebar .card {
+    border-radius: 4px;
+}
+
+.sidebar .card-header {
+    background-color:#FAD401 !important;
+    color: black;
+    padding: 0.5rem; /* Reduced padding */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .list-group-item {
+    padding: 0.5rem 1rem; /* Reduced padding */
+    border: none;
+    font-size: 0.85rem; /* Slightly smaller font */
+    transition: background-color 0.2s ease;
+    background: transparent;
+}
+
+.sidebar .list-group-item[data-toggle="collapse"] {
+    position: relative;
+}
+
+.sidebar .list-group-item:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+@media (max-width: 767.98px) {
+    .sidebar-wrapper {
+        position: fixed;
+        top: 0;
+        left: -200px; /* Reduced from -250px */
+        width: 200px; /* Reduced from 250px */
+        height: 100vh;
+        z-index: 1050;
+        background: white;
+        transition: all 0.3s ease;
+        box-shadow: 3px 0 15px rgba(0, 0, 0, 0.2);
+        margin: 0; /* Remove any margin */
+        padding: 0; /* Remove any padding */
+    }
+
+    .sidebar-wrapper.active {
+        left: 0;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: 100%;
+    }
+
+    .sidebar .card {
+        border: none;
+        border-radius: 0;
+        height: 100%;
+        margin: 0; /* Remove any margin */
+    }
+
+    .container-fluid {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .close-btn-container {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        z-index: 1060;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        color: black;
+        font-size: 1.25rem;
+        padding: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        opacity: 0.8;
+    }
+
+    .close-btn:hover {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+    .card-header {
+        padding-right: 40px; /* Make space for close button */
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1040;
+        opacity: 0;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(2px);
+        margin: 0;
+        padding: 0;
+    }
+
+    .overlay.active {
+        display: block;
+        opacity: 1;
+    }
+}
+
+/* Add to existing CSS */
+.category-item .list-group-item {
+    border: none;
+    padding: 0.75rem 1.25rem;
+}
+
+.category-item .collapse .list-group-item {
+    padding-left: 2.5rem;
+    background-color: #f8f9fa;
+}
+
+.card-header .btn-link:hover,
+.card-header .btn-link:focus {
+    text-decoration: none;
+    color: white;
+}
+
+.category-item .list-group-item:hover {
+    background-color: #e9ecef;
+}
+
+/* Remove or comment out these lines */
+/* .sidebar .collapse,
+.sidebar .fa-chevron-down,
+.category-item .collapse,
+.category-item .fa-chevron-down {
+    display: none;
+} */
+
+/* Add these styles */
+.sidebar .fa-chevron-down {
+    transition: transform 0.3s ease;
+    color: black;
+}
+
+.sidebar .collapsed .fa-chevron-down {
+    transform: rotate(-90deg);
+}
+
+.sidebar .card-header .btn-link {
+    color: black !important;
+    text-decoration: none;
+}
+
+.sidebar .card-header .btn-link:hover,
+.sidebar .card-header .btn-link:focus {
+    color: black !important;
+    text-decoration: none;
+}
+
+.close-btn-container {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 1060;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 1.5rem;
+    padding: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.close-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Sidebar styles */
+.offcanvas {
+    max-width: 250px; /* Reduced from 300px */
+}
+
+.list-group-item {
+    transition: background-color 0.2s ease;
+}
+
+.list-group-item:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.fa-chevron-down {
+    transition: transform 0.3s ease;
+}
+
+.card-header h5 {
+    font-size: 0.9rem; /* Smaller header font */
+}

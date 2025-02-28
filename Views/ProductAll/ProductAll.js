@@ -21,4 +21,88 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Add overlay div to body
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    document.body.appendChild(overlay);
+
+    // Sidebar toggle functionality
+    const sidebarCollapse = document.getElementById('sidebarCollapse');
+    const sidebarClose = document.getElementById('sidebarClose');
+    const sidebarWrapper = document.querySelector('.sidebar-wrapper');
+
+    sidebarCollapse.addEventListener('click', function() {
+        sidebarWrapper.classList.add('active');
+        overlay.classList.add('active');
+    });
+
+    // Add close button functionality
+    sidebarClose.addEventListener('click', function() {
+        sidebarWrapper.classList.remove('active');
+        overlay.classList.remove('active');
+    });
+
+    overlay.addEventListener('click', function() {
+        sidebarWrapper.classList.remove('active');
+        overlay.classList.remove('active');
+    });
+
+    // Close sidebar when window is resized above mobile breakpoint
+    window.addEventListener('resize', function() {
+        if (window.innerWidth >= 768) {
+            sidebarWrapper.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+    });
+
+    // Add dropdown functionality
+    const dropdownToggle = document.querySelector('[data-toggle="collapse"]');
+    const chevronIcon = dropdownToggle.querySelector('.fa-chevron-down');
+    
+    dropdownToggle.addEventListener('click', function() {
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+        chevronIcon.style.transform = isExpanded ? 'rotate(-90deg)' : 'rotate(0deg)';
+    });
+
+    // Initialize collapse functionality
+    $('#categoryCollapse').collapse({
+        toggle: false
+    });
+
+    // Bootstrap 5 collapse initialization
+    const collapseElementList = [].slice.call(document.querySelectorAll('.collapse'));
+    const collapseList = collapseElementList.map(function (collapseEl) {
+        return new bootstrap.Collapse(collapseEl, {
+            toggle: false
+        });
+    });
+
+    // Category collapse icon rotation
+    const dropdownToggles = document.querySelectorAll('[data-bs-toggle="collapse"]');
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const icon = this.querySelector('.fa-chevron-down');
+            icon.style.transform = this.getAttribute('aria-expanded') === 'true' 
+                ? 'rotate(-180deg)' 
+                : 'rotate(0deg)';
+        });
+    });
+
+    // Mobile sidebar close on selection for better UX
+    const mobileMenuItems = document.querySelectorAll('#sidebar .list-group-item');
+    mobileMenuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const sidebar = document.querySelector('#sidebar');
+            const bsOffcanvas = bootstrap.Offcanvas.getInstance(sidebar);
+            if (bsOffcanvas) {
+                bsOffcanvas.hide();
+            }
+        });
+    });
 });
+
+function selectCategory(category) {
+    console.log("Selected category:", category);
+    // Add your category selection logic here
+}
