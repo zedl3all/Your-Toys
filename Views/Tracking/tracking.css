@@ -5,6 +5,7 @@ body {
     align-items: center;
     height: 100vh;
     background-color: #f8f8f8;
+    color: #33322B;
 }
 
 .container {
@@ -37,7 +38,7 @@ body {
     z-index: 2;
     display: flex;
     justify-content: center;
-        align-items: center;
+    align-items: center;
 }
 
 .step img {
@@ -48,7 +49,7 @@ body {
 
 .step.active img,
 .step.completed img {
-    border: 3px solid #e91e63;
+    border: 3px solid #FFC107;
 }
 
 .step-label {
@@ -59,7 +60,7 @@ body {
 
 .step.completed+.step-label,
 .step.active+.step-label {
-    color: #e91e63;
+    color: #FFC107;
     font-weight: bold;
 }
 
@@ -67,7 +68,7 @@ body {
     position: absolute;
     top: 30%;
     left: 12%;
-        width: 75%;
+    width: 75%;
     height: 5px;
     background: #ccc;
     z-index: 1;
@@ -80,7 +81,7 @@ body {
     left: 0;
     height: 100%;
     width: 0%;
-    background: #e91e63;
+    background: #FFC107;
     transition: width 0.3s ease-in-out;
 }
 
@@ -93,8 +94,8 @@ button {
     border: none;
     cursor: pointer;
     margin: 0 5px;
-    background: #e91e63;
-    color: white;
+    background: #FFC107;
+        color: #33322B;
     border-radius: 5px;
 }
 
