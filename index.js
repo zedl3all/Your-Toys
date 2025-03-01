@@ -172,7 +172,7 @@ const cart = [
 app.get('/cart', (req, res) => {
     // Example cart data
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    res.render('Test/cart', { cart, total });
+    res.render('Cart/cart', { cart, total });
 });
 
 app.get('/cart/add/:id', (req, res) => {

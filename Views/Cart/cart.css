@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+.cart-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 70%;
+    margin: 20px auto;
+    overflow-x: auto;
+}
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    min-width: 800px;
+    /* กำหนดความกว้างขั้นต่ำของตาราง */
+}
+
+table,
+th,
+td {
+    border: 1px solid #ccc;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    white-space: nowrap;
+    /* ป้องกันข้อความขึ้นบรรทัดใหม่ */
+}
+
+#qua {
+    text-align: center;
+}
+
+/* ปรับขนาดคอลัมน์ Description ให้ยืดหยุ่น */
+td:nth-child(2) {
+    max-width: 200px;
+    white-space: normal;
+    /* อนุญาตให้ข้อความขึ้นบรรทัดใหม่ได้ */
+    word-wrap: break-word;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+.total,
+.actions {
+    margin: 20px 0;
+    text-align: center;
+}
+.actions a {
+    margin: 0 10px;
+    background: linear-gradient(45deg, #FFC107, #ffdb4d);
+    color: #333;
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+    transition: all 0.3s ease;
+}
+.actions a:hover {
+    background-color: #FFC107;
+}
+.btnt {
+    text-decoration: none;
+    background: linear-gradient(45deg, #FFC107, #ffdb4d);
+    color: #333;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 0 5px;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+    transition: all 0.3s ease;
+}
+.btnt:hover {
+    background-color: #FFC107;
+}
