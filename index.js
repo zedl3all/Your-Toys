@@ -21,6 +21,7 @@ let db = new sqlite3.Database('lala.db', (err) => {
 
 // constdb.runquire('./ddb.run;
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // static resource & template engine
 app.use('/Asset', express.static(path.join(__dirname, '/Asset')));
@@ -221,38 +222,89 @@ app.post('/registerUser', async (req, res) => {
 });
 
 app.get('/manageProduct', (req, res) => {
-    const query = 'SELECT * FROM products ';
-    db.all(query, (err, rows) => {
-      if (err) {
-        console.log(err.message);
-      }
-      console.log(rows);
-      res.render('ManageProduct/manageProduct', { data: rows });
+    const categoriesQuery = 'SELECT * FROM categories';
+    const productsQuery = 'SELECT * FROM products';
+    const productCategoriesQuery = `
+        SELECT p.id as product_id, c.id as category_id, c.name as category_name 
+        FROM products p 
+        JOIN pro_cat pc ON p.id = pc.p_id 
+        JOIN categories c ON pc.c_id = c.id
+    `;
+    
+    db.all(productsQuery, [], (err, products) => {
+        if (err) {
+            console.log(err.message);
+            return res.status(500).send('Database error');
+        }
+        
+        db.all(categoriesQuery, [], (err, categories) => {
+            if (err) {
+                console.log(err.message);
+                return res.status(500).send('Database error');
+            }
+            
+            db.all(productCategoriesQuery, [], (err, productCategories) => {
+                if (err) {
+                    console.log(err.message);
+                    return res.status(500).send('Database error');
+                }
+                
+                products.forEach(product => {
+                    product.categories = productCategories
+                        .filter(pc => pc.product_id === product.id)
+                        .map(pc => ({ id: pc.category_id, name: pc.category_name }));
+                });
+                
+                console.log(products);
+                res.render('ManageProduct/manageProduct', { 
+                    data: products,
+                    categories: categories 
+                });
+            });
+        });
     });
-    // res.render('ManageProduct/manageProduct');
 });
 
 app.get('/manageProduct/product/:id', (req, res) => {
     const id = req.params.id;
-    const query = 'SELECT * FROM products WHERE id = ?';
-    db.get(query, [id], (err, rows) => {
-      if (err) {
-        console.error(err.message);
-        return res.status(500).send('Database error');
-      }
-      if (!rows) {
-        return res.status(404).send('Product not found');
-      }
-      console.log(rows);
-      res.send(JSON.stringify(rows));
+    
+    const productQuery = 'SELECT * FROM products WHERE id = ?';
+    
+    const categoriesQuery = `
+        SELECT c.id, c.name
+        FROM categories c
+        JOIN pro_cat pc ON c.id = pc.c_id
+        WHERE pc.p_id = ?
+    `;
+    
+    db.get(productQuery, [id], (err, product) => {
+        if (err) {
+            console.error(err.message);
+            return res.status(500).send('Database error');
+        }
+        
+        if (!product) {
+            return res.status(404).send('Product not found');
+        }
+        
+        db.all(categoriesQuery, [id], (err, categories) => {
+            if (err) {
+                console.error(err.message);
+                return res.status(500).send('Database error');
+            }
+            
+            product.categories = categories || [];
+            
+            console.log(product);
+            res.send(JSON.stringify(product));
+        });
     });
 });
 
-// Update a product
 app.put('/manageProduct/products/:id', (req, res) => {
     const id = req.params.id;
     console.log("Received update request:", req.body);
-    const { productName, description, price, size, amount } = req.body;
+    const { productName, description, price, size, amount, categories } = req.body;
     
     let query = 'UPDATE products SET name = ?, description = ?, price = ?, size = ?, amount = ?';
     let params = [productName, description, price, size, amount];
@@ -265,9 +317,79 @@ app.put('/manageProduct/products/:id', (req, res) => {
             console.error("Database error:", err.message);
             return res.status(500).json({ error: err.message });
         }
+        
+        if (categories && Array.isArray(categories)) {
+            db.run('DELETE FROM pro_cat WHERE p_id = ?', [id], function(err) {
+                if (err) {
+                    console.error("Error removing categories:", err.message);
+                    return res.status(500).json({ error: err.message });
+                }
+                
+                if (categories.length === 0) {
+                    return res.json({ 
+                        message: 'Product updated successfully',
+                        id: id
+                    });
+                }
+                
+                let completed = 0;
+                categories.forEach(categoryId => {
+                    db.run('INSERT INTO pro_cat (p_id, c_id) VALUES (?, ?)', [id, categoryId], function(err) {
+                        completed++;
+                        
+                        if (err) {
+                            console.error("Error adding category:", err.message);
+                        }
+                        
+                        if (completed === categories.length) {
+                            res.json({ 
+                                message: 'Product and categories updated successfully',
+                                id: id
+                            });
+                        }
+                    });
+                });
+            });
+        } else {
+            res.json({ 
+                message: 'Product updated successfully',
+                id: id
+            });
+        }
+    });
+});
+
+// Add a new product
+// Lack of upload image!!! need someone to add it!!!
+app.post("/manageProduct/addProduct", (req, res) => {
+    console.log("Received data:", req.body);
+    
+    const productName = req.body.productName;
+    const description = req.body.description;
+    const price = req.body.price;
+    const amount = req.body.amount;
+    
+    let size = "1:1"; // Default
+    if (req.body.number_x && req.body.number_y) {
+        size = `${req.body.number_x}:${req.body.number_y}`;
+    }
+    
+    const defaultImage = "default.jpg";
+    
+    const query = `INSERT INTO products (name, description, price, size, amount, image) 
+                 VALUES (?, ?, ?, ?, ?, ?)`;
+    
+    db.run(query, [productName, description, price, size, amount, defaultImage], function(err) {
+        if (err) {
+            console.error("Error adding product:", err.message);
+            return res.status(500).json({ success: false, message: err.message });
+        }
+        
+        console.log(`Added product successfully with ID: ${this.lastID}`);
         res.json({ 
-            message: 'Product updated successfully',
-            id: id
+            success: true, 
+            message: 'Product added successfully',
+            productId: this.lastID
         });
     });
 });

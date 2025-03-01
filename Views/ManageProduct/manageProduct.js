@@ -1,73 +1,35 @@
 let currentProductId = null;
 
 function openEditModal(productId) {
-    console.log("Opening edit modal for product ID:", productId);
     currentProductId = productId;
-
     const modal = document.getElementById('editModal');
-    document.getElementById('editModal').style.display = 'block';
-
+    modal.style.display = 'block';
+    
     document.getElementById('editProductName').value = 'Loading...';
     document.getElementById('editDescription').value = 'Loading...';
-
-    // Fetch product details and populate the form
-    // fetch(`/getProduct/${productId}`)
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         document.getElementById('editProductName').value = data.productName;
-    //         document.getElementById('editDescription').value = data.description;
-    //         document.getElementById('editPrice').value = data.price;
-    //         document.getElementById('editSize').value = data.size;
-    //         document.getElementById('editAmount').value = data.amount;
-    //         // Show the modal
-    //         document.getElementById('editModal').style.display = 'block';
-    //     })
-    //     .catch(error => {
-    //         console.error('Error fetching product details:', error);
-    //     });
+    document.getElementById('editCategories').value = '';
+    
     fetch(`/manageProduct/product/${productId}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("Product data received:", data);
-            // Populate form with product data
-            document.getElementById('editProductName').value = data.name;
-            document.getElementById('editDescription').value = data.description;
-            document.getElementById('editPrice').value = data.price;
+        .then(response => response.json())
+        .then(product => {
+            document.getElementById('editProductName').value = product.name;
+            document.getElementById('editDescription').value = product.description;
+            document.getElementById('editPrice').value = product.price;
+            document.getElementById('editAmount').value = product.amount;
             
-            // Handle the ratio split for the new number_x and number_y fields
-            if (data.size && data.size.includes(':')) {
-                const [x, y] = data.size.split(':');
+            if (product.size && product.size.includes(':')) {
+                const [x, y] = product.size.split(':');
                 document.getElementById('number_x').value = x;
                 document.getElementById('number_y').value = y;
-                // Set the aspect ratio data attribute
-                document.getElementById('number_x').dataset.aspectRatio = data.size;
-            } else {
-                // Default values if size format is unexpected
-                document.getElementById('number_x').value = 1;
-                document.getElementById('number_y').value = 1;
             }
-
-            document.getElementById('editAmount').value = data.amount;
             
-            // Add hidden field for product ID if needed
-            let idField = document.getElementById('productId');
-            if (!idField) {
-                idField = document.createElement('input');
-                idField.type = 'hidden';
-                idField.id = 'productId';
-                idField.name = 'id';
-                document.getElementById('editForm').appendChild(idField);
+            if (product.categories && product.categories.length > 0) {
+                document.getElementById('editCategories').value = product.categories[0].id;
             }
-            idField.value = productId;
         })
         .catch(error => {
-            console.error('Error fetching product data:', error);
-            alert('Failed to load product data. Please try again.');
+            console.error('Error:', error);
+            alert('Failed to load product data');
             closeEditModal();
         });
 }
@@ -124,17 +86,21 @@ document.addEventListener('DOMContentLoaded', function() {
         editForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Combine ratio fields into the size field
             const x = document.getElementById('number_x').value;
             const y = document.getElementById('number_y').value;
             const sizeRatio = `${x}:${y}`;
+            
+            const categoryId = document.getElementById('editCategories').value;
+            
+            const categories = categoryId ? [parseInt(categoryId)] : [];
             
             const jsonData = {
                 productName: document.getElementById('editProductName').value,
                 description: document.getElementById('editDescription').value,
                 price: document.getElementById('editPrice').value,
                 size: sizeRatio,
-                amount: document.getElementById('editAmount').value
+                amount: document.getElementById('editAmount').value,
+                categories: categories  // ส่งเป็นอาร์เรย์เพื่อให้เข้ากับโค้ดเดิม
             };
             
             fetch(`/manageProduct/products/${currentProductId}`, {
@@ -153,6 +119,64 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => {
                 console.error('Error updating product:', error);
                 alert('Failed to update product');
+            });
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const addForm = document.getElementById('addForm');
+    if (addForm) {
+        addForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const productName = document.getElementById('addProductName').value.trim();
+            const description = document.getElementById('addDescription').value.trim();
+            const price = document.getElementById('addPrice').value;
+            const amount = document.getElementById('addAmount').value;
+            
+            if (!productName) {
+                alert('Product name is required');
+                return;
+            }
+            
+            const x = document.getElementById('number_x').value;
+            const y = document.getElementById('number_y').value;
+            const sizeRatio = `${x}:${y}`;
+            
+            const categoryId = document.getElementById('addCategories').value;
+            
+            const productData = {
+                productName: productName,
+                description: description,
+                price: price,
+                size: sizeRatio,
+                amount: amount,
+                categories: categoryId ? [parseInt(categoryId)] : []
+            };
+            
+            console.log('Sending data:', productData);
+            
+            fetch('/manageProduct/addProduct', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(productData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Product added successfully');
+                    closeAddModal();
+                    window.location.reload();
+                } else {
+                    alert('Failed to add product: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to add product');
             });
         });
     }

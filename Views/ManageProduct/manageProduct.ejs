@@ -25,6 +25,7 @@
                     <th>Ratio</th>
                     <th>Current Amount</th>
                     <th>Image</th>
+                    <th>Category</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -49,13 +50,22 @@
                         </td>
                         <td><img src="/Asset/Product/<%=item.image%>" alt="Product ID:<%= item.id %>" width="50"></td>
                         <td>
+                            <% if (item.categories && item.categories.length > 0) { %>
+                                <% item.categories.forEach((cat, index) => { %>
+                                    <%= cat.name %><%= index < item.categories.length-1 ? ', ' : '' %>
+                                <% }); %>
+                            <% } else { %>
+                                <span class="no-category">No categories</span>
+                            <% } %>
+                        </td>
+                        <td>
                             <a href="#" class="edit-link"
                                 onclick="event.preventDefault(); openEditModal('<%= item.id %>')">Edit</a><a href="#"
                                 class="remove-link"
                                 onclick="event.preventDefault(); removeProduct('<%= item.id %>')">Remove</a>
                         </td>
                     </tr>
-                    <% }); %>
+                <% }); %>
                         <!-- <tr>
                     <td>Product 1</td>
                     <td>Sample description for product 1</td>
@@ -115,19 +125,28 @@
                     <input type="number" id="editPrice" name="price" step="0.01" required>
                 </div>
                 <div class="form-group">
-                    <label for="editSize">Ratio:</label>
+                    <label for="editRatio">Ratio:</label>
                     <div class="ratio-inputs">
                         <input type="number" id="number_x" name="number_x" min="1" value="1">
                         <span>:</span>
                         <input type="number" id="number_y" name="number_y" min="1" value="1">
                     </div>
-                    <input type="hidden" id="editSize" name="size">
-                    <!-- <select id="editSize" name="size">
+                    <!-- <input type="hidden" id="editSize" name="size">
+                    <select id="editSize" name="size">
                         <option value="small">Small</option>
                         <option value="medium">Medium</option>
                         <option value="large">Large</option>
                         <option value="etc">Etc.</option>
                     </select> -->
+                </div>
+                <div class="form-group">
+                    <label for="editCategories">Category:</label>
+                    <select id="editCategories" name="category" class="category-select">
+                        <option value="">-- Select Category --</option>
+                        <% categories.forEach(function(category) { %>
+                            <option value="<%= category.id %>"><%= category.name %></option>
+                        <% }); %>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="editAmount">Amount:</label>
@@ -147,7 +166,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeAddModal()">&times;</span>
             <h2>Add Product</h2>
-            <form id="addForm">
+            <form id="addForm" action="/manageProduct/addProduct" method="post">
                 <div class="form-group">
                     <label for="addProductName">Product Name:</label>
                     <input type="text" id="addProductName" name="productName" required>
@@ -161,12 +180,27 @@
                     <input type="number" id="addPrice" name="price" step="0.01" required>
                 </div>
                 <div class="form-group">
-                    <label for="addSize">Size:</label>
+                    <label for="editRatio">Ratio:</label>
+                    <div class="ratio-inputs">
+                        <input type="number" id="number_x" name="number_x" min="1" value="1">
+                        <span>:</span>
+                        <input type="number" id="number_y" name="number_y" min="1" value="1">
+                    </div>
+                    <!-- <label for="addSize">Size:</label>
                     <select id="addSize" name="size">
                         <option value="small">Small</option>
                         <option value="medium">Medium</option>
                         <option value="large">Large</option>
                         <option value="etc">Etc.</option>
+                    </select> -->
+                </div>
+                <div class="form-group">
+                    <label for="addCategories">Category:</label>
+                    <select id="addCategories" name="category" class="category-select">
+                        <option value="">-- Select Category --</option>
+                        <% categories.forEach(function(category) { %>
+                            <option value="<%= category.id %>"><%= category.name %></option>
+                        <% }); %>
                     </select>
                 </div>
                 <div class="form-group">
