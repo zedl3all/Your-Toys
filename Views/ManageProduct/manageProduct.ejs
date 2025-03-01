@@ -123,11 +123,9 @@
         </div>
         <div class="offcanvas-body">
             <div class="list-group">
+                <a href="/manageProduct" class="list-group-item list-group-item-action">All</a>
                 <% categories.forEach(category => { %>
-                    <button class="list-group-item list-group-item-action"
-                            onclick="selectCategory('<%= category %>')">
-                        <%= category.name %>
-                    </button>
+                    <a href="/manageProduct/<%= category.id %>" class="list-group-item list-group-item-action"><%= category.name %></a>
                 <% }) %>
             </div>
         </div>

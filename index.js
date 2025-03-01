@@ -269,6 +269,50 @@ app.get('/manageProduct', (req, res) => {
     });
 });
 
+app.get('/manageProduct/:id', (req, res) => {
+    const categoriesQuery = 'SELECT * FROM categories';
+    const productsQuery = `SELECT * FROM products p JOIN pro_cat pc ON p.id = pc.p_id where pc.c_id = ${req.params.id}`;
+    const productCategoriesQuery = `
+        SELECT p.id as product_id, c.id as category_id, c.name as category_name 
+        FROM products p 
+        JOIN pro_cat pc ON p.id = pc.p_id 
+        JOIN categories c ON pc.c_id = c.id
+    `;
+    
+    db.all(productsQuery, [], (err, products) => {
+        if (err) {
+            console.log(err.message);
+            return res.status(500).send('Database error');
+        }
+        
+        db.all(categoriesQuery, [], (err, categories) => {
+            if (err) {
+                console.log(err.message);
+                return res.status(500).send('Database error');
+            }
+            
+            db.all(productCategoriesQuery, [], (err, productCategories) => {
+                if (err) {
+                    console.log(err.message);
+                    return res.status(500).send('Database error');
+                }
+                
+                products.forEach(product => {
+                    product.categories = productCategories
+                        .filter(pc => pc.product_id === product.id)
+                        .map(pc => ({ id: pc.category_id, name: pc.category_name }));
+                });
+                
+                console.log(products);
+                res.render('ManageProduct/manageProduct', { 
+                    data: products,
+                    categories: categories 
+                });
+            });
+        });
+    });
+});
+
 app.get('/manageProduct/product/:id', (req, res) => {
     const id = req.params.id;
     
