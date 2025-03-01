@@ -479,6 +479,10 @@ app.get('/Tracking', (req, res) => {
     res.render('Tracking/tracking');
 });
 
+app.get('/AllOrder', (req, res) => {
+    res.render('AllOrder/allOrder');
+});
+
 // app.get('/categories', (req, res) => {
 //     const query = 'SELECT * FROM categories';
 //     db.all(query, [], (err, rows) => {
