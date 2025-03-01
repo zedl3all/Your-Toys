@@ -7,7 +7,10 @@ function openEditModal(productId) {
 
     document.getElementById('editProductName').value = 'Loading...';
     document.getElementById('editDescription').value = 'Loading...';
-    document.getElementById('editCategories').value = '';
+    
+    // Reset any previous selections
+    const categoriesSelect = document.getElementById('editCategories');
+    Array.from(categoriesSelect.options).forEach(option => option.selected = false);
 
     fetch(`/manageProduct/product/${productId}`)
         .then(response => response.json())
@@ -23,8 +26,12 @@ function openEditModal(productId) {
                 document.getElementById('number_y').value = y;
             }
 
+            // Handle multiple categories
             if (product.categories && product.categories.length > 0) {
-                document.getElementById('editCategories').value = product.categories[0].id;
+                const categoryIds = product.categories.map(cat => cat.id);
+                Array.from(categoriesSelect.options).forEach(option => {
+                    option.selected = categoryIds.includes(parseInt(option.value));
+                });
             }
         })
         .catch(error => {
@@ -97,7 +104,7 @@ window.onclick = function (event) {
     }
 }
 
-// Update your form submission handler to combine the ratio fields
+// Handle form submission for editing a product
 document.addEventListener('DOMContentLoaded', function () {
     const editForm = document.getElementById('editForm');
     if (editForm) {
@@ -108,9 +115,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const y = document.getElementById('number_y').value;
             const sizeRatio = `${x}:${y}`;
 
-            const categoryId = document.getElementById('editCategories').value;
-
-            const categories = categoryId ? [parseInt(categoryId)] : [];
+            // Get all selected category values instead of just one
+            const categorySelect = document.getElementById('editCategories');
+            const selectedCategories = Array.from(categorySelect.selectedOptions)
+                .map(option => parseInt(option.value));
 
             const jsonData = {
                 productName: document.getElementById('editProductName').value,
@@ -118,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 price: document.getElementById('editPrice').value,
                 size: sizeRatio,
                 amount: document.getElementById('editAmount').value,
-                categories: categories  // ส่งเป็นอาร์เรย์เพื่อให้เข้ากับโค้ดเดิม
+                categories: selectedCategories  // Now contains all selected categories
             };
 
             fetch(`/manageProduct/products/${currentProductId}`, {
@@ -157,7 +165,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const y = document.getElementById('number_y').value;
             const sizeRatio = `${x}:${y}`;
 
-            const categoryId = document.getElementById('addCategories').value;
+            const categorySelect = document.getElementById('addCategories');
+            const selectedCategories = Array.from(categorySelect.selectedOptions)
+                .map(option => parseInt(option.value));
 
             const productData = {
                 productName: productName,
@@ -165,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 price: price,
                 size: sizeRatio,
                 amount: amount,
-                categories: categoryId ? [parseInt(categoryId)] : []
+                categories: selectedCategories
             };
 
             console.log('Sending data:', productData);

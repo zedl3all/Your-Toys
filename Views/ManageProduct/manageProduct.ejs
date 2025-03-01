@@ -144,9 +144,8 @@
                     </select> -->
                 </div>
                 <div class="form-group">
-                    <label for="editCategories">Category: <span class="required">*</span></label>
-                    <select id="editCategories" name="category" class="category-select" required>
-                        <option value="" disabled selected>-- Select Category --</option>
+                    <label for="editCategories">Categories: <span class="required">*</span> (Hold Ctrl to select multiple)</label>
+                    <select id="editCategories" name="category" class="category-select" required multiple size="4">
                         <% categories.forEach(function(category) { %>
                             <option value="<%= category.id %>"><%= category.name %></option>
                         <% }); %>
@@ -199,9 +198,8 @@
                     </select> -->
                 </div>
                 <div class="form-group">
-                    <label for="addCategories">Category: <span class="required">*</span></label>
-                    <select id="addCategories" name="category" class="category-select" required>
-                        <option value="" disabled selected>-- Select Category --</option>
+                    <label for="addCategories">Categories: <span class="required">*</span> (Hold Ctrl to select multiple)</label>
+                    <select id="addCategories" name="category" class="category-select" required multiple size="4">
                         <% categories.forEach(function(category) { %>
                             <option value="<%= category.id %>"><%= category.name %></option>
                         <% }); %>
