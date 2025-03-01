@@ -34,6 +34,12 @@ document.addEventListener('DOMContentLoaded', function () {
     lastValidX = originalX;
     lastValidY = originalY;
 
+    // Add quantity controls
+    const quantityInput = document.getElementById('quantity');
+    const decreaseBtn = document.getElementById('decreaseQuantity');
+    const increaseBtn = document.getElementById('increaseQuantity');
+    const maxQuantity = parseInt(quantityInput.getAttribute('max')) || 99;
+
     function debounce(func, delay) {
         return function () {
             clearTimeout(debounceTimer);
@@ -49,14 +55,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function calculatePrice(x, y) {
         totalPriceElement.textContent = "Calculating...";
 
-        let price;
-        console.log(`Input values: x=${x}, y=${y}, basePrice=${basePrice}`);
-
-        // Convert to numeric values
         x = parseFloat(x);
         y = parseFloat(y);
+        const quantity = parseInt(quantityInput.value) || 1;
 
-        // Validate inputs
         if (isNaN(x) || isNaN(y) || x <= 0 || y <= 0) {
             console.log("Invalid input values, using defaults");
             x = originalX;
@@ -67,25 +69,24 @@ document.addEventListener('DOMContentLoaded', function () {
         const ratio = Math.max(x, y) / Math.min(x, y);
         console.log(`Ratio (max/min): ${ratio}`);
 
-        // Reset price calculation
+        // Calculate unit price
+        let unitPrice;
         if (Math.abs(x - y) < 0.001) { // Use epsilon for float comparison
-            price = basePrice * x;
-            console.log(`Equal sides formula: ${basePrice} * ${x} = ${price}`);
+            unitPrice = basePrice * x;
         } else if (ratio > 5) {
-            price = basePrice * ((x + y) / 2);
-            console.log(`Average formula for extreme ratio: ${basePrice} * (${x} + ${y})/2 = ${price}`);
+            unitPrice = basePrice * ((x + y) / 2);
         } else if (ratio > 2) {
-            price = basePrice * Math.max(x, y);
-            console.log(`Maximum formula for unbalanced ratio: ${basePrice} * ${Math.max(x, y)} = ${price}`);
+            unitPrice = basePrice * Math.max(x, y);
         } else {
-            price = basePrice * (x * y);
-            console.log(`Product formula for standard ratio: ${basePrice} * (${x} * ${y}) = ${price}`);
+            unitPrice = basePrice * (x * y);
         }
 
-        console.log(`Final price for ratio ${x}:${y} = ${price}`);
+        // Multiply by quantity for final price
+        const totalPrice = unitPrice * quantity;
+        console.log(`Final price: ${unitPrice} * ${quantity} = ${totalPrice}`);
 
         // Format with commas and 2 decimal places
-        const formattedPrice = parseFloat(price).toLocaleString('en-US', {
+        const formattedPrice = totalPrice.toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
         });
@@ -93,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
         clearTimeout(debounceTimer);
         totalPriceElement.textContent = `${formattedPrice}฿`;
 
-        return price;
+        return totalPrice;
     }
 
     const debouncedCalculate = debounce(function (x, y) {
@@ -150,6 +151,43 @@ document.addEventListener('DOMContentLoaded', function () {
 
         calculatePrice(xValue, yValue);
     }
+
+    // Add event listeners for quantity buttons
+    decreaseBtn.addEventListener('click', function () {
+        const currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+            calculatePrice(numberX.value, numberY.value);
+        }
+    });
+
+    increaseBtn.addEventListener('click', function () {
+        const currentValue = parseInt(quantityInput.value);
+        if (currentValue < maxQuantity) {
+            quantityInput.value = currentValue + 1;
+            calculatePrice(numberX.value, numberY.value);
+        } else {
+            // Optional: Provide feedback that max quantity is reached
+            quantityInput.classList.add('is-invalid');
+            setTimeout(() => quantityInput.classList.remove('is-invalid'), 500);
+        }
+    });
+
+    if (!document.querySelector('link[href*="bootstrap-icons"]')) {
+        const iconLink = document.createElement('link');
+        iconLink.rel = 'stylesheet';
+        iconLink.href = 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css';
+        document.head.appendChild(iconLink);
+    }
+
+    quantityInput.addEventListener('change', function () {
+        let value = parseInt(this.value) || 1;
+        // Enforce both minimum and maximum values
+        value = Math.max(1, Math.min(value, maxQuantity));
+        this.value = value;
+
+        calculatePrice(numberX.value, numberY.value);
+    });
 
     calculatePrice(originalX, originalY);
 });
