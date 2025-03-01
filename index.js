@@ -301,6 +301,7 @@ app.get('/manageProduct/product/:id', (req, res) => {
     });
 });
 
+// Update Product
 app.put('/manageProduct/products/:id', (req, res) => {
     const id = req.params.id;
     console.log("Received update request:", req.body);
@@ -368,6 +369,7 @@ app.post("/manageProduct/addProduct", (req, res) => {
     const description = req.body.description;
     const price = req.body.price;
     const amount = req.body.amount;
+    const categories = req.body.categories;
     
     let size = "1:1"; // Default
     if (req.body.number_x && req.body.number_y) {
@@ -385,11 +387,81 @@ app.post("/manageProduct/addProduct", (req, res) => {
             return res.status(500).json({ success: false, message: err.message });
         }
         
-        console.log(`Added product successfully with ID: ${this.lastID}`);
-        res.json({ 
-            success: true, 
-            message: 'Product added successfully',
-            productId: this.lastID
+        const productId = this.lastID;
+        console.log(`Added product successfully with ID: ${productId}`);
+        
+        if (!categories || !Array.isArray(categories) || categories.length === 0) {
+            return res.json({ 
+                success: true, 
+                message: 'Product added successfully (no categories)',
+                productId: productId
+            });
+        }
+        
+        let completedCount = 0;
+        let errorOccurred = false;
+        
+        categories.forEach(categoryId => {
+            db.run('INSERT INTO pro_cat (p_id, c_id) VALUES (?, ?)', [productId, categoryId], function(err) {
+                completedCount++;
+                
+                if (err) {
+                    console.error(`Error adding category ${categoryId} to product ${productId}:`, err.message);
+                    errorOccurred = true;
+                }
+                
+                if (completedCount === categories.length) {
+                    if (errorOccurred) {
+                        return res.json({ 
+                            success: true, 
+                            warning: 'Product added but some categories failed',
+                            productId: productId
+                        });
+                    } else {
+                        return res.json({ 
+                            success: true, 
+                            message: 'Product and categories added successfully',
+                            productId: productId
+                        });
+                    }
+                }
+            });
+        });
+    });
+});
+
+app.delete('/manageProduct/product/:id', (req, res) => {
+    const id = req.params.id;
+    
+    db.serialize(() => {
+        db.run('BEGIN TRANSACTION');
+        
+        db.run('DELETE FROM pro_cat WHERE p_id = ?', [id], function(err) {
+            if (err) {
+                console.error("Error deleting from pro_cat:", err.message);
+                db.run('ROLLBACK');
+                return res.status(500).json({ 
+                    success: false, 
+                    message: 'Failed to delete product categories' 
+                });
+            }
+            
+            db.run('DELETE FROM products WHERE id = ?', [id], function(err) {
+                if (err) {
+                    console.error("Error deleting product:", err.message);
+                    db.run('ROLLBACK');
+                    return res.status(500).json({ 
+                        success: false, 
+                        message: 'Failed to delete product' 
+                    });
+                }
+                
+                db.run('COMMIT');
+                res.json({ 
+                    success: true, 
+                    message: 'Product and related data deleted successfully' 
+                });
+            });
         });
     });
 });
