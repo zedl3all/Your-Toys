@@ -147,7 +147,7 @@
             padding: 8px 8px 8px 32px;
             text-decoration: none;
             font-size: 25px;
-            color: #818181;
+            color: #818181 !important;
             display: block;
             transition: 0.3s;
             text-align: center;
@@ -325,6 +325,7 @@
                     location.href = '/';
                 };
                 logout.innerHTML = 'Logout';
+                logout.style.color = '#818181';
                 logout.style.cursor = 'pointer';
                 sidenav.appendChild(logout);
                 const username = localStorage.getItem('username');
@@ -418,7 +419,7 @@
                     data.categories.forEach(category => {
                         const li = document.createElement('li');
                         const a = document.createElement('a');
-                        a.href = `/category/${category.id}`;
+                        a.href = `/ProductAll/${category.id}`;
                         a.appendChild(document.createTextNode("Category :"+category.name))
                         li.appendChild(a);
                         menu.appendChild(li);
