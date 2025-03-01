@@ -7,9 +7,7 @@
 
 body {
     background-color: #f5f5f5;
-    padding: 20px;
     font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa;
     color: #333;
 }
 
@@ -20,7 +18,8 @@ body {
 }
 
 .menu-container {
-    width: 250px; /* ลดขนาดจาก 300px เป็น 250px */
+    width: 250px;
+    /* ลดขนาดจาก 300px เป็น 250px */
     background-color: #f4f4f4;
     margin-right: 20px;
     flex-shrink: 0;
@@ -107,7 +106,8 @@ body {
 .product-grid {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Center the product cards */
+    justify-content: center;
+    /* Center the product cards */
     gap: 20px;
 }
 
@@ -117,28 +117,30 @@ body {
     color: #6c757d;
 }
 
-@media (max-width: 1200px) {
+@media screen and (max-width: 1200px) {
 
     .product-grid {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
-@media (max-width: 992px) {
+@media screen and (max-width: 992px) {
     .product-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
     .product-grid {
         grid-template-columns: 1fr;
     }
 }
 
 .card-product {
-    flex: 1 1 200px; /* Allow the card to grow and shrink */
-    max-width: 300px; /* Set a maximum width for the card */
+    flex: 1 1 200px;
+    /* Allow the card to grow and shrink */
+    max-width: 300px;
+    /* Set a maximum width for the card */
     border: 1px solid #ddd;
     border-radius: 10px;
     overflow: hidden;
@@ -188,14 +190,14 @@ body {
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
 }
 
 .card-img-top {
     width: 100%;
-    height: 200px;
-    object-fit: contain; /* Changed from cover to contain */
-    padding: 1rem; /* Add padding around image */
+    height: 100%;
+    object-fit: contain;
+    padding: 1rem;
 }
 
 .card-body {
@@ -205,37 +207,45 @@ body {
     justify-content: space-between;
 }
 
-@media (max-width: 1200px) {
+@media screen and (max-width: 1200px) {
     .col-xl-3 {
         flex: 0 0 33.333333%;
         max-width: 33.333333%;
     }
+    .card-img-top {
+        height: 100%;
+        width: 100%;
+    }
 }
 
-@media (max-width: 992px) {
+@media screen and (max-width: 992px) {
     .col-lg-4 {
         flex: 0 0 50%;
         max-width: 50%;
     }
-    
+
     .card-img-top {
-        height: 180px;
+        height: 100%;
+        width: 100%;
     }
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
     .col-md-6 {
         flex: 0 0 100%;
         max-width: 100%;
     }
-    
+
     .card-img-top {
-        height: 160px; /* Increased height for mobile */
+        height: 100%;
+        width: 100%;
     }
 
     .product-card {
-        max-width: 400px; /* Limit max width on mobile */
-        margin: 0 auto; /* Center the card */
+        max-width: 400px;
+        /* Limit max width on mobile */
+        margin: 0 auto;
+        /* Center the card */
     }
 
     .card-body {
@@ -248,9 +258,11 @@ body {
     }
 }
 
-@media (max-width: 576px) {
+@media screen and (max-width: 576px) {
     .card-img-top {
-        height: 140px;
+        height: 100%;
+        width: 80%;
+        margin-left: 10%;
     }
 
     .product-card {
@@ -261,7 +273,8 @@ body {
 /* Update sidebar styles */
 .sidebar-wrapper {
     height: 100%;
-    min-width: 180px; /* Reduced from 200px */
+    min-width: 180px;
+    /* Reduced from 200px */
 }
 
 .sidebar .card {
@@ -269,16 +282,19 @@ body {
 }
 
 .sidebar .card-header {
-    background-color:#FAD401 !important;
+    background-color: #FAD401 !important;
     color: black;
-    padding: 0.5rem; /* Reduced padding */
+    padding: 0.5rem;
+    /* Reduced padding */
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .sidebar .list-group-item {
-    padding: 0.5rem 1rem; /* Reduced padding */
+    padding: 0.5rem 1rem;
+    /* Reduced padding */
     border: none;
-    font-size: 0.85rem; /* Slightly smaller font */
+    font-size: 0.85rem;
+    /* Slightly smaller font */
     transition: background-color 0.2s ease;
     background: transparent;
 }
@@ -288,22 +304,26 @@ body {
 }
 
 .sidebar .list-group-item:hover {
-    background-color: rgba(0,0,0,0.05);
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
-@media (max-width: 767.98px) {
+@media screen and (max-width: 767.98px) {
     .sidebar-wrapper {
         position: fixed;
         top: 0;
-        left: -200px; /* Reduced from -250px */
-        width: 200px; /* Reduced from 250px */
+        left: -200px;
+        /* Reduced from -250px */
+        width: 200px;
+        /* Reduced from 250px */
         height: 100vh;
         z-index: 1050;
         background: white;
         transition: all 0.3s ease;
         box-shadow: 3px 0 15px rgba(0, 0, 0, 0.2);
-        margin: 0; /* Remove any margin */
-        padding: 0; /* Remove any padding */
+        margin: 0;
+        /* Remove any margin */
+        padding: 0;
+        /* Remove any padding */
     }
 
     .sidebar-wrapper.active {
@@ -319,7 +339,8 @@ body {
         border: none;
         border-radius: 0;
         height: 100%;
-        margin: 0; /* Remove any margin */
+        margin: 0;
+        /* Remove any margin */
     }
 
     .container-fluid {
@@ -351,7 +372,8 @@ body {
     }
 
     .card-header {
-        padding-right: 40px; /* Make space for close button */
+        padding-right: 40px;
+        /* Make space for close button */
     }
 
     .overlay {
@@ -449,7 +471,8 @@ body {
 
 /* Sidebar styles */
 .offcanvas {
-    max-width: 250px; /* Reduced from 300px */
+    max-width: 250px;
+    /* Reduced from 300px */
 }
 
 .list-group-item {
@@ -457,7 +480,7 @@ body {
 }
 
 .list-group-item:hover {
-    background-color: rgba(0,0,0,0.05);
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 .fa-chevron-down {
@@ -465,5 +488,18 @@ body {
 }
 
 .card-header h5 {
-    font-size: 0.9rem; /* Smaller header font */
+    font-size: 0.9rem;
+    /* Smaller header font */
+}
+
+.d-none {
+    margin-top: auto;
+}
+
+#cat-button {
+    position: sticky !important;
+    top: 90px !important;
+    /* Adjusted top value */
+    z-index: 1000;
+    /* Ensure it is above other elements */
 }
