@@ -14,9 +14,9 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    max-width: 800px;
-    margin-bottom: 20px;
+    width: 70%; /* เพิ่มความกว้างของ container */
+    margin: 20px auto;
+    overflow-x: auto; /* เพิ่ม scroll แนวนอนเมื่อเนื้อหาเกินขนาด */
 }
 
 h2 {
@@ -27,6 +27,7 @@ h2 {
 .add-product-link {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     margin-bottom: 10px;
 }
@@ -52,6 +53,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    min-width: 800px; /* กำหนดความกว้างขั้นต่ำของตาราง */
 }
 
 table,
@@ -62,8 +64,16 @@ td {
 
 th,
 td {
-    padding: 10px;
+    padding: 8px;
     text-align: left;
+    white-space: nowrap; /* ป้องกันข้อความขึ้นบรรทัดใหม่ */
+}
+
+/* ปรับขนาดคอลัมน์ Description ให้ยืดหยุ่น */
+td:nth-child(2) {
+    max-width: 200px;
+    white-space: normal; /* อนุญาตให้ข้อความขึ้นบรรทัดใหม่ได้ */
+    word-wrap: break-word;
 }
 
 th {
@@ -190,4 +200,47 @@ th {
 
 .form-group button:hover {
     background-color: #FFC107;
+}
+
+.offcanvas {
+    max-width: 300px !important; /* ลดจาก 250px เป็น 200px หรือค่าที่ต้องการ */
+    width: 250px !important; /* กำหนดความกว้างแน่นอน */
+}
+
+a.custom-button{
+    font-size: 1.1rem;
+}
+
+.custom-button {
+    min-width: 150px;  /* กำหนดความกว้างขั้นต่ำ */
+    text-align: center;
+    padding: 12px 30px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-radius: 8px;
+    background: linear-gradient(45deg, #FFC107, #ffdb4d);
+    color: #333;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.custom-button:hover {
+    background: linear-gradient(45deg, #ffdb4d, #FFC107);
+    color: #333;
+    text-decoration: none;
+}
+
+/* ลบ margin-bottom จาก #cat-button เพื่อให้ปุ่มอยู่ในแนวเดียวกัน */
+#cat-button {
+    margin-bottom: 0 !important;
+}
+
+/* ปรับ responsive สำหรับหน้าจอขนาดเล็ก */
+@media screen and (max-width: 768px) {
+    .product-container {
+        width: 100%;
+        padding: 10px;
+    }
 }
