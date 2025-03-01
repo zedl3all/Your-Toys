@@ -78,27 +78,29 @@ html {
     flex-direction: column;
     flex-grow: 1;
     height: 120px;
+    padding: 5px;
 }
 
-#p-small-text {
+.p-small-text {
     opacity: 0.8;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 0.85rem;
+    font-size: 1rem;
     line-height: 1.2;
     margin-bottom: 8px;
 }
 
-#p-price {
+.p-price {
+    font-size: 1.2rem;
     font-weight: bold;
     margin-top: auto;
 }
 
-#p-name {
-    font-size: 1rem;
+.p-name {
+    font-size: 1.5rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
