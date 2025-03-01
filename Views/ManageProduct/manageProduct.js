@@ -135,11 +135,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const price = document.getElementById('addPrice').value;
             const amount = document.getElementById('addAmount').value;
             
-            if (!productName) {
-                alert('Product name is required');
-                return;
-            }
-            
             const x = document.getElementById('number_x').value;
             const y = document.getElementById('number_y').value;
             const sizeRatio = `${x}:${y}`;

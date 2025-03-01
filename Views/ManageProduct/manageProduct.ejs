@@ -121,8 +121,8 @@
                     <textarea id="editDescription" name="description" rows="4" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="editPrice">Price:</label>
-                    <input type="number" id="editPrice" name="price" step="0.01" required>
+                    <label for="editPrice">Price: <span class="required">*</span></label>
+                    <input type="number" id="editPrice" name="price" step="0.01" min="0.01" required>
                 </div>
                 <div class="form-group">
                     <label for="editRatio">Ratio:</label>
@@ -140,9 +140,9 @@
                     </select> -->
                 </div>
                 <div class="form-group">
-                    <label for="editCategories">Category:</label>
-                    <select id="editCategories" name="category" class="category-select">
-                        <option value="">-- Select Category --</option>
+                    <label for="editCategories">Category: <span class="required">*</span></label>
+                    <select id="editCategories" name="category" class="category-select" required>
+                        <option value="" disabled selected>-- Select Category --</option>
                         <% categories.forEach(function(category) { %>
                             <option value="<%= category.id %>"><%= category.name %></option>
                         <% }); %>
@@ -176,8 +176,8 @@
                     <textarea id="addDescription" name="description" rows="4" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="addPrice">Price:</label>
-                    <input type="number" id="addPrice" name="price" step="0.01" required>
+                    <label for="addPrice">Price: <span class="required">*</span></label>
+                    <input type="number" id="addPrice" name="price" step="0.01" min="0.01" required>
                 </div>
                 <div class="form-group">
                     <label for="editRatio">Ratio:</label>
@@ -195,9 +195,9 @@
                     </select> -->
                 </div>
                 <div class="form-group">
-                    <label for="addCategories">Category:</label>
-                    <select id="addCategories" name="category" class="category-select">
-                        <option value="">-- Select Category --</option>
+                    <label for="addCategories">Category: <span class="required">*</span></label>
+                    <select id="addCategories" name="category" class="category-select" required>
+                        <option value="" disabled selected>-- Select Category --</option>
                         <% categories.forEach(function(category) { %>
                             <option value="<%= category.id %>"><%= category.name %></option>
                         <% }); %>
