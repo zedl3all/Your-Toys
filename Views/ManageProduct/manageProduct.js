@@ -40,6 +40,24 @@ function closeEditModal() {
 
 function openAddModal() {
     document.getElementById('addModal').style.display = 'block';
+
+    const addForm = document.getElementById('addForm');
+    if (addForm) {
+        addForm.reset();
+
+        document.getElementById('addProductName').value = '';
+        document.getElementById('addDescription').value = '';
+        document.getElementById('addPrice').value = '';
+        document.getElementById('addAmount').value = '';
+
+        document.getElementById('number_x').value = '1';
+        document.getElementById('number_y').value = '1';
+
+        const categorySelect = document.getElementById('addCategories');
+        if (categorySelect) {
+            categorySelect.selectedIndex = 0;
+        }
+    }
 }
 
 function closeAddModal() {
