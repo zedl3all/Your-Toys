@@ -103,6 +103,11 @@ app.get("/", (req, res) => {
         });
     });
 });
+
+app.get("/ProductAll", (req, res) => {
+    res.redirect('/ProductAll/1');
+});
+
 app.get("/ProductAll/:id", (req, res) => {
     const categoriesQuery = 'SELECT * FROM categories';
     const selectcat = `SELECT * FROM categories where categories.id = ${req.params.id}`;
