@@ -9,7 +9,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- Slick Carousel -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <!-- Css -->
     <link rel="stylesheet" href="/Views/Home/home.css">
@@ -22,40 +23,54 @@
     <div class="container-ad">
         <div class="ad1">
             <div class="slide-ads">
-                <div class="item ad-item" style="background-image: url('/Asset/Ads/ads1.jpg'); background-position: center;"></div>
-                <div class="item ad-item" style="background-image: url('/Asset/Ads/ads2.jpg');"></div>
-                <div class="item ad-item" style="background-image: url('/Asset/Ads/ads3.jpg');"></div>
+                <div class="ad-item"
+                    style="background-image: url('/Asset/Ads/ads1.jpg'); background-position: center;"></div>
+                <div class="ad-item" style="background-image: url('/Asset/Ads/ads2.jpg');"></div>
+                <div class="ad-item" style="background-image: url('/Asset/Ads/ads3.jpg');"></div>
             </div>
         </div>
     </div>
-    <% categories.forEach((catbox)=>{ %> 
-            <div class="container">
-                <h1 class="title-with-link"><%=catbox.name%> <a href='/ProductAll/<%=catbox.id%>' class="view-all-link">ดูทั้งหมด></a></h1>
-                <div class="cat">
-                    <div class="product-slide">
-                        
-                        <% products.forEach((item)=>{ %> 
-                            <% if(item.c_id == catbox.id){ %> 
+    <% categories.forEach((catbox)=>{ %>
+        <div class="container">
+            <h1 class="title-with-link">
+                <%=catbox.name%> <a href='/ProductAll/<%=catbox.id%>' class="view-all-link">ดูทั้งหมด></a>
+            </h1>
+            <div class="cat">
+                <div class="product-slide">
+
+                    <% products.forEach((item)=>{ %>
+                        <% if(item.c_id==catbox.id){ %>
                             <div class="item" onclick="window.location.href='/Product/<%=item.id%>'">
-                                <% if(item.image == null){ %> 
-                                <img src="/Asset/Product/dummy.jpg" alt="figure1">
-                                <% }; %> 
-                                <% if(item.image != null){ %> 
-                                    <img src="/Asset/Product/<%=item.image%>" alt="figure1">
-                                    <% }; %> 
-                                <h3><%=item.name%></h3>
-                                <h3>Price: ฿<%=item.price%></h3>
+                                <div class="item-top">
+                                    <% if(item.image==null){ %>
+                                        <img src="/Asset/Product/dummy.jpg" alt="figure1">
+                                    <% }; %>
+                                    <% if(item.image !=null){ %>
+                                        <img src="/Asset/Product/<%=item.image%>" alt="figure1">
+                                    <% }; %>
+                                </div>
+                                <div class="item-bottom">
+                                    <h5 id="p-name">
+                                        <%=item.name%>
+                                    </h5>
+                                    <p id="p-small-text">
+                                        <%=item.description%>
+                                    </p>
+                                    <p id="p-price">
+                                        ฿<%=item.price%>
+                                    </p>
+                                </div>
                             </div>
-                            <% }; %> 
-                        <% }); %>   
-                    </div>
+                            <% }; %>
+                                <% }); %>
                 </div>
             </div>
-        <% }); %>  
-    
+        </div>
+        <% }); %>
 
-    <!-- Import Js -->
-    <script src="/Views/Home/home.js"></script>
+
+            <!-- Import Js -->
+            <script src="/Views/Home/home.js"></script>
 </body>
 
 </html>

@@ -3,6 +3,20 @@ body {
     background-color: white;
 }
 
+html{
+    scroll-behavior: smooth;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 .container {
     margin: 100px auto;
     background-color: white;
@@ -45,15 +59,40 @@ body {
 .item {
     border: 1px solid black;
     width: 150px;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    justify-items: center;
+    height: 350px;
     background-color: #f9f9f9;
     margin: 10px;
+    padding: 10px;
     border-radius: 5px;
-    transition: all 0.3s;
+}
+
+.item-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.item-top img {
+    width: 80%;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+.item-bottom {
+    margin-left: 10px;
+}
+
+#p-small-text{
+    opacity: 0.8;
+}
+
+#p-price {
+    font-weight:bold;
+}
+
+#p-name{
+    font-size: 2rem;
 }
 
 .item img {
@@ -72,6 +111,10 @@ body {
     border-bottom: 2px solid black;
     background-size: cover;
     background-position: top;
+    animation-name: fadeIn;
+    animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 1.5s;
 }
 
 .slide {
