@@ -479,17 +479,17 @@ app.get('/Tracking', (req, res) => {
     res.render('Tracking/tracking');
 });
 
-app.get('/categories', (req, res) => {
-    const query = 'SELECT * FROM categories';
-    db.all(query, [], (err, rows) => {
-        if (err) {
-            console.error(`Error fetching categories: ${err.message}`);
-            res.status(500).json({ success: false, message: 'Failed to fetch categories' });
-        } else {
-            res.json({ success: true, categories: rows });
-        }
-    });
-});
+// app.get('/categories', (req, res) => {
+//     const query = 'SELECT * FROM categories';
+//     db.all(query, [], (err, rows) => {
+//         if (err) {
+//             console.error(`Error fetching categories: ${err.message}`);
+//             res.status(500).json({ success: false, message: 'Failed to fetch categories' });
+//         } else {
+//             res.json({ success: true, categories: rows });
+//         }
+//     });
+// });
 
 app.get('/products', (req, res) => {
     const query = 'SELECT * FROM products';
