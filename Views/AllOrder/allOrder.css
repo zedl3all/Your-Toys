@@ -46,7 +46,7 @@ th {
     background-color: #f4f4f4;
 }
 
-a {
+.detail {
     background: linear-gradient(45deg, #FFC107, #ffdb4d);
     color: #333;
     padding: 5px 10px;
@@ -60,6 +60,6 @@ a {
     transition: all 0.3s ease;
 }
 
-a:hover {
+.detail:hover {
     background-color: #FFC107;
 }
