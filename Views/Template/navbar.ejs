@@ -301,17 +301,17 @@
                 let sidenav = document.getElementById("Sidenav");
                 const loginButton = document.querySelector('.login');
                 loginButton.style.display = 'none';
-
+                console.log(localStorage.getItem('role_id'))
                 // product
-                if (localStorage.getItem('role') === 'product') {
+                if (localStorage.getItem('role_id') === "1") {
                     let product = document.createElement('a');
-                    product.href = '/product';
+                    product.href = '/manageProduct';
                     product.innerHTML = 'Product';
                     product.style.cursor = 'pointer';
                     sidenav.appendChild(product);
                 }
                 // packing
-                if (localStorage.getItem('role') === 'packing') {
+                if (localStorage.getItem('role_id') === "2") {
                     let packing = document.createElement('a');
                     packing.href = '/packing';
                     packing.innerHTML = 'Packing';

@@ -97,8 +97,7 @@ app.get("/", (req, res) => {
                 res.status(500).send('Failed to fetch products');
                 return;
             }
-            console.log(categories);
-            console.log(products);
+            
             res.render('Home/home', { categories, products });
         });
     });
