@@ -131,6 +131,16 @@ html {
     animation-duration: 1.5s;
 }
 
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 .slide {
     clear: both;
 }
@@ -174,6 +184,11 @@ html {
         height: 40vh;
     }
 
+    .item img {
+        width: 100% !important;
+        object-fit: contain;
+    }
+
     .slick-prev,
     .slick-next {
         width: 30px;
@@ -184,6 +199,10 @@ html {
 @media screen and (max-width: 400px) {
     .ad-item {
         height: 25vh;
+    }
+
+    .item img {
+        width: 100% !important;
     }
 
     .slick-prev,

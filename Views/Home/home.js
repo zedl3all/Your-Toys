@@ -2,7 +2,7 @@ function add_slick() {
 
     $(document).ready(function () {
         $('.product-slide').slick({
-            slidesToShow: 5,
+            slidesToShow: 4,
             slidesToScroll: 1,
             autoplay: true,
             autoplaySpeed: 2000,
@@ -10,25 +10,19 @@ function add_slick() {
             nextArrow: '<button type="button" class="slick-next"><span class="glyphicon glyphicon-chevron-right"></span></button>',
             responsive: [
                 {
-                    breakpoint: 1200,
-                    settings: {
-                        slidesToShow: 4,
-                    }
-                },
-                {
-                    breakpoint: 992,
+                    breakpoint: 1600,
                     settings: {
                         slidesToShow: 3,
                     }
                 },
                 {
-                    breakpoint: 768,
+                    breakpoint: 992,
                     settings: {
                         slidesToShow: 2,
                     }
                 },
                 {
-                    breakpoint: 576,
+                    breakpoint: 768,
                     settings: {
                         slidesToShow: 1,
                     }
