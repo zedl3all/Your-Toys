@@ -2,6 +2,9 @@
 
 const express = require('express');
 const path = require('path');
+const multer = require("multer");
+const fs = require("fs");
+const { constant } = require('async');
 const app = express();
 const port = 3000;
 
@@ -24,9 +27,54 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // static resource & template engine
+const uploadDir = path.join(__dirname, "Asset", "Product");
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 app.use('/Asset', express.static(path.join(__dirname, '/Asset')));
 app.use(express.static(path.join(__dirname, '/Public')));
 app.use('/Views', express.static(path.join(__dirname, '/Views')));
+
+//Filter for upload image
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png|webp/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+
+    if (extname && mimetype) {
+        return cb(null, true);
+    } else {
+        cb(new Error("Only JPG, WEBP, and PNG files are allowed"));
+    }
+};
+
+app.post("/upload/:imgname", (req, res) => {
+    const storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, uploadDir);
+        },
+        filename: (req, file, cb) => {
+            cb(null, req.params.imgname + path.extname(file.originalname));
+        }
+    });
+    const upload = multer({ 
+        storage,
+        fileFilter,
+        limits: { fileSize: 300 * 1024 } // 300KB
+    });
+    upload.single("image")(req, res, (err) => {
+        if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
+            return res.status(400).json({ message: "File size exceeds the limit of 300KB" });
+        } else if (err) {
+            return res.status(400).json({ message: err.message });
+        }
+
+        if (!req.file) {
+            return res.status(400).json({ message: "No file uploaded or invalid file type" });
+        }
+        res.json({ message: "File uploaded successfully", filename: req.file.filename });
+    });
+});
 
 // routing 
 app.get('/login', function (req, res) {
@@ -42,14 +90,7 @@ app.post('/validateUser', async (req, res) => {
     console.log(`Received request to validate ${userType}: ${username}`);
     try {
         let query = 'SELECT * FROM users WHERE username = ? AND password = ?';
-        // if (userType === 'employee') {
-        //     query = 'SELECT * FROM users WHERE username = ? AND password = ? AND (role_id = 0 OR role_id = 1 OR role_id = 2)';
-        // } else if (userType === 'customer') {
-        //     query = 'SELECT * FROM users WHERE username = ? AND password = ?  AND role_id = 3';
-        // } else {
-        //     res.status(400).json({ error: 'Invalid user type' });
-        //     return;
-        // }
+        
         console.log(`Executing query: ${query} with parameters: ${username}, ${password}`);
         db.get(query, [username, password], (error, row) => {
             if (error) {
@@ -68,17 +109,7 @@ app.post('/validateUser', async (req, res) => {
         res.status(500).json(false);
     }
 });
-// app.get('/getcat', (req, res) => {
-//     // req.params.id
-//     const query = `SELECT * FROM products Join pro_cat ON products.id == pro_cat.p_id ORDER BY c_id, p_id;`;
-//     db.all(query, (err, rows) => {
-//         if (err) {
-//             console.log(err.message);
-//         }
-//         console.log(rows);
-//         res.send(JSON.stringify(rows));       
-//     });
-// });
+
 
 app.get("/", (req, res) => {
     const categoriesQuery = 'SELECT * FROM categories';
@@ -423,9 +454,15 @@ app.post("/manageProduct/addProduct", (req, res) => {
     if (req.body.number_x && req.body.number_y) {
         size = `${req.body.number_x}:${req.body.number_y}`;
     }
+    // const defaultImage = "dummy.png";
+    const productImagePath = path.join(uploadDir, `${productName}.*`);
+    const existingFiles = fs.readdirSync(uploadDir).filter(file => {
+        const regex = new RegExp(`^${productName}\\.(jpeg|jpg|png|webp)$`);
+        return regex.test(file);
+    });
+    console.log(existingFiles)
     
-    const defaultImage = "default.jpg";
-    
+    const defaultImage = existingFiles.length > 0 ? existingFiles[0] : "dummy.png";
     const query = `INSERT INTO products (name, description, price, size, amount, image) 
                  VALUES (?, ?, ?, ?, ?, ?)`;
     

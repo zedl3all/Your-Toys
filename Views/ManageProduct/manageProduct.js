@@ -168,18 +168,18 @@ document.addEventListener('DOMContentLoaded', function () {
             const categorySelect = document.getElementById('addCategories');
             const selectedCategories = Array.from(categorySelect.selectedOptions)
                 .map(option => parseInt(option.value));
-
+                
             const productData = {
                 productName: productName,
                 description: description,
                 price: price,
                 size: sizeRatio,
                 amount: amount,
-                categories: selectedCategories
+                categories: selectedCategories,
             };
-
+            uploadFile(productData.productName)
             console.log('Sending data:', productData);
-
+            
             fetch('/manageProduct/addProduct', {
                 method: 'POST',
                 headers: {
@@ -204,3 +204,33 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+async function uploadFile(imgname) {
+    const fileInput = document.getElementById("addImage");
+    if (!fileInput.files.length) {
+        alert("Please select a file!");
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
+        alert("Only JPG, WEBP, and PNG files are allowed");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+        const response = await fetch("/upload/"+imgname, {
+            method: "POST",
+            body: formData,
+        });
+
+        const result = await response.json();
+        document.getElementById("status").innerText = result.message;
+    } catch (error) {
+        console.error("Error uploading file:", error);
+    }
+}
