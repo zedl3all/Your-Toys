@@ -63,14 +63,15 @@
                         </td>
                         <td><img src="/Asset/Product/<%=item.image%>" alt="Product ID:<%= item.id %>" width="50"></td>
                         <td>
-                            <% if (item.categories && item.categories.length> 0) { %>
-                                <% item.categories.forEach((cat, index)=> { %>
-                                    <%= cat.name %>
-                                        <%= index < item.categories.length-1 ? ', ' : '' %>
-                                            <% }); %>
-                                                <% } else { %>
-                                                    <span class="no-category">No categories</span>
-                                                    <% } %>
+                            <% if (item.categories && item.categories.length > 0) { %>
+                                <ul class="category-list">
+                                    <% item.categories.forEach((cat) => { %>
+                                        <li><%= cat.name %></li>
+                                    <% }); %>
+                                </ul>
+                            <% } else { %>
+                                <span class="no-category">No categories</span>
+                            <% } %>
                         </td>
                         <td style="text-align: center;">
                             <a href="#" class="edit-link"

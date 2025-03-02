@@ -1,5 +1,3 @@
-const { json } = require("express");
-
 let currentProductId = null;
 
 function openEditModal(productId) {
