@@ -570,7 +570,13 @@ app.put('/manageProduct/editproducts/:id', (req, res) => {
             return res.status(400).json({ message: err.message });
         }
 
-        const { productName, description, price, size, amount, categories } = req.body;
+        // const { productName, description, price, size, amount, categories } = req.body;
+        const productName = req.body.productName;
+        const description = req.body.description;
+        const price = req.body.price;
+        const amount = req.body.amount;
+        const categories = JSON.parse(req.body.categories);
+        const size = req.body.size;
         let image = req.file ? req.file.filename : null;
 
         // Check if productName has changed
@@ -692,7 +698,7 @@ app.post("/manageProduct/addProduct", (req, res) => {
         const description = req.body.description;
         const price = req.body.price;
         const amount = req.body.amount;
-        const categories = req.body.category;
+        const categories = JSON.parse(req.body.categories);
         let image = req.file ? req.file.filename : "dummy.png";
 
         let size = "1:1"; // Default
@@ -711,7 +717,10 @@ app.post("/manageProduct/addProduct", (req, res) => {
 
             const productId = this.lastID;
             console.log(`Added product successfully with ID: ${productId}`);
-
+            // console.log(categories);
+            // console.log(!categories);
+            // console.log(!Array.isArray(categories));
+            // console.log(categories.length === 0);
             if (!categories || !Array.isArray(categories) || categories.length === 0) {
                 return res.json({ 
                     success: true, 
