@@ -453,7 +453,7 @@ app.get('/manageProduct', (req, res) => {
                         .map(pc => ({ id: pc.category_id, name: pc.category_name }));
                 });
                 
-                console.log(products);
+                // console.log(products);
                 res.render('ManageProduct/manageProduct', { 
                     data: products,
                     categories: categories 
@@ -497,7 +497,7 @@ app.get('/manageProduct/:id', (req, res) => {
                         .map(pc => ({ id: pc.category_id, name: pc.category_name }));
                 });
                 
-                console.log(products);
+                // console.log(products);
                 res.render('ManageProduct/manageProduct', { 
                     data: products,
                     categories: categories 
@@ -537,68 +537,128 @@ app.get('/manageProduct/product/:id', (req, res) => {
             
             product.categories = categories || [];
             
-            console.log(product);
+            // console.log(product);
             res.send(JSON.stringify(product));
         });
     });
 });
 
 // Update Product
-app.put('/manageProduct/products/:id', (req, res) => {
+app.put('/manageProduct/editproducts/:id', (req, res) => {
     const id = req.params.id;
     console.log("Received update request:", req.body);
-    const { productName, description, price, size, amount, categories } = req.body;
-    
-    let query = 'UPDATE products SET name = ?, description = ?, price = ?, size = ?, amount = ?';
-    let params = [productName, description, price, size, amount];
-    
-    query += ' WHERE id = ?';
-    params.push(id);
-    
-    db.run(query, params, function(err) {
-        if (err) {
-            console.error("Database error:", err.message);
-            return res.status(500).json({ error: err.message });
+
+    const storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, uploadDir);
+        },
+        filename: (req, file, cb) => {
+            cb(null, req.body.productName + path.extname(file.originalname));
         }
-        
-        if (categories && Array.isArray(categories)) {
-            db.run('DELETE FROM pro_cat WHERE p_id = ?', [id], function(err) {
-                if (err) {
-                    console.error("Error removing categories:", err.message);
-                    return res.status(500).json({ error: err.message });
-                }
-                
-                if (categories.length === 0) {
-                    return res.json({ 
-                        message: 'Product updated successfully',
-                        id: id
-                    });
-                }
-                
-                let completed = 0;
-                categories.forEach(categoryId => {
-                    db.run('INSERT INTO pro_cat (p_id, c_id) VALUES (?, ?)', [id, categoryId], function(err) {
-                        completed++;
-                        
+    });
+
+    const upload = multer({ 
+        storage,
+        fileFilter,
+        limits: { fileSize: 25 * 1024 * 1024 } // 25MB
+    }).single('image');
+
+    upload(req, res, (err) => {
+        if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
+            return res.status(400).json({ message: "File size exceeds the limit of 25MB" });
+        } else if (err) {
+            return res.status(400).json({ message: err.message });
+        }
+
+        const { productName, description, price, size, amount, categories } = req.body;
+        let image = req.file ? req.file.filename : null;
+
+        // Check if productName has changed
+        const oldProductQuery = 'SELECT name, image FROM products WHERE id = ?';
+        db.get(oldProductQuery, [id], (err, oldProduct) => {
+            if (err) {
+                console.error("Database error:", err.message);
+                return res.status(500).json({ error: err.message });
+            }
+
+            if (oldProduct && oldProduct.name !== productName) {
+                const oldImagePath = path.join(uploadDir, oldProduct.image);
+                const newImagePath = path.join(uploadDir, productName + path.extname(oldProduct.image));
+
+                fs.rename(oldImagePath, newImagePath, (err) => {
+                    if (err) {
+                        console.error("Error renaming image file:", err.message);
+                        return res.status(500).json({ error: err.message });
+                    }
+
+                    // Update image name in the database
+                    const updateImageQuery = 'UPDATE products SET image = ? WHERE id = ?';
+                    db.run(updateImageQuery, [productName + path.extname(oldProduct.image), id], (err) => {
                         if (err) {
-                            console.error("Error adding category:", err.message);
-                        }
-                        
-                        if (completed === categories.length) {
-                            res.json({ 
-                                message: 'Product and categories updated successfully',
-                                id: id
-                            });
+                            console.error("Database error:", err.message);
+                            return res.status(500).json({ error: err.message });
                         }
                     });
                 });
-            });
-        } else {
-            res.json({ 
-                message: 'Product updated successfully',
-                id: id
-            });
+            }
+        });
+
+        let query = 'UPDATE products SET name = ?, description = ?, price = ?, size = ?, amount = ?';
+        let params = [productName, description, price, size, amount];
+
+        if (image) {
+            query += ', image = ?';
+            params.push(image);
         }
+
+        query += ' WHERE id = ?';
+        params.push(id);
+
+        db.run(query, params, function(err) {
+            if (err) {
+                console.error("Database error:", err.message);
+                return res.status(500).json({ error: err.message });
+            }
+
+            if (categories && Array.isArray(categories)) {
+                db.run('DELETE FROM pro_cat WHERE p_id = ?', [id], function(err) {
+                    if (err) {
+                        console.error("Error removing categories:", err.message);
+                        return res.status(500).json({ error: err.message });
+                    }
+
+                    if (categories.length === 0) {
+                        return res.json({ 
+                            message: 'Product updated successfully',
+                            id: id
+                        });
+                    }
+
+                    let completed = 0;
+                    categories.forEach(categoryId => {
+                        db.run('INSERT INTO pro_cat (p_id, c_id) VALUES (?, ?)', [id, categoryId], function(err) {
+                            completed++;
+
+                            if (err) {
+                                console.error("Error adding category:", err.message);
+                            }
+
+                            if (completed === categories.length) {
+                                res.json({ 
+                                    message: 'Product and categories updated successfully',
+                                    id: id
+                                });
+                            }
+                        });
+                    });
+                });
+            } else {
+                res.json({ 
+                    message: 'Product updated successfully',
+                    id: id
+                });
+            }
+        });
     });
 });
 
