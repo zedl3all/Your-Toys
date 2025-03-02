@@ -235,9 +235,9 @@ async function uploadFile(imgname) {
     }
 
     const file = fileInput.files[0];
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif", "image/jfif"];
     if (!allowedTypes.includes(file.type)) {
-        alert("Only JPG, WEBP, and PNG files are allowed");
+        alert("Only JPG, WEBP, PNG, GIF, and JFIF files are allowed");
         return;
     }
 
