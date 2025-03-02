@@ -29,6 +29,7 @@
         <table>
             <thead>
                 <tr>
+                    <th style="text-align: center;">ID</th>
                     <th>Product Name</th>
                     <th>Description</th>
                     <th>Price</th>
@@ -36,13 +37,16 @@
                     <th>Current Amount</th>
                     <th>Image</th>
                     <th>Category</th>
-                    <th>Actions</th>
+                    <th style="text-align: center;">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Example product rows -->
                 <% data.forEach((item)=>{ %>
                     <tr>
+                        <td style="text-align: center;">
+                            <%= item.id %>
+                        </td>
                         <td>
                             <%= item.name %>
                         </td>
@@ -69,7 +73,7 @@
                                                     <span class="no-category">No categories</span>
                                                     <% } %>
                         </td>
-                        <td>
+                        <td style="text-align: center;">
                             <a href="#" class="edit-link"
                                 onclick="event.preventDefault(); openEditModal('<%= item.id %>')">Edit</a><a href="#"
                                 class="remove-link"
