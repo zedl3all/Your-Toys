@@ -1,47 +1,59 @@
-let currentStep = 1;
-const steps = document.querySelectorAll(".step");
-const progressBar = document.querySelector(".progress-bar");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
+const prevBtn = document.querySelector(".js-prev");
+const nextBtn = document.querySelector(".js-next");
+const progressBar = document.querySelector(".js-bar");
+const circles = document.querySelectorAll(".js-circle");
 
-function updateStepper() {
-    steps.forEach((step, index) => {
-        if (index < currentStep) {
-            step.classList.add("completed");
-        } else {
-            step.classList.remove("completed");
-        }
-        step.classList.toggle("active", index === currentStep);
-    });
-    progressBar.style.width = ((currentStep) / (steps.length - 1)) * 100 + "%";
-    prevBtn.disabled = currentStep === 0;
-    nextBtn.disabled = currentStep === steps.length - 1;
-}
+let currentActive = 1;
 
-function setCurrentStep(step) {
-    if (step >= 0 && step < steps.length) {
-        currentStep = step;
-        updateStepper();
-    }
-}
+const changeBarDisplay = function () {
+  const actives = document.querySelectorAll(".active");
 
-// nextBtn.addEventListener("click", () => {
-//     if (currentStep < steps.length - 1) {
-//         currentStep++;
-//         updateStepper();
-//     }
-// });
+  if (window.innerWidth >= 375 && window.innerWidth < 810) {
+    progressBar.style.height = `${
+      ((actives.length - 1) / (circles.length - 1)) * 100
+    }%`;
+  } else {
+    progressBar.style.width = `${
+      ((actives.length - 1) / (circles.length - 1)) * 100
+    }%`;
+  }
+};
 
-// prevBtn.addEventListener("click", () => {
-//     if (currentStep > 0) {
-//         currentStep--;
-//         updateStepper();
-//     }
-// });
+const updateCirlceState = function () {
+  circles.forEach((circle, i) => {
+    i < currentActive
+      ? circle.classList.add("active")
+      : circle.classList.remove("active");
+  });
 
-// Example of receiving input and updating the stepper
-// Replace this with actual input handling logic
-document.addEventListener("inputReceived", (event) => {
-    const step = event.detail.step; // Assuming the input event provides the step number
-    setCurrentStep(step);
+  changeBarDisplay();
+
+  if (currentActive === 1) prevBtn.disabled = true;
+  else if (currentActive === circles.length) nextBtn.disabled = true;
+  else {
+    prevBtn.disabled = false;
+    nextBtn.disabled = false;
+  }
+};
+
+const incrementCurrent = function () {
+  currentActive++;
+
+  currentActive > circles.length && (currentActive = circles.length);
+};
+
+const decrementCurrent = function () {
+  currentActive--;
+
+  currentActive < 1 && (currentActive = 1);
+};
+
+nextBtn.addEventListener("click", () => {
+  incrementCurrent();
+  updateCirlceState();
+});
+
+prevBtn.addEventListener("click", () => {
+  decrementCurrent();
+  updateCirlceState();
 });
