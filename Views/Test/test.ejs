@@ -263,6 +263,9 @@
         @media (max-width: 768px) {
             .payment-flex-container {
                 flex-direction: column;
+                max-height: 70dvh; /* Limit height on mobile */
+                overflow-y: auto; /* Add vertical scrollbar when needed */
+                padding-right: 5px; /* Add some space for the scrollbar */
             }
             
             .payment-right-section {
