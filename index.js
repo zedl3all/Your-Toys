@@ -435,7 +435,7 @@ app.put('/manageProduct/products/:id', (req, res) => {
 
 // Add a new product
 app.post("/manageProduct/addProduct", (req, res) => {
-    
+
     const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, uploadDir);
@@ -502,21 +502,23 @@ app.post("/manageProduct/addProduct", (req, res) => {
                         console.error(`Error adding category ${categoryId} to product ${productId}:`, err.message);
                         errorOccurred = true;
                     }
-
                     if (completedCount === categories.length) {
                         if (errorOccurred) {
                             return res.json({ 
                                 success: true, 
                                 warning: 'Product added but some categories failed',
                                 productId: productId
-                            });
+                            })
+                            
                         } else {
+                            
                             return res.json({ 
                                 success: true, 
                                 message: 'Product and categories added successfully',
                                 productId: productId
-                            });
+                            })
                         }
+                        
                     }
                 });
             });
@@ -539,23 +541,80 @@ app.delete('/manageProduct/product/:id', (req, res) => {
                     message: 'Failed to delete product categories' 
                 });
             }
-            
-            db.run('DELETE FROM products WHERE id = ?', [id], function(err) {
+            db.get('SELECT image FROM products WHERE id = ?', [id], (err, row) => {
                 if (err) {
+                console.error("Error fetching product image:", err.message);
+                db.run('ROLLBACK');
+                return res.status(500).json({ 
+                    success: false, 
+                    message: 'Failed to fetch product image' 
+                });
+                }
+
+                if (row && row.image) {
+                const imagePath = path.join(uploadDir, row.image);
+                fs.unlink(imagePath, (err) => {
+                    if (err) {
+                    console.error("Error deleting image file:", err.message);
+                    db.run('ROLLBACK');
+                    return res.status(500).json({ 
+                        success: false, 
+                        message: 'Failed to delete image file' 
+                    });
+                    }
+
+                    db.run('DELETE FROM products WHERE id = ?', [id], function(err) {
+                    if (err) {
+                        console.error("Error deleting product:", err.message);
+                        db.run('ROLLBACK');
+                        return res.status(500).json({ 
+                        success: false, 
+                        message: 'Failed to delete product' 
+                        });
+                    }
+
+                    db.run('COMMIT');
+                    res.json({ 
+                        success: true, 
+                        message: 'Product and related data deleted successfully' 
+                    });
+                    });
+                });
+                } else {
+                db.run('DELETE FROM products WHERE id = ?', [id], function(err) {
+                    if (err) {
                     console.error("Error deleting product:", err.message);
                     db.run('ROLLBACK');
                     return res.status(500).json({ 
                         success: false, 
                         message: 'Failed to delete product' 
                     });
-                }
-                
-                db.run('COMMIT');
-                res.json({ 
+                    }
+
+                    db.run('COMMIT');
+                    res.json({ 
                     success: true, 
                     message: 'Product and related data deleted successfully' 
+                    });
                 });
+                }
             });
+            // db.run('DELETE FROM products WHERE id = ?', [id], function(err) {
+            //     if (err) {
+            //         console.error("Error deleting product:", err.message);
+            //         db.run('ROLLBACK');
+            //         return res.status(500).json({ 
+            //             success: false, 
+            //             message: 'Failed to delete product' 
+            //         });
+            //     }
+                
+            //     db.run('COMMIT');
+            //     res.json({ 
+            //         success: true, 
+            //         message: 'Product and related data deleted successfully' 
+            //     });
+            // });
         });
     });
 });
