@@ -19,7 +19,7 @@ const changeBarDisplay = function () {
   }
 };
 
-const updateCirlceState = function () {
+const updateCircleState = function () {
   circles.forEach((circle, i) => {
     i < currentActive
       ? circle.classList.add("active")
@@ -50,10 +50,25 @@ const decrementCurrent = function () {
 
 nextBtn.addEventListener("click", () => {
   incrementCurrent();
-  updateCirlceState();
+  updateCircleState();
 });
 
 prevBtn.addEventListener("click", () => {
   decrementCurrent();
-  updateCirlceState();
+  updateCircleState();
 });
+
+// Fetch data from the database and update the progress bar
+const fetchDataAndUpdateProgress = async function () {
+  try {
+    const response = await fetch('/api/progress'); // Replace with your API endpoint
+    const data = await response.json();
+    currentActive = data.currentStep; // Assuming the API returns an object with currentStep
+    updateCircleState();
+  } catch (error) {
+    console.error('Error fetching progress data:', error);
+  }
+};
+
+// Call the function to fetch data and update the progress bar on page load
+fetchDataAndUpdateProgress();

@@ -3,14 +3,10 @@
 
 <head>
     <title>Parcel Sandbox</title>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script defer src="Views/Tracking/tracking.js"></script>
     <link rel="stylesheet" href="/Views/Tracking/tracking.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Genos&display=swap" rel="stylesheet" />
     <title>Steps/Progress Bar with Vanilla JS</title>
     <%- include("../Template/navbar.ejs") %>
 </head>
@@ -30,9 +26,21 @@
             </div>
         </div>
 
-        <div class="wrapper">
+        <!-- <div class="wrapper">
             <button type="button" class="btn js-prev" disabled>Previous</button>
             <button type="button" class="btn js-next">Next</button>
+        </div> -->
+
+        <div class="order-details">
+            <h2>Order Details</h2>
+            <p><strong>Order Number:</strong> 123456</p>
+            <p><strong>Customer Name:</strong> John Doe</p>
+            <p><strong>Shipping Address:</strong> 1234 Elm Street, Springfield, IL 62704</p>
+            <p><strong>Order Date:</strong> February 25, 2025</p>
+            <p><strong>Estimated Delivery:</strong> March 1, 2025</p>
+        </div>
+        <div class="buttons">
+            <button onclick="window.history.back()">Back</button>
         </div>
     </main>
 </body>

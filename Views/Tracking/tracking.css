@@ -1,7 +1,7 @@
 :root {
-    --color-primary: #33322B; /* Updated to match product.css */
+    --color-primary: #f8f9fa; /* Updated to match product.css */
     --color-secondary: #FAD401; /* Updated to match product.css */
-    --color-tertiary: #f8f9fa; /* Updated to match product.css */
+    --color-tertiary: #ccc; /* Updated to match product.css */
     --color-white: #fff;
 }
 
@@ -19,7 +19,6 @@ html {
 }
 
 body {
-    background-color: var(--color-tertiary); /* Updated to match product.css */
     font-size: 1.6rem;
     font-family: "Genos", sans-serif;
     min-height: 100vh;
@@ -140,13 +139,13 @@ body {
     width: 100%;
     text-align: center;
     font-size: 1.2rem; /* Adjust as needed */
-    color: var(--color-primary); /* Updated to match product.css */
+    color: var(--color-primary);
 }
 
 .btn {
     width: 15rem;
-    color: var(--color-primary); /* Updated to match product.css */
-    background-color: var(--color-secondary); /* Updated to match product.css */
+    color: #333;
+    background-color: var(--color-secondary);
     font-family: monospace;
     font-size: 1.6rem;
     border: 0;
@@ -158,10 +157,57 @@ body {
 
 .btn:hover {
     cursor: pointer;
-    background-color: #c9ab01; /* Updated to match product.css */
+    background-color: #c9ab01;
 }
 
 .btn:disabled {
     cursor: not-allowed;
     background-color: #e0e0e0;
+}
+
+.order-details {
+    background-color: var(--color-tertiary);
+    color: #000;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+    width: 100%;
+    max-width: 50rem;
+}
+
+.order-details h2 {
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.order-details p {
+    font-size: 1.6rem;
+    margin: 0.5rem 0;
+}
+
+.order-details strong {
+    color: #000;
+}
+
+.buttons {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.buttons button {
+    background-color: var(--color-secondary);
+    color: #333;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buttons button:hover {
+    background-color: #c9ab01;
 }
