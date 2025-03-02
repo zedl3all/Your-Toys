@@ -457,6 +457,8 @@ app.post("/manageProduct/addProduct", (req, res) => {
             return res.status(400).json({ message: err.message });
         }
 
+        console.log(req.body);
+
         const productName = req.body.productName;
         const description = req.body.description;
         const price = req.body.price;

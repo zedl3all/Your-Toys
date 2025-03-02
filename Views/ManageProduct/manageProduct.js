@@ -1,3 +1,5 @@
+const { json } = require("express");
+
 let currentProductId = null;
 
 function openEditModal(productId) {
@@ -203,9 +205,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             fetch('/manageProduct/addProduct', {
                 method: 'POST',
-                headers: {
-                    'Accept': 'application/json'
-                },
                 body: JSON.stringify(formData),
             })
                 .then(response => response.json())
