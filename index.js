@@ -194,12 +194,6 @@ app.get('/test', (req, res) => { // test
     res.render('Test/test');
 });
 
-//for test cart, for real use, use database//
-const cart = [
-    { id: 1, name: 'Product 1', price: 100, quantity: 2 },
-    { id: 2, name: 'Product 2', price: 200, quantity: 1 }
-];
-
 app.get('/cart', (req, res) => {
     // Example cart data
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
