@@ -1,17 +1,22 @@
 initializeLogin();
 
 async function validateUser(username, password, userType) {
-    const response = await fetch('/validateUser', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password, userType })
-    });
+    try {
+        const response = await fetch('/validateUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password, userType })
+        });
 
-    const result = await response.json();
-    console.log(result);
-    return result;
+        const result = await response.json();
+        console.log("Login response:", result);  // Debug the response
+        return result;
+    } catch (error) {
+        console.error("Error during validation:", error);
+        return { success: false, message: "Error connecting to server" };
+    }
 }
 
 function initializeLogin() {
@@ -21,41 +26,41 @@ function initializeLogin() {
         const passwordInput = document.getElementById('password');
         const errorMessage = document.getElementById('error-message');
 
-        // Ensure the toggle option elements exist
+        // Ensure toggle options exist
         const customerToggleOption = document.querySelector('.toggle-option[data-userType="customer"]');
         if (customerToggleOption) {
-            // Set default userType to customer
             loginForm.dataset.userType = 'customer';
             customerToggleOption.classList.add('active');
-        } else {
-            console.error('Customer toggle option not found.');
         }
 
         loginForm.addEventListener('submit', async function (event) {
             event.preventDefault();
             const username = usernameInput.value.trim();
             const password = passwordInput.value.trim();
-            const userType = loginForm.dataset.userType;
+            const userType = loginForm.dataset.userType || 'customer';
 
             if (username === '' || password === '') {
                 errorMessage.textContent = 'Please fill in both fields.';
                 return;
             }
 
-            const isValid = await validateUser(username, password, userType);
-            console.log(isValid);
-            console.log(username, password, userType);
-            console.log(isValid);
-            if (isValid) {
-                alert('Login successful!');
-                localStorage.clear();
-                localStorage.setItem('isLoggedIn', true);
+            const response = await validateUser(username, password, userType);
+            console.log("Login response received:", response);
+
+            if (response.success) {
+                // THIS IS THE KEY PART - correctly saving user_id
+                localStorage.clear(); // Clear any existing data
+                localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('username', username);
-                localStorage.setItem('user_id', isValid.user_id);
-                localStorage.setItem('role_id', isValid.role_id);
+                localStorage.setItem('user_id', response.user_id);
+                localStorage.setItem('role_id', response.role_id);
+
+                console.log("Saved to localStorage - user_id:", response.user_id);
+
+                // Redirect to home page
                 window.location.href = '/';
             } else {
-                errorMessage.textContent = 'Invalid username or password.';
+                errorMessage.textContent = response.message || 'Invalid username or password';
             }
         });
     });
@@ -70,19 +75,11 @@ function showpassword() {
     }
 }
 
-//wip by pao
 function toggleUserType(element, userType) {
-    // Remove active class from all options
     document.querySelectorAll('.toggle-option').forEach(option => {
         option.classList.remove('active');
     });
-
-    // Add active class to clicked option
     element.classList.add('active');
     element.dataset.userType = userType;
-
     document.getElementById('loginForm').dataset.userType = userType;
-
-    // You can add additional logic here based on the userType
-    console.log('Selected user type:', userType);
 }

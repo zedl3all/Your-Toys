@@ -27,29 +27,47 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% for (let i = 0; i < cart.length; i++) { %>
-                        <tr>
-                            <td><img src="Asset/Logo.svg" alt="Product Image" style="width: 50px; height: 50px;"></td>
-                            <td><%= cart[i].name %></td>
-                            <td><%= cart[i].price %></td>
-                            <td class="quantity" id="qua">
-                                <a href="/cart/remove/<%= cart[i].id %>" class="btnt">-</a>
-                                <%= cart[i].quantity %>
-                                <a href="/cart/add/<%= cart[i].id %>" class="btnt">+</a>
-                            </td>
-                            <td><%= cart[i].price * cart[i].quantity %></td>
-                            <td style="width: 8%;"><a href="/detail/<%= cart[i].id %>" class="btnt">Detail</a></td>
-                        </tr>
-                    <% } %>
+                    <% if (typeof cart !=='undefined' && cart.length> 0) { %>
+                        <% for (let i=0; i < cart.length; i++) { %>
+                            <tr>
+                                <td><img src="/Asset/Product/<%= cart[i].image || 'dummy.jpg' %>"
+                                        alt="<%= cart[i].name %>" style="width: 50px; height: 50px;"></td>
+                                <td>
+                                    <%= cart[i].name %>
+                                </td>
+                                <td>฿<%= cart[i].price %>
+                                </td>
+                                <td class="quantity" id="qua">
+                                    <a href="/cart/remove/<%= cart[i].order_id %>?userId=<%= userId %>"
+                                        class="btnt">-</a>
+                                    <%= cart[i].quantity %>
+                                        <a href="/cart/add/<%= cart[i].product_id %>?userId=<%= userId %>"
+                                            class="btnt">+</a>
+                                </td>
+                                <td>฿<%= cart[i].price * cart[i].quantity %>
+                                </td>
+                                <td style="width: 8%;"><a href="/product/<%= cart[i].product_id %>"
+                                        class="btnt">Detail</a></td>
+                            </tr>
+                            <% } %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="6" class="text-center">
+                                            <%= typeof message !=='undefined' && message ? message
+                                                : "Your cart is empty" %>
+                                        </td>
+                                    </tr>
+                                    <% } %>
                 </tbody>
             </table>
         </div>
         <div class="total">
-            <h2>Total: <%= total %></h2>
+            <h2>Total: <%= total %>
+            </h2>
         </div>
         <div class="actions">
             <a href="/">Continue Shopping</a>
-            <a href="/checkout" >Checkout</a>
+            <a href="/checkout">Checkout</a>
         </div>
     </div>
     <script src="/Views/Cart/cart.js"></script>

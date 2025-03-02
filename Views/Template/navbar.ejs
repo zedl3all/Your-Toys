@@ -202,7 +202,7 @@
                 display: block;
             }
 
-            #myMenu{
+            #myMenu {
                 left: 50%;
                 right: 50%;
                 width: 200%;
@@ -238,7 +238,7 @@
             <div id="Sidenav" class="sidenav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                 <a id="sidenav-search" onclick="openSearch()">Search</a>
-                <a href="/cart">Cart</a>
+                <a href="javascript:void(0)" onclick="goToCartWithId()">Cart</a>
                 <a href="/AllOrder">Order</a>
                 <a href="/Packing">Packing</a>
                 <a href="/ManageProduct">Manage Product</a>
@@ -250,9 +250,9 @@
         </div>
     </nav>
     <script>
-        function createNav(){
+        function createNav() {
             var myMenu = document.getElementById("myMenu");
-            
+
         }
         function search() {
             // Declare variables
@@ -422,7 +422,7 @@
                         const li = document.createElement('li');
                         const a = document.createElement('a');
                         a.href = `/ProductAll/${category.id}`;
-                        a.appendChild(document.createTextNode("Category :"+category.name))
+                        a.appendChild(document.createTextNode("Category :" + category.name))
                         li.appendChild(a);
                         menu.appendChild(li);
                     });
@@ -442,7 +442,7 @@
                         const li = document.createElement('li');
                         const a = document.createElement('a');
                         a.href = `/Product/${product.id}`;
-                        a.appendChild(document.createTextNode("Product :"+product.name))
+                        a.appendChild(document.createTextNode("Product :" + product.name))
                         li.appendChild(a);
                         menu.appendChild(li);
                     });
@@ -454,6 +454,21 @@
 
         document.addEventListener('DOMContentLoaded', fetchCategories);
         document.addEventListener('DOMContentLoaded', fetchProduct);
+
+        function goToCartWithId() {
+            // Get the user ID directly from localStorage when link is clicked
+            const userId = localStorage.getItem('user_id');
+            console.log("CART CLICK - User ID from localStorage:", userId);
+
+            if (userId) {
+                // Redirect to cart with userId parameter
+                window.location.href = `/cart?userId=${userId}`;
+            } else {
+                alert('Please log in to view your cart');
+                window.location.href = '/login';
+            }
+        }
     </script>
 </body>
+
 </html>
