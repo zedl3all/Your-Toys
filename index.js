@@ -26,6 +26,9 @@ let db = new sqlite3.Database('lala.db', (err) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Calculate price handmade module
+const priceCalculator = require('./Utils/priceCalculator');
+
 // static resource & template engine
 const uploadDir = path.join(__dirname, "Asset", "Product");
 if (!fs.existsSync(uploadDir)) {
@@ -34,6 +37,7 @@ if (!fs.existsSync(uploadDir)) {
 app.use('/Asset', express.static(path.join(__dirname, '/Asset')));
 app.use(express.static(path.join(__dirname, '/Public')));
 app.use('/Views', express.static(path.join(__dirname, '/Views')));
+app.use('/Utils', express.static(path.join(__dirname, '/Utils')));
 
 //Filter for upload image
 const fileFilter = (req, file, cb) => {
@@ -218,7 +222,8 @@ app.get('/cart', (req, res) => {
     }
     
     const query = `
-        SELECT o.order_id, o.product_id, p.name, p.price, o.amount as quantity, p.image 
+        SELECT o.order_id, o.product_id, p.name, p.price, o.amount as quantity, 
+               p.image, o.size, o.detail
         FROM orders o
         JOIN products p ON o.product_id = p.id
         WHERE o.customer_id = ? AND o.status_id = 0
@@ -230,9 +235,31 @@ app.get('/cart', (req, res) => {
             return res.status(500).send('Database error');
         }
         
+        // Calculate price with ratio factor using the shared function
         let total = 0;
         if (items && items.length > 0) {
-            total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            items.forEach(item => {
+                let x = 1, y = 1;
+                if (item.size) {
+                    try {
+                        [x, y] = item.size.split(':').map(Number);
+                    } catch (e) {
+                        console.log(`Error parsing ratio ${item.size}:`, e);
+                    }
+                }
+                
+                // Use the shared calculation function
+                const priceData = priceCalculator.calculatePrice(
+                    item.price,   // base price
+                    x,            // width
+                    y,            // height
+                    item.quantity // quantity
+                );
+                
+                item.priceWithRatio = priceData.unitPrice;
+                item.itemTotal = priceData.totalPrice;
+                total += item.itemTotal;
+            });
         }
         
         res.render('Cart/cart', {
