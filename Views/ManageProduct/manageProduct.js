@@ -7,10 +7,11 @@ function openEditModal(productId) {
 
     document.getElementById('editProductName').value = 'Loading...';
     document.getElementById('editDescription').value = 'Loading...';
-    
-    // Reset any previous selections
-    const categoriesSelect = document.getElementById('editCategories');
-    Array.from(categoriesSelect.options).forEach(option => option.selected = false);
+
+    // Reset checkboxes (uncheck all)
+    document.querySelectorAll('#editModal input[name="category[]"]').forEach(checkbox => {
+        checkbox.checked = false;
+    });
 
     fetch(`/manageProduct/product/${productId}`)
         .then(response => response.json())
@@ -20,17 +21,18 @@ function openEditModal(productId) {
             document.getElementById('editPrice').value = product.price;
             document.getElementById('editAmount').value = product.amount;
 
-            if (product.size && product.size.includes(':')) {
+            // Set ratio values if available
+            if (product.size) {
                 const [x, y] = product.size.split(':');
-                document.getElementById('number_x').value = x;
-                document.getElementById('number_y').value = y;
+                document.getElementById('number_x').value = x || 1;
+                document.getElementById('number_y').value = y || 1;
             }
 
-            // Handle multiple categories
+            // Check appropriate category checkboxes
             if (product.categories && product.categories.length > 0) {
                 const categoryIds = product.categories.map(cat => cat.id);
-                Array.from(categoriesSelect.options).forEach(option => {
-                    option.selected = categoryIds.includes(parseInt(option.value));
+                document.querySelectorAll('#editModal input[name="category[]"]').forEach(checkbox => {
+                    checkbox.checked = categoryIds.includes(parseInt(checkbox.value));
                 });
             }
         })
@@ -60,10 +62,9 @@ function openAddModal() {
         document.getElementById('number_x').value = '1';
         document.getElementById('number_y').value = '1';
 
-        const categorySelect = document.getElementById('addCategories');
-        if (categorySelect) {
-            categorySelect.selectedIndex = 0;
-        }
+        document.querySelectorAll('#addModal input[name="category[]"]').forEach(checkbox => {
+            checkbox.checked = false;
+        });
     }
 }
 
@@ -104,21 +105,32 @@ window.onclick = function (event) {
     }
 }
 
-// Handle form submission for editing a product
+// Update form submission handlers
 document.addEventListener('DOMContentLoaded', function () {
     const editForm = document.getElementById('editForm');
     if (editForm) {
         editForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
+            // Get selected categories from checkboxes
+            const selectedCategories = [];
+            document.querySelectorAll('#editModal input[name="category[]"]:checked').forEach(checkbox => {
+                selectedCategories.push(parseInt(checkbox.value));
+            });
+
+            // Validate at least one category is selected
+            if (selectedCategories.length === 0) {
+                const container = document.querySelector('#editModal .category-checkbox-container');
+                container.classList.add('is-invalid');
+                const feedback = document.getElementById('edit-category-feedback');
+                feedback.style.display = 'block !important';
+                alert('Please select at least one category');
+                return false;
+            }
+
             const x = document.getElementById('number_x').value;
             const y = document.getElementById('number_y').value;
             const sizeRatio = `${x}:${y}`;
-
-            // Get all selected category values instead of just one
-            const categorySelect = document.getElementById('editCategories');
-            const selectedCategories = Array.from(categorySelect.selectedOptions)
-                .map(option => parseInt(option.value));
 
             const jsonData = {
                 productName: document.getElementById('editProductName').value,
@@ -126,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 price: document.getElementById('editPrice').value,
                 size: sizeRatio,
                 amount: document.getElementById('editAmount').value,
-                categories: selectedCategories  // Now contains all selected categories
+                categories: selectedCategories  // Array of selected category IDs
             };
 
             fetch(`/manageProduct/products/${currentProductId}`, {
@@ -143,18 +155,32 @@ document.addEventListener('DOMContentLoaded', function () {
                     window.location.reload();
                 })
                 .catch(error => {
-                    console.error('Error updating product:', error);
+                    console.error('Error:', error);
                     alert('Failed to update product');
                 });
         });
     }
-});
 
-document.addEventListener('DOMContentLoaded', function () {
     const addForm = document.getElementById('addForm');
     if (addForm) {
         addForm.addEventListener('submit', function (e) {
             e.preventDefault();
+
+            // Get selected categories from checkboxes
+            const selectedCategories = [];
+            document.querySelectorAll('#addModal input[name="category[]"]:checked').forEach(checkbox => {
+                selectedCategories.push(parseInt(checkbox.value));
+            });
+
+            // Validate at least one category is selected
+            if (selectedCategories.length === 0) {
+                const container = document.querySelector('#addModal .category-checkbox-container');
+                container.classList.add('is-invalid');
+                const feedback = document.getElementById('add-category-feedback');
+                feedback.style.display = 'block !important';
+                alert('Please select at least one category');
+                return false;
+            }
 
             const productName = document.getElementById('addProductName').value.trim();
             const description = document.getElementById('addDescription').value.trim();
@@ -165,10 +191,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const y = document.getElementById('number_y').value;
             const sizeRatio = `${x}:${y}`;
 
-            const categorySelect = document.getElementById('addCategories');
-            const selectedCategories = Array.from(categorySelect.selectedOptions)
-                .map(option => parseInt(option.value));
-                
             const productData = {
                 productName: productName,
                 description: description,
@@ -179,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
             };
             uploadFile(productData.productName)
             console.log('Sending data:', productData);
-            
+
             fetch('/manageProduct/addProduct', {
                 method: 'POST',
                 headers: {
@@ -223,7 +245,7 @@ async function uploadFile(imgname) {
     formData.append("image", file);
 
     try {
-        const response = await fetch("/upload/"+imgname, {
+        const response = await fetch("/upload/" + imgname, {
             method: "POST",
             body: formData,
         });
