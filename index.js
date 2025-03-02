@@ -7,6 +7,8 @@ const fs = require("fs");
 const { constant } = require('async');
 const app = express();
 const port = 3000;
+const promptpayQR = require('promptpay-qr');
+const qrcode = require('qrcode');
 
 // using sqlite3
 const sqlite3 = require('sqlite3').verbose();
@@ -199,6 +201,39 @@ app.get('/product/:id', (req, res) => { // test
 
 app.get('/productAll', (req, res) => { // test
     res.render('ProductAll/productAll');
+});
+
+app.post('/getqr', (req, res) => {
+    // Get amount from request body or use default
+    const amount = parseFloat(req.body.amount) || 0.22;
+    const promptpay = '0875513773';
+    const format = req.body.format || 'html';
+
+    const payload = promptpayQR(promptpay, { amount: amount });
+
+    console.log(payload);
+
+    qrcode.toString(payload, { type: 'svg' }, (err, qrCodeSvg) => {
+        if (err) {
+            return res.status(500).send('Error generating QR Code');
+        }
+        
+        if (format === 'json') {
+            // Return just the QR code as JSON for Ajax requests
+            return res.json({ 
+                qrCode: qrCodeSvg,
+                amount: amount,
+                promptpay: promptpay
+            });
+        }
+        
+        // Regular HTML response for direct page loads
+        res.render('Test/test', { 
+            qrCode: qrCodeSvg,
+            amount: amount,
+            promptpay: promptpay
+        });
+    });
 });
 
 app.get('/test', (req, res) => { // test
