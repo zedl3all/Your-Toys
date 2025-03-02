@@ -87,29 +87,40 @@ app.get('/register', function (req, res) {
 
 app.post('/validateUser', async (req, res) => {
     const { username, password, userType } = req.body;
-    console.log(`Received request to validate ${userType}: ${username}`);
+    console.log(`Validating ${userType}: ${username}`);
     try {
-        let query = 'SELECT * FROM users WHERE username = ? AND password = ?';
-        
-        console.log(`Executing query: ${query} with parameters: ${username}, ${password}`);
+        const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
         db.get(query, [username, password], (error, row) => {
             if (error) {
-                console.error(`Error executing query: ${error.message}`);
-                res.status(500).json(false);
-            } else if (row) {
-                console.log(`${userType} ${username} validated successfully.`);
-                res.json(row);
+                console.error(`Error: ${error.message}`);
+                return res.json({ success: false, message: "Database error" });
+            } 
+            
+            if (row) {
+                console.log(`Login successful for: ${username}`);
+                console.log("User data being sent:", { 
+                    success: true,
+                    user_id: row.user_id,
+                    username: row.username,
+                    role_id: row.role_id
+                });
+                
+                return res.json({
+                    success: true,
+                    user_id: row.user_id,
+                    username: row.username,
+                    role_id: row.role_id
+                });
             } else {
-                console.log(`${userType} ${username} validation failed.`);
-                res.json(false);
+                console.log(`Invalid login: ${username}`);
+                return res.json({ success: false, message: "Invalid credentials" });
             }
         });
     } catch (error) {
-        console.error(`Caught error: ${error.message}`);
-        res.status(500).json(false);
+        console.error(`Exception: ${error.message}`);
+        return res.json({ success: false, message: "Server error" });
     }
 });
-
 
 app.get("/", (req, res) => {
     const categoriesQuery = 'SELECT * FROM categories';
@@ -195,39 +206,121 @@ app.get('/test', (req, res) => { // test
 });
 
 app.get('/cart', (req, res) => {
-    // Example cart data
-    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    res.render('Cart/cart', { cart, total });
+    const userId = req.query.userId;
+    console.log(`Cart request for userId: ${userId}`);
+    
+    if (!userId) {
+        return res.render('Cart/cart', { 
+            cart: [],
+            total: 0,
+            message: "Please log in to view your cart"
+        });
+    }
+    
+    const query = `
+        SELECT o.order_id, o.product_id, p.name, p.price, o.amount as quantity, p.image 
+        FROM orders o
+        JOIN products p ON o.product_id = p.id
+        WHERE o.customer_id = ? AND o.status_id = 0
+    `;
+    
+    db.all(query, [userId], (err, items) => {
+        if (err) {
+            console.log('Database error:', err.message);
+            return res.status(500).send('Database error');
+        }
+        
+        let total = 0;
+        if (items && items.length > 0) {
+            total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        }
+        
+        res.render('Cart/cart', {
+            cart: items || [],
+            total: total,
+            userId: userId,
+            message: (items && items.length === 0) ? "Your cart is empty" : null
+        });
+    });
 });
 
 app.get('/cart/add/:id', (req, res) => {
     const productId = req.params.id;
-    // Logic to add product to cart
-    // Example: Increase quantity of the product in the cart
-    const product = cart.find(item => item.id == productId);
-    if (product) {
-        product.quantity += 1;
-    } else {
-        // Add new product to cart if it doesn't exist
-        cart.push({ id: productId, name: `Product ${productId}`, price: 100, quantity: 1 });
+    const userId = req.query.userId;
+    
+    if (!userId) {
+        return res.redirect('/login');
     }
-    res.redirect('/cart');
+    
+    // First check if item exists in cart
+    const checkQuery = 'SELECT * FROM orders WHERE customer_id = ? AND product_id = ? AND status_id = 0';
+    
+    db.get(checkQuery, [userId, productId], (err, row) => {
+        if (err) {
+            console.log(err.message);
+            return res.status(500).send('Database error');
+        }
+        
+        if (row) {
+            const updateQuery = 'UPDATE orders SET amount = amount + 1 WHERE order_id = ?';
+            db.run(updateQuery, [row.order_id], (err) => {
+                if (err) {
+                    console.log(err.message);
+                    return res.status(500).send('Database error');
+                }
+                res.redirect('/cart?userId=' + userId);
+            });
+        } else {
+            const insertQuery = 'INSERT INTO orders (customer_id, product_id, amount, status_id, order_date) VALUES (?, ?, 1, 0, date("now"))';
+            db.run(insertQuery, [userId, productId], (err) => {
+                if (err) {
+                    console.log(err.message);
+                    return res.status(500).send('Database error');
+                }
+                res.redirect('/cart?userId=' + userId);
+            });
+        }
+    });
 });
 
 app.get('/cart/remove/:id', (req, res) => {
-    const productId = req.params.id;
-    // Logic to remove product from cart
-    // Example: Decrease quantity of the product in the cart
-    const productIndex = cart.findIndex(item => item.id == productId);
-    if (productIndex !== -1) {
-        if (cart[productIndex].quantity > 1) {
-            cart[productIndex].quantity -= 1;
-        } else {
-            // Remove product from cart if quantity is 1
-            cart.splice(productIndex, 1);
-        }
+    const orderId = req.params.id;
+    const userId = req.query.userId;
+    
+    if (!userId) {
+        return res.redirect('/login');
     }
-    res.redirect('/cart');
+    
+    const checkQuery = 'SELECT * FROM orders WHERE order_id = ? AND customer_id = ? AND status_id = 0';
+    
+    db.get(checkQuery, [orderId, userId], (err, row) => {
+        if (err) {
+            console.log(err.message);
+            return res.status(500).send('Database error');
+        }
+        
+        if (row && row.amount > 1) {
+            const updateQuery = 'UPDATE orders SET amount = amount - 1 WHERE order_id = ?';
+            db.run(updateQuery, [orderId], (err) => {
+                if (err) {
+                    console.log(err.message);
+                    return res.status(500).send('Database error');
+                }
+                res.redirect('/cart?userId=' + userId);
+            });
+        } else if (row) {
+            const deleteQuery = 'DELETE FROM orders WHERE order_id = ?';
+            db.run(deleteQuery, [orderId], (err) => {
+                if (err) {
+                    console.log(err.message);
+                    return res.status(500).send('Database error');
+                }
+                res.redirect('/cart?userId=' + userId);
+            });
+        } else {
+            res.redirect('/cart?userId=' + userId);
+        }
+    });
 });
 
 app.post('/registerUser', async (req, res) => {
@@ -435,7 +528,7 @@ app.put('/manageProduct/products/:id', (req, res) => {
 
 // Add a new product
 app.post("/manageProduct/addProduct", (req, res) => {
-    
+
     const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, uploadDir);
@@ -456,6 +549,8 @@ app.post("/manageProduct/addProduct", (req, res) => {
         } else if (err) {
             return res.status(400).json({ message: err.message });
         }
+
+        console.log(req.body);
 
         const productName = req.body.productName;
         const description = req.body.description;
@@ -500,21 +595,23 @@ app.post("/manageProduct/addProduct", (req, res) => {
                         console.error(`Error adding category ${categoryId} to product ${productId}:`, err.message);
                         errorOccurred = true;
                     }
-
                     if (completedCount === categories.length) {
                         if (errorOccurred) {
                             return res.json({ 
                                 success: true, 
                                 warning: 'Product added but some categories failed',
                                 productId: productId
-                            });
+                            })
+                            
                         } else {
+                            
                             return res.json({ 
                                 success: true, 
                                 message: 'Product and categories added successfully',
                                 productId: productId
-                            });
+                            })
                         }
+                        
                     }
                 });
             });
@@ -537,23 +634,80 @@ app.delete('/manageProduct/product/:id', (req, res) => {
                     message: 'Failed to delete product categories' 
                 });
             }
-            
-            db.run('DELETE FROM products WHERE id = ?', [id], function(err) {
+            db.get('SELECT image FROM products WHERE id = ?', [id], (err, row) => {
                 if (err) {
+                console.error("Error fetching product image:", err.message);
+                db.run('ROLLBACK');
+                return res.status(500).json({ 
+                    success: false, 
+                    message: 'Failed to fetch product image' 
+                });
+                }
+
+                if (row && row.image) {
+                const imagePath = path.join(uploadDir, row.image);
+                fs.unlink(imagePath, (err) => {
+                    if (err) {
+                    console.error("Error deleting image file:", err.message);
+                    db.run('ROLLBACK');
+                    return res.status(500).json({ 
+                        success: false, 
+                        message: 'Failed to delete image file' 
+                    });
+                    }
+
+                    db.run('DELETE FROM products WHERE id = ?', [id], function(err) {
+                    if (err) {
+                        console.error("Error deleting product:", err.message);
+                        db.run('ROLLBACK');
+                        return res.status(500).json({ 
+                        success: false, 
+                        message: 'Failed to delete product' 
+                        });
+                    }
+
+                    db.run('COMMIT');
+                    res.json({ 
+                        success: true, 
+                        message: 'Product and related data deleted successfully' 
+                    });
+                    });
+                });
+                } else {
+                db.run('DELETE FROM products WHERE id = ?', [id], function(err) {
+                    if (err) {
                     console.error("Error deleting product:", err.message);
                     db.run('ROLLBACK');
                     return res.status(500).json({ 
                         success: false, 
                         message: 'Failed to delete product' 
                     });
-                }
-                
-                db.run('COMMIT');
-                res.json({ 
+                    }
+
+                    db.run('COMMIT');
+                    res.json({ 
                     success: true, 
                     message: 'Product and related data deleted successfully' 
+                    });
                 });
+                }
             });
+            // db.run('DELETE FROM products WHERE id = ?', [id], function(err) {
+            //     if (err) {
+            //         console.error("Error deleting product:", err.message);
+            //         db.run('ROLLBACK');
+            //         return res.status(500).json({ 
+            //             success: false, 
+            //             message: 'Failed to delete product' 
+            //         });
+            //     }
+                
+            //     db.run('COMMIT');
+            //     res.json({ 
+            //         success: true, 
+            //         message: 'Product and related data deleted successfully' 
+            //     });
+            // });
         });
     });
 });

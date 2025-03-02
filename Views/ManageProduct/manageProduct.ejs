@@ -11,19 +11,25 @@
     <link rel="stylesheet" href="/Views/manageProduct/manageProduct.css">
     <script src="/Views/ManageProduct/manageProduct.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <%- include("../Template/navbar.ejs") %>
 </head>
 
 <body>
+    <div class="floating-icon">
+        <i class="fa-solid fa-plus" id="p-icon" onclick="openAddModal()"></i>
+        <i class="fa-solid fa-filter" id="f-icon" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar"></i>
+    </div>
+
     <div class="product-container">
         <h2>Manage Product</h2>
         <div class="add-product-link">
             <div class="mb-3" id="cat-button">
                 <button class="btn btn-warning px-4 py-2 fs-5 custom-button" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#sidebar" aria-controls="sidebar">
-                    <i class="fas fa-bars"></i> Filter
+                    <i class="fa-solid fa-filter"></i></i> Filter
                 </button>
             </div>
-            <a href="#" onclick="openAddModal()" class="custom-button">Add Product</a>
+            <a onclick="openAddModal()" class="custom-button">Add Product</a>
         </div>
         <table>
             <thead>
@@ -74,10 +80,9 @@
                             <% } %>
                         </td>
                         <td style="text-align: center;">
-                            <a href="#" class="edit-link"
-                                onclick="event.preventDefault(); openEditModal('<%= item.id %>')">Edit</a><a href="#"
-                                class="remove-link"
-                                onclick="event.preventDefault(); removeProduct('<%= item.id %>')">Remove</a>
+                            <a class="edit-link" onclick="event.preventDefault(); openEditModal('<%= item.id %>')">Edit</a>
+                            <span style="border: #33322B solid 1px; height: 2rem; opacity: 0.3; margin-left:5px; margin-right:8px"></span>
+                            <a class="remove-link" onclick="event.preventDefault(); removeProduct('<%= item.id %>')">Remove</a>
                         </td>
                     </tr>
                     <% }); %>
