@@ -461,7 +461,7 @@ app.post("/manageProduct/addProduct", (req, res) => {
         const description = req.body.description;
         const price = req.body.price;
         const amount = req.body.amount;
-        const categories = req.body.categories;
+        const categories = req.body.category;
         let image = req.file ? req.file.filename : "dummy.png";
 
         let size = "1:1"; // Default
