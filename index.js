@@ -60,11 +60,11 @@ app.post("/upload/:imgname", (req, res) => {
     const upload = multer({ 
         storage,
         fileFilter,
-        limits: { fileSize: 300 * 1024 } // 300KB
+        limits: { fileSize: 25 * 1024 * 1024 } // 25MB
     });
     upload.single("image")(req, res, (err) => {
         if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
-            return res.status(400).json({ message: "File size exceeds the limit of 300KB" });
+            return res.status(400).json({ message: "File size exceeds the limit of 25MB" });
         } else if (err) {
             return res.status(400).json({ message: err.message });
         }
@@ -447,12 +447,12 @@ app.post("/manageProduct/addProduct", (req, res) => {
     const upload = multer({ 
         storage,
         fileFilter,
-        limits: { fileSize: 300 * 1024 } // 300KB
+        limits: { fileSize: 25 * 1024 * 1024 } // 25MB
     }).single('image');
 
     upload(req, res, (err) => {
         if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
-            return res.status(400).json({ message: "File size exceeds the limit of 300KB" });
+            return res.status(400).json({ message: "File size exceeds the limit of 25MB" });
         } else if (err) {
             return res.status(400).json({ message: err.message });
         }

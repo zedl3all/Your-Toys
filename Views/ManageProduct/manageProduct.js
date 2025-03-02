@@ -199,9 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
             formData.append('number_x', x);
             formData.append('number_y', y);
             formData.append('image', document.getElementById('addImage').files[0]);
-            selectedCategories.forEach(categoryId => {
-                formData.append('categories', categoryId);
-            });
+            formData.append('categories', selectedCategories);
 
             fetch('/manageProduct/addProduct', {
                 method: 'POST',
