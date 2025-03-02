@@ -434,76 +434,89 @@ app.put('/manageProduct/products/:id', (req, res) => {
 });
 
 // Add a new product
-// Lack of upload image!!! need someone to add it!!!
 app.post("/manageProduct/addProduct", (req, res) => {
-    console.log("Received data:", req.body);
     
-    const productName = req.body.productName;
-    const description = req.body.description;
-    const price = req.body.price;
-    const amount = req.body.amount;
-    const categories = req.body.categories;
-    
-    let size = "1:1"; // Default
-    if (req.body.number_x && req.body.number_y) {
-        size = `${req.body.number_x}:${req.body.number_y}`;
+    const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, req.body.productName + path.extname(file.originalname));
     }
-    // const defaultImage = "dummy.png";
-    const productImagePath = path.join(uploadDir, `${productName}.*`);
-    const existingFiles = fs.readdirSync(uploadDir).filter(file => {
-        const regex = new RegExp(`^${productName}\\.(jpeg|jpg|png|webp)$`);
-        return regex.test(file);
     });
-    console.log(existingFiles)
-    
-    const defaultImage = existingFiles.length > 0 ? existingFiles[0] : "dummy.png";
-    const query = `INSERT INTO products (name, description, price, size, amount, image) 
-                 VALUES (?, ?, ?, ?, ?, ?)`;
-    
-    db.run(query, [productName, description, price, size, amount, defaultImage], function(err) {
-        if (err) {
-            console.error("Error adding product:", err.message);
-            return res.status(500).json({ success: false, message: err.message });
+    const upload = multer({ 
+        storage,
+        fileFilter,
+        limits: { fileSize: 300 * 1024 } // 300KB
+    }).single('image');
+
+    upload(req, res, (err) => {
+        if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
+            return res.status(400).json({ message: "File size exceeds the limit of 300KB" });
+        } else if (err) {
+            return res.status(400).json({ message: err.message });
         }
-        
-        const productId = this.lastID;
-        console.log(`Added product successfully with ID: ${productId}`);
-        
-        if (!categories || !Array.isArray(categories) || categories.length === 0) {
-            return res.json({ 
-                success: true, 
-                message: 'Product added successfully (no categories)',
-                productId: productId
-            });
+
+        const productName = req.body.productName;
+        const description = req.body.description;
+        const price = req.body.price;
+        const amount = req.body.amount;
+        const categories = req.body.categories;
+        let image = req.file ? req.file.filename : "dummy.png";
+
+        let size = "1:1"; // Default
+        if (req.body.number_x && req.body.number_y) {
+            size = `${req.body.number_x}:${req.body.number_y}`;
         }
-        
-        let completedCount = 0;
-        let errorOccurred = false;
-        
-        categories.forEach(categoryId => {
-            db.run('INSERT INTO pro_cat (p_id, c_id) VALUES (?, ?)', [productId, categoryId], function(err) {
-                completedCount++;
-                
-                if (err) {
-                    console.error(`Error adding category ${categoryId} to product ${productId}:`, err.message);
-                    errorOccurred = true;
-                }
-                
-                if (completedCount === categories.length) {
-                    if (errorOccurred) {
-                        return res.json({ 
-                            success: true, 
-                            warning: 'Product added but some categories failed',
-                            productId: productId
-                        });
-                    } else {
-                        return res.json({ 
-                            success: true, 
-                            message: 'Product and categories added successfully',
-                            productId: productId
-                        });
+
+        const query = `INSERT INTO products (name, description, price, size, amount, image) 
+                    VALUES (?, ?, ?, ?, ?, ?)`;
+
+        db.run(query, [productName, description, price, size, amount, image], function(err) {
+            if (err) {
+                console.error("Error adding product:", err.message);
+                return res.status(500).json({ success: false, message: err.message });
+            }
+
+            const productId = this.lastID;
+            console.log(`Added product successfully with ID: ${productId}`);
+
+            if (!categories || !Array.isArray(categories) || categories.length === 0) {
+                return res.json({ 
+                    success: true, 
+                    message: 'Product added successfully (no categories)',
+                    productId: productId
+                });
+            }
+
+            let completedCount = 0;
+            let errorOccurred = false;
+
+            categories.forEach(categoryId => {
+                db.run('INSERT INTO pro_cat (p_id, c_id) VALUES (?, ?)', [productId, categoryId], function(err) {
+                    completedCount++;
+
+                    if (err) {
+                        console.error(`Error adding category ${categoryId} to product ${productId}:`, err.message);
+                        errorOccurred = true;
                     }
-                }
+
+                    if (completedCount === categories.length) {
+                        if (errorOccurred) {
+                            return res.json({ 
+                                success: true, 
+                                warning: 'Product added but some categories failed',
+                                productId: productId
+                            });
+                        } else {
+                            return res.json({ 
+                                success: true, 
+                                message: 'Product and categories added successfully',
+                                productId: productId
+                            });
+                        }
+                    }
+                });
             });
         });
     });

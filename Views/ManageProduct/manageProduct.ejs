@@ -210,7 +210,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeAddModal()">&times;</span>
             <h2>Add Product</h2>
-            <form id="addForm" action="/manageProduct/addProduct" method="post">
+            <form id="addForm" action="/manageProduct/addProduct" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="addProductName">Product Name:</label>
                     <input type="text" id="addProductName" name="productName" required>

@@ -191,23 +191,21 @@ document.addEventListener('DOMContentLoaded', function () {
             const y = document.getElementById('number_y').value;
             const sizeRatio = `${x}:${y}`;
 
-            const productData = {
-                productName: productName,
-                description: description,
-                price: price,
-                size: sizeRatio,
-                amount: amount,
-                categories: selectedCategories,
-            };
-            uploadFile(productData.productName)
-            console.log('Sending data:', productData);
+            const formData = new FormData();
+            formData.append('productName', productName);
+            formData.append('description', description);
+            formData.append('price', price);
+            formData.append('amount', amount);
+            formData.append('number_x', x);
+            formData.append('number_y', y);
+            formData.append('image', document.getElementById('addImage').files[0]);
+            selectedCategories.forEach(categoryId => {
+                formData.append('categories', categoryId);
+            });
 
             fetch('/manageProduct/addProduct', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(productData)
+                body: formData
             })
                 .then(response => response.json())
                 .then(data => {
@@ -227,32 +225,3 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-async function uploadFile(imgname) {
-    const fileInput = document.getElementById("addImage");
-    if (!fileInput.files.length) {
-        alert("Please select a file!");
-        return;
-    }
-
-    const file = fileInput.files[0];
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif", "image/jfif"];
-    if (!allowedTypes.includes(file.type)) {
-        alert("Only JPG, WEBP, PNG, GIF, and JFIF files are allowed");
-        return;
-    }
-
-    const formData = new FormData();
-    formData.append("image", file);
-
-    try {
-        const response = await fetch("/upload/" + imgname, {
-            method: "POST",
-            body: formData,
-        });
-
-        const result = await response.json();
-        document.getElementById("status").innerText = result.message;
-    } catch (error) {
-        console.error("Error uploading file:", error);
-    }
-}
