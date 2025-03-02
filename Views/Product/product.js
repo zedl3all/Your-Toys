@@ -58,32 +58,35 @@ document.addEventListener('DOMContentLoaded', function () {
         x = parseFloat(x);
         y = parseFloat(y);
         const quantity = parseInt(quantityInput.value) || 1;
+        const basePrice = parseFloat(document.getElementById('basePrice').value);
 
-        if (isNaN(x) || isNaN(y) || x <= 0 || y <= 0) {
-            console.log("Invalid input values, using defaults");
-            x = originalX;
-            y = originalY;
-        }
-
-        // Calculate ratio outside conditionals for cleaner code
-        const ratio = Math.max(x, y) / Math.min(x, y);
-        console.log(`Ratio (max/min): ${ratio}`);
-
-        // Calculate unit price
-        let unitPrice;
-        if (Math.abs(x - y) < 0.001) { // Use epsilon for float comparison
-            unitPrice = basePrice * x;
-        } else if (ratio > 5) {
-            unitPrice = basePrice * ((x + y) / 2);
-        } else if (ratio > 2) {
-            unitPrice = basePrice * Math.max(x, y);
+        // Use shared function if available, otherwise fall back to inline calculation
+        let totalPrice;
+        if (typeof window.calculatePrice === 'function') {
+            const result = window.calculatePrice(basePrice, x, y, quantity);
+            totalPrice = result.totalPrice;
         } else {
-            unitPrice = basePrice * (x * y);
-        }
+            // Fallback to your existing calculation logic
+            if (isNaN(x) || isNaN(y) || x <= 0 || y <= 0) {
+                x = originalX;
+                y = originalY;
+            }
 
-        // Multiply by quantity for final price
-        const totalPrice = unitPrice * quantity;
-        console.log(`Final price: ${unitPrice} * ${quantity} = ${totalPrice}`);
+            const ratio = Math.max(x, y) / Math.min(x, y);
+
+            let unitPrice;
+            if (Math.abs(x - y) < 0.001) {
+                unitPrice = basePrice * x;
+            } else if (ratio > 5) {
+                unitPrice = basePrice * ((x + y) / 2);
+            } else if (ratio > 2) {
+                unitPrice = basePrice * Math.max(x, y);
+            } else {
+                unitPrice = basePrice * (x * y);
+            }
+
+            totalPrice = unitPrice * quantity;
+        }
 
         // Format with commas and 2 decimal places
         const formattedPrice = totalPrice.toLocaleString('en-US', {
@@ -196,18 +199,18 @@ function addToCart(productId) {
     const userId = localStorage.getItem('user_id');
     const quantity = document.getElementById('quantity').value || 1;
     const specify = document.getElementById('specify').value || '';
-    
+
     // Fix the ratio parameter construction
     const ratioX = document.getElementById('number_x').value || 1;
     const ratioY = document.getElementById('number_y').value || 1;
     const ratio = `${ratioX}:${ratioY}`;
-    
+
     if (!userId) {
         alert('Please log in to add items to your cart');
         window.location.href = '/login';
         return;
     }
-    
+
     // Log data being sent
     console.log('Adding to cart:', {
         productId: productId,
@@ -216,14 +219,14 @@ function addToCart(productId) {
         specify: specify,
         ratio: ratio
     });
-    
+
     // Properly encode parameters for URL
     const params = new URLSearchParams();
     params.append('userId', userId);
     params.append('quantity', quantity);
     params.append('specify', specify);
     params.append('ratio', ratio);
-    
+
     // Redirect with properly encoded parameters
     window.location.href = `/cart/add/${productId}?${params.toString()}`;
 }
