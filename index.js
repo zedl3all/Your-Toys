@@ -310,8 +310,8 @@ app.get('/cart', (req, res) => {
     }
 
     const query = `
-        SELECT o.order_id, o.product_id, p.name, p.price, o.amount as quantity, 
-               p.image, o.size, o.detail
+        SELECT o.order_id, o.customer_id, o.product_id, p.name, p.price, o.amount as quantity, 
+               p.image, o.size, o.detail, o.img 
         FROM orders o
         JOIN products p ON o.product_id = p.id
         WHERE o.customer_id = ? AND o.status_id = 0
