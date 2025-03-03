@@ -61,7 +61,7 @@
                                     ฿<%= order.total.toFixed(2) %>
                                 </td>
                                 <td>
-                                    <a class="detail" href="/tracking?orderId=<%= order.order_id %>">Detail</a>
+                                    <a class="detail" href="/tracking/<%= order.order_id %>">Detail</a>
                                 </td>
                             </tr>
                         <% }); %>
