@@ -313,47 +313,48 @@ app.get('/cart/add/:id', (req, res) => {
     const specify = req.query.specify || '';
     const ratio = req.query.ratio || '1:1';
     
-    console.log('Cart/Add Route Debug:');
-    console.log('Raw request query:', req.query);
-    console.log(`Adding product ${productId} to cart for user ${userId}`);
-    console.log(`Quantity: ${quantity}, Specify: ${specify}, Ratio: ${ratio}`);
+    // Debug incoming parameters
+    console.log('Cart Add Request:');
+    console.log('- Product ID:', productId);
+    console.log('- User ID:', userId);
+    console.log('- Quantity:', quantity);
+    console.log('- Specifications:', specify);
+    console.log('- Ratio:', ratio);
     
     if (!userId) {
         return res.redirect('/login');
     }
     
-    // First check if item exists in cart
-    const checkQuery = 'SELECT * FROM orders WHERE customer_id = ? AND product_id = ? AND status_id = 0';
+    // Check if this exact combination already exists
+    const checkQuery = 'SELECT * FROM orders WHERE customer_id = ? AND product_id = ? AND size = ? AND detail = ? AND status_id = 0';
     
-    db.get(checkQuery, [userId, productId], (err, row) => {
+    db.get(checkQuery, [userId, productId, ratio, specify], (err, row) => {
         if (err) {
-            console.log(err.message);
+            console.log('Database error when checking existing item:', err.message);
             return res.status(500).send('Database error');
         }
         
         if (row) {
-            // Item exists, increase quantity
+            console.log(`Found existing item (order_id: ${row.order_id}) with matching product, size and details`);
             const updateQuery = 'UPDATE orders SET amount = amount + ? WHERE order_id = ?';
             db.run(updateQuery, [quantity, row.order_id], (err) => {
                 if (err) {
-                    console.log(err.message);
+                    console.log('Error updating quantity:', err.message);
                     return res.status(500).send('Database error');
                 }
-                res.redirect('/cart?userId=' + userId);
+                console.log(`Updated quantity for order ${row.order_id}`);
+                res.redirect(`/cart?userId=${userId}`);
             });
         } else {
-            // Item doesn't exist, add new item
+            console.log('Creating new cart item with these parameters');
             const insertQuery = 'INSERT INTO orders (customer_id, product_id, amount, status_id, order_date, detail, size) VALUES (?, ?, ?, 0, date("now"), ?, ?)';
-            console.log('Insert query parameters:', [userId, productId, quantity, specify, ratio]);
-            
             db.run(insertQuery, [userId, productId, quantity, specify, ratio], function(err) {
                 if (err) {
-                    console.log('Database error on insert:', err.message);
+                    console.log('Error inserting new item:', err.message);
                     return res.status(500).send('Database error');
                 }
-                
-                console.log(`New order created with ID ${this.lastID}, size set to: ${ratio}`);
-                res.redirect('/cart?userId=' + userId);
+                console.log(`Created new order with ID ${this.lastID}`);
+                res.redirect(`/cart?userId=${userId}`);
             });
         }
     });
