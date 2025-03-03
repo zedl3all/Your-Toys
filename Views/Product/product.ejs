@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/Views/product/product.css">
     <%- include("../Template/navbar.ejs") %>
@@ -14,19 +15,25 @@
 <body class="bg-light">
     <main class="py-5">
         <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/" class="text-decoration-none"><i class="bi bi-house-door"></i> Home</a></li>
+                <li class="breadcrumb-item"><a href="/ProductAll" class="text-decoration-none">ProductAll</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><%= data.name %></li>
+            </ol>
+
             <div class="row g-4">
                 <!-- Product Gallery -->
                 <div class="col-lg-5 mb-4 mb-lg-0">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-body p-0">
+                    <div class="card border-0 shadow-sm product-card">
+                        <div class="card-body p-0 position-relative">
+                            <div class="product-badge"><i class="bi bi-award"></i> โดดเด่น</div>
                             <img src="/Asset/Product/<%=data.image%>" class="img-fluid rounded product-image"
                                 alt="<%= data.name %>">
                         </div>
                         <div class="card-footer bg-white border-0 p-4">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge bg-success px-3 py-2">Available</span>
-                                <div class="small text-muted">Product ID: <%= data.id %>
-                                </div>
+                                <span class="badge bg-success px-3 py-2"><i class="bi bi-check2-circle me-1"></i> Available</span>
+                                <div class="small text-muted"><i class="bi bi-box-seam me-1"></i> Product ID: <%= data.id %></div>
                             </div>
                         </div>
                     </div>
@@ -39,12 +46,12 @@
                             <h2 class="card-title fw-bold mb-1">
                                 <%= data.name %>
                             </h2>
-                            <p class="text-muted mb-0">Personalize it just the way you like.</p>
+                            <p class="text-muted mb-0"><i class="bi bi-palette me-1"></i> Personalize it just the way you like.</p>
                         </div>
                         <div class="card-body p-4">
                             <!-- Description Field -->
                             <div class="mb-4">
-                                <h5 class="form-label fw-medium">Description:</h5>
+                                <h5 class="form-label fw-medium"><i class="bi bi-info-square me-1"></i> Description:</h5>
                                 <div class="card border-0 bg-light">
                                     <div class="card-body">
                                         <p class="mb-0">
@@ -54,18 +61,16 @@
                                 </div>
                             </div>
 
-                            <!-- น่าเป็นห่วง -->
                             <!-- Specify detail Field -->
                             <div class="mb-4">
-                                <label for="specify" class="form-label fw-medium">Specify:</label>
+                                <label for="specify" class="form-label fw-medium"><i class="bi bi-pencil-square me-1"></i> Specify:</label>
                                 <textarea id="specify" name="specify" rows="3" class="form-control"
-                                    placeholder="Enter product specify"></textarea>
+                                    placeholder="Enter product specifications or special requests"></textarea>
                             </div>
 
                             <!-- Aspect Ratio Field -->
                             <div class="mb-4">
-                                <label for="number_x" class="form-label fw-medium">Aspect Ratio by width :
-                                    height</label>
+                                <label for="number_x" class="form-label fw-medium"><i class="bi bi-aspect-ratio me-1"></i> Aspect Ratio:</label>
                                 <div class="d-flex align-items-center">
                                     <div class="input-group" style="max-width: 200px;">
                                         <input type="number" id="number_x" name="number_x" min="1" value="1"
@@ -81,7 +86,7 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="quantity" class="form-label fw-medium">Amount:</label>
+                                <label for="quantity" class="form-label fw-medium"><i class="bi bi-123 me-1"></i> Amount:</label>
                                 <div class="d-flex align-items-center">
                                     <div class="input-group" style="max-width: 200px;">
                                         <button type="button" class="btn btn-outline-secondary" id="decreaseQuantity">
@@ -94,20 +99,23 @@
                                         </button>
                                     </div>
                                     <div class="ms-3 text-muted small">
-                                        <i class="bi bi-info-circle"></i> Available: <%= data.amount %> items
+                                        <i class="bi bi-box-seam"></i> Available: <%= data.amount %> items
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- น่าเป็นห่วง -->
                             <!-- Image Upload Field -->
                             <div class="mb-4">
-                                <label for="artwork" class="form-label fw-medium">Upload Artwork:</label>
-                                <input type="file" id="artwork" name="image" accept="image/*" class="form-control">
-                                <div class="form-text">Supported formats: JPG and PNG. Max 25MB.</div>
+                                <label for="artwork" class="form-label fw-medium"><i class="bi bi-file-earmark-image me-1"></i> Upload Artwork:</label>
+                                <div class="upload-zone">
+                                    <input type="file" id="artwork" name="image" accept="image/*" class="form-control">
+                                    <div class="form-text"><i class="bi bi-info-circle me-1"></i> Supported formats: JPG and PNG. Max 25MB.</div>
+                                </div>
                                 <div id="upload-preview" class="mt-2 d-none">
                                     <img id="artwork-preview" class="img-thumbnail" style="max-height: 150px;" alt="Artwork preview">
-                                    <button type="button" class="btn btn-sm btn-outline-danger mt-1" id="remove-artwork">Remove</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger mt-1" id="remove-artwork">
+                                        <i class="bi bi-trash me-1"></i> Remove
+                                    </button>
                                 </div>
                                 <input type="hidden" id="uploaded-artwork-path" name="artworkPath" value="">
                             </div>
@@ -116,16 +124,16 @@
                             <input type="hidden" id="basePrice" value="<%= data.price %>">
 
                             <!-- Price Container -->
-                            <div class="card bg-light border-0 mb-4">
+                            <div class="card bg-light border-0 mb-4 price-card">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="text-muted">Base Price:</span>
+                                        <span class="text-muted"><i class="bi bi-tag me-1"></i> Base Price:</span>
                                         <span class="fw-medium">
                                             <%= data.price %>฿
                                         </span>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <span class="fs-5 fw-bold">Total Price:</span>
+                                        <span class="fs-5 fw-bold"><i class="bi bi-cash-coin me-1"></i> Total Price:</span>
                                         <span class="fs-4 fw-bold text-success" id="totalPrice">
                                             <%= data.price %>฿
                                         </span>
@@ -133,11 +141,10 @@
                                 </div>
                             </div>
 
-                            <!-- น่าเป็นห่วง -->
                             <!-- Add to Cart Button -->
                             <button
-                                class="btn btn-primary btn-lg w-100 d-flex align-items-center justify-content-center"
-                                id="yellowbtn" onclick="addToCart(<%= data.id %>)">
+                                class="btn btn-lg w-100 d-flex align-items-center justify-content-center add-to-cart-btn"
+                                id="yellowbtn" onclick="addToCart('<%= data.id %>')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-cart-plus me-2" viewBox="0 0 16 16">
                                     <path
@@ -151,12 +158,190 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Product Reviews Section -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                            <h3 class="card-title fw-bold mb-0">
+                                <i class="bi bi-star-fill text-warning me-2"></i>Customer Reviews
+                            </h3>
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                                <i class="bi bi-pencil-square me-1"></i> Write a Review
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <!-- Summary Rating -->
+                            <div class="row mb-4">
+                                <div class="col-md-4 text-center border-end">
+                                    <h1 class="display-3 fw-bold mb-0">4.5</h1>
+                                    <div class="mb-2">
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-half text-warning"></i>
+                                    </div>
+                                    <p class="text-muted mb-0">Based on 3 reviews</p>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <div class="text-muted me-3" style="width: 60px">5 stars</div>
+                                        <div class="progress flex-grow-1" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 75%"></div>
+                                        </div>
+                                        <div class="text-muted ms-3" style="width: 40px">75%</div>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <div class="text-muted me-3" style="width: 60px">4 stars</div>
+                                        <div class="progress flex-grow-1" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 25%"></div>
+                                        </div>
+                                        <div class="text-muted ms-3" style="width: 40px">25%</div>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <div class="text-muted me-3" style="width: 60px">3 stars</div>
+                                        <div class="progress flex-grow-1" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
+                                        </div>
+                                        <div class="text-muted ms-3" style="width: 40px">0%</div>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <div class="text-muted me-3" style="width: 60px">2 stars</div>
+                                        <div class="progress flex-grow-1" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
+                                        </div>
+                                        <div class="text-muted ms-3" style="width: 40px">0%</div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <div class="text-muted me-3" style="width: 60px">1 star</div>
+                                        <div class="progress flex-grow-1" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
+                                        </div>
+                                        <div class="text-muted ms-3" style="width: 40px">0%</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Individual Reviews -->
+                            <div class="reviews-container">
+                                <!-- Review 1 -->
+                                <div class="review-item pb-4 mb-4 border-bottom">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="avatar me-3">
+                                            <img src="https://ui-avatars.com/api/?name=Tanapat+Sanguanwong&background=random" class="rounded-circle" width="48" alt="John D">
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-0">Tanapat Sanguanwong</h5>
+                                            <div class="text-muted small">Posted on March 1, 2025</div>
+                                        </div>
+                                        <div class="stars ms-auto">
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                        </div>
+                                    </div>
+                                    <h6 class="review-title fw-bold">Excellent quality and service</h6>
+                                    <p class="review-text">This product exceeded my expectations! The quality is top-notch and I received it much faster than expected. Would definitely recommend to anyone looking for this type of product.</p>
+                                </div>
+
+                                <!-- Review 2 -->
+                                <div class="review-item pb-4 mb-4 border-bottom">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="avatar me-3">
+                                            <img src="https://ui-avatars.com/api/?name=Teetat+Thongkumtae&background=random" class="rounded-circle" width="48" alt="Sarah M">
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-0">Teetat Thongkumtae</h5>
+                                            <div class="text-muted small">Posted on February 25, 2025</div>
+                                        </div>
+                                        <div class="stars ms-auto">
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star text-warning"></i>
+                                        </div>
+                                    </div>
+                                    <h6 class="review-title fw-bold">Great product with minor issues</h6>
+                                    <p class="review-text">I'm very happy with my purchase! The product works great and looks fantastic. The only reason I'm giving 4 stars instead of 5 is because the delivery took a bit longer than expected.</p>
+                                </div>
+
+                                <!-- Review 3 -->
+                                <div class="review-item">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="avatar me-3">
+                                            <img src="https://ui-avatars.com/api/?name=Thanasit+Tungjai&background=random" class="rounded-circle" width="48" alt="Alex L">
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-0">Thanasit Tungjai</h5>
+                                            <div class="text-muted small">Posted on February 15, 2025</div>
+                                        </div>
+                                        <div class="stars ms-auto">
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-half text-warning"></i>
+                                        </div>
+                                    </div>
+                                    <h6 class="review-title fw-bold">Very satisfied with my purchase</h6>
+                                    <p class="review-text">The quality of this product is excellent. I've been using it for a few weeks now and it has performed flawlessly. The customer service was also excellent when I had questions about the features.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
+
+    <!-- Review Modal -->
+    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reviewModalLabel">Write a Review</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reviewForm">
+                        <div class="mb-3">
+                            <label class="form-label">Rating</label>
+                            <div class="star-rating">
+                                <i class="bi bi-star star-item fs-3" data-value="1"></i>
+                                <i class="bi bi-star star-item fs-3" data-value="2"></i>
+                                <i class="bi bi-star star-item fs-3" data-value="3"></i>
+                                <i class="bi bi-star star-item fs-3" data-value="4"></i>
+                                <i class="bi bi-star star-item fs-3" data-value="5"></i>
+                            </div>
+                            <input type="hidden" id="ratingValue" name="rating" value="0">
+                        </div>
+                        <div class="mb-3">
+                            <label for="reviewTitle" class="form-label">Review Title</label>
+                            <input type="text" class="form-control" id="reviewTitle" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reviewContent" class="form-label">Review</label>
+                            <textarea class="form-control" id="reviewContent" name="content" rows="4" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="submitReview">Submit Review</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Custom product script -->
     <script src="/Utils/priceCalculator.js"></script>
     <script src="/Views/Product/product.js"></script>
+    <script src="/Views/Product/reviews.js"></script>
 </body>
 
 </html>
