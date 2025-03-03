@@ -59,7 +59,7 @@
                                 <td><%= cart[i].itemTotal.toFixed(2) %>฿
                                 </td>
                                 <td style="width: 8%;">
-                                    <a href="/product/<%= cart[i].product_id %>" class="btnt">Detail</a>
+                                    <button type="button" class="btnt" data-bs-toggle="modal" data-bs-target="#productDetailModal" data-product='<%= JSON.stringify(cart[i]) %>'>Detail</button>
                                 </td>
                             </tr>
                             <% } %>
@@ -83,6 +83,30 @@
             <a href="/checkout">Checkout</a>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productDetailModalLabel">Product Detail</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalProductImage" src="" alt="" style="width: 100%;">
+                    <h5 id="modalProductName"></h5>
+                    <p id="modalProductDetail"></p>
+                    <p>Price: ฿<span id="modalProductPrice"></span></p>
+                    <p>Size: <span id="modalProductSize"></span></p>
+                    <p>Quantity: <span id="modalProductQuantity"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="/Views/Cart/cart.js"></script>
 </body>
 
