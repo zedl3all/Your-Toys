@@ -83,6 +83,18 @@ table tbody tr:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
+td img {
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+td img:hover {
+    transform: scale(1.8);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    position: relative;
+}
+
 /* ======= TOTAL AND ACTIONS ======= */
 .total, .actions {
     margin: 20px 0;
