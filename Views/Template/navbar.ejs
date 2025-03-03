@@ -473,7 +473,7 @@
             const userId = localStorage.getItem('user_id');
 
             if (userId) {
-                window.location.href = `/AllOrder?userId=${userId}`;
+                window.location.href = `/AllOrder/${userId}`;
             } else {
                 alert('Please log in to view your orders');
                 window.location.href = '/login';
