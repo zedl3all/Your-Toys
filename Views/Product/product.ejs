@@ -102,9 +102,14 @@
                             <!-- น่าเป็นห่วง -->
                             <!-- Image Upload Field -->
                             <div class="mb-4">
-                                <label for="image" class="form-label fw-medium">Upload Artwork:</label>
-                                <input type="file" id="image" name="image" accept="image/*" class="form-control">
-                                <div class="form-text">Supported formats: JPG and PNG. Max 10MB.</div>
+                                <label for="artwork" class="form-label fw-medium">Upload Artwork:</label>
+                                <input type="file" id="artwork" name="image" accept="image/*" class="form-control">
+                                <div class="form-text">Supported formats: JPG and PNG. Max 25MB.</div>
+                                <div id="upload-preview" class="mt-2 d-none">
+                                    <img id="artwork-preview" class="img-thumbnail" style="max-height: 150px;" alt="Artwork preview">
+                                    <button type="button" class="btn btn-sm btn-outline-danger mt-1" id="remove-artwork">Remove</button>
+                                </div>
+                                <input type="hidden" id="uploaded-artwork-path" name="artworkPath" value="">
                             </div>
 
                             <!-- Hidden base price -->
