@@ -74,12 +74,3 @@ function showpassword() {
         x.type = "password";
     }
 }
-
-function toggleUserType(element, userType) {
-    document.querySelectorAll('.toggle-option').forEach(option => {
-        option.classList.remove('active');
-    });
-    element.classList.add('active');
-    element.dataset.userType = userType;
-    document.getElementById('loginForm').dataset.userType = userType;
-}
