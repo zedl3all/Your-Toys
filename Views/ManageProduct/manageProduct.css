@@ -22,6 +22,7 @@ body {
 
 .product-container::-webkit-scrollbar {
     height: 4px;
+    width: 6px;
 }
 
 .product-container::-webkit-scrollbar-track {
