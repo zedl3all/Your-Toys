@@ -43,14 +43,14 @@ app.use('/Utils', express.static(path.join(__dirname, '/Utils')));
 
 //Filter for upload image
 const fileFilter = (req, file, cb) => {
-    const allowedTypes = /jpeg|jpg|png|webp/;
+    const allowedTypes = /jpeg|jpg|png|webp|gif|jfif/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = allowedTypes.test(file.mimetype);
 
     if (extname && mimetype) {
         return cb(null, true);
     } else {
-        cb(new Error("Only JPG, WEBP, and PNG files are allowed"));
+        cb(new Error("Only JPG, WEBP, PNG, JFIF, and GIF files are allowed"));
     }
 };
 

@@ -35,6 +35,14 @@ function openEditModal(productId) {
                     checkbox.checked = categoryIds.includes(parseInt(checkbox.value));
                 });
             }
+
+            // Set the product image in the preview
+            if (product.image) {
+                const editImagePreview = document.getElementById('editImagePreview');
+                editImagePreview.src = `/Asset/Product/${product.image}`;
+                editImagePreview.style.opacity = '1';
+                editImagePreview.nextElementSibling.style.display = 'none';
+            }
         })
         .catch(error => {
             console.error('Error:', error);
@@ -45,6 +53,13 @@ function openEditModal(productId) {
 
 function closeEditModal() {
     document.getElementById('editModal').style.display = 'none';
+    
+    // Reset image preview to placeholder
+    const imagePreview = document.getElementById('editImagePreview');
+    const noImageText = imagePreview.nextElementSibling;
+    imagePreview.src = '/Asset/placeholder-image.webp';
+    imagePreview.style.opacity = '0.5';
+    noImageText.style.display = 'block';
 }
 
 function openAddModal() {
@@ -70,6 +85,13 @@ function openAddModal() {
 
 function closeAddModal() {
     document.getElementById('addModal').style.display = 'none';
+    
+    // Reset image preview to placeholder
+    const imagePreview = document.getElementById('addImagePreview');
+    const noImageText = imagePreview.nextElementSibling;
+    imagePreview.src = '/Asset/placeholder-image.webp';
+    imagePreview.style.opacity = '0.5';
+    noImageText.style.display = 'block';
 }
 
 function removeProduct(productId) {
@@ -98,10 +120,33 @@ window.onclick = function (event) {
     const editModal = document.getElementById('editModal');
     const addModal = document.getElementById('addModal');
     if (event.target == editModal) {
-        editModal.style.display = 'none';
+        closeEditModal();
     }
     if (event.target == addModal) {
-        addModal.style.display = 'none';
+        closeAddModal();
+    }
+}
+
+// Add this function after your existing functions
+
+function previewImage(input, previewId) {
+    const preview = document.getElementById(previewId);
+    const noImageText = preview.nextElementSibling;
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.opacity = '1';
+            noImageText.style.display = 'none';
+        };
+        
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        preview.src = '/Asset/placeholder-image.webp';
+        preview.style.opacity = '0.5';
+        noImageText.style.display = 'block';
     }
 }
 

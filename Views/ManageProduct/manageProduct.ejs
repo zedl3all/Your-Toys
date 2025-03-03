@@ -203,7 +203,13 @@
                 </div>
                 <div class="form-group">
                     <label for="editImage">Upload Image:</label>
-                    <input type="file" id="editImage" name="image" accept="image/*">
+                    <div class="image-upload-container">
+                        <input type="file" id="editImage" name="image" accept="image/*" onchange="previewImage(this, 'editImagePreview')">
+                        <div class="image-preview-container">
+                            <img id="editImagePreview" src="/Asset/placeholder-image.png" alt="Preview" class="image-preview">
+                            <div class="no-image-text">No image selected</div>
+                        </div>
+                    </div>
                 </div>
                 <button type="submit">Save Changes</button>
             </form>
@@ -269,7 +275,13 @@
                 </div>
                 <div class="form-group">
                     <label for="addImage">Upload Image:</label>
-                    <input type="file" id="addImage" name="image" accept="image/jpeg,image/jpg,image/png,image/webp">
+                    <div class="image-upload-container">
+                        <input type="file" id="addImage" name="image" accept="image/jpeg, image/jpg, image/png, image/webp, image/gif, image/jfif" onchange="previewImage(this, 'addImagePreview')">
+                        <div class="image-preview-container">
+                            <img id="addImagePreview" src="/Asset/placeholder-image.webp" alt="Preview" class="image-preview">
+                            <div class="no-image-text">No image selected</div>
+                        </div>
+                    </div>
                 </div>
                 <button type="submit">Add Product</button>
             </form>

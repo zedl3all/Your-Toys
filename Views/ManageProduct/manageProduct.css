@@ -301,3 +301,71 @@ a.custom-button{
         padding: 10px;
     }
 }
+
+/* Add these styles at the end of your CSS file */
+
+.image-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.image-preview-container {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    height: 200px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto;
+    background-color: #f8f8f8;
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: opacity 0.3s;
+}
+
+.no-image-text {
+    position: absolute;
+    color: #999;
+    font-style: italic;
+    z-index: 0;
+}
+
+.image-preview-container:hover {
+    border-color: #FFC107;
+}
+
+/* Custom file input styling */
+input[type="file"] {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 8px;
+    width: 100%;
+    cursor: pointer;
+}
+
+input[type="file"]:hover {
+    background-color: #e9ecef;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .image-preview-container {
+        height: 150px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .image-preview-container {
+        height: 120px;
+    }
+}
