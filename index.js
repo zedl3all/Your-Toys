@@ -926,8 +926,8 @@ app.get('/Packing', (req, res) => {
     res.render('Packing/packing');
 });
 
-app.get('/tracking', (req, res) => {
-    const orderId = req.query.orderId;
+app.get('/tracking/:id', (req, res) => {
+    const orderId = req.params.id;
 
     if (!orderId) {
         return res.render('Tracking/tracking', {
