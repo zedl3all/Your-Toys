@@ -60,8 +60,15 @@
                                     <%= cart[i].itemTotal.toFixed(2) %>฿
                                 </td>
                                 <td style="width: 8%; text-align: center;">
-                                    <button type="button" class="btnt" onclick="showDetailModal(this)"
-                                        data-product='<%= JSON.stringify(cart[i]) %>'>
+                                    <button type="button" class="btnt" onclick="showDetailModal(this)" data-product='<%= JSON.stringify({
+                                            name: cart[i].name,
+                                            image: cart[i].image,
+                                            img: cart[i].img,
+                                            price: cart[i].price,
+                                            size: cart[i].size,
+                                            quantity: cart[i].quantity,
+                                            detail: cart[i].detail
+                                        }) %>'>
                                         Detail
                                     </button>
                                 </td>
