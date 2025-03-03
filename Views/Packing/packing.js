@@ -34,6 +34,27 @@ function changeStatus(id, status) {
     
     // Show notification
     showNotification(`Order status updated to "${status}"`);
+
+    // Send request to update status in the database
+    let order_id = id.replace("status-", "");
+
+    fetch('/updateOrderStatus', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ orderId: parseInt(order_id), status: status })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            showNotification(`Failed to update status: ${data.message}`);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Failed to update status');
+    });
 }
 
 function showNotification(message) {
@@ -75,8 +96,8 @@ function viewImage(imageSrc) {
     const billImage = document.getElementById('billImage');
     
     // Set the image source
-    billImage.src = `/images/bills/${imageSrc}`;
-    
+    // billImage.src = `/images/bills/${imageSrc}`;
+    billImage.src = imageSrc;
     // Show the modal
     modal.style.display = 'block';
     

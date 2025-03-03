@@ -923,7 +923,23 @@ app.delete('/manageProduct/product/:id', (req, res) => {
 });
 
 app.get('/Packing', (req, res) => {
-    res.render('Packing/packing');
+    const query = `
+    SELECT o.order_id order_id, c.username customer,  o.detail description, order_date, o.img image, s.status_id status
+    FROM orders o 
+    JOIN users c on o.customer_id = c.user_id
+    JOIN status s on o.status_id = s.status_id;
+    `;
+    db.all(query, (err, orders) => {
+        if (err) {
+            console.log('Database error:', err.message);
+            return res.status(500).send('Database error');
+        }
+        
+        
+
+        res.render('Packing/packing', { orders });
+    });
+
 });
 
 app.get('/tracking/:id', (req, res) => {
@@ -1090,6 +1106,35 @@ app.get('/products', (req, res) => {
         } else {
             res.json({ success: true, products: rows });
         }
+    });
+});
+
+app.post('/updateOrderStatus', (req, res) => {
+    const { orderId, status } = req.body;
+    console.log(`Updating order ${orderId} to status ${status}`);
+
+    const statusMap = {
+        'Waiting for packing': 2,
+        'Packing': 3,
+        'Success': 4,
+        'Failed': 5
+    };
+
+    const statusId = statusMap[status];
+    console.log(statusId)
+    console.log(!statusId)
+    if (!statusId) {
+        return res.status(400).json({ success: false, message: 'Invalid status' });
+    }
+
+    const query = `UPDATE orders SET status_id = ${statusId} WHERE order_id = ${orderId};`;
+    db.run(query, function(err) {
+        if (err) {
+            console.error('Database error:', err.message);
+            return res.status(500).json({ success: false, message: 'Database error' });
+        }
+
+        res.json({ success: true, message: 'Order status updated successfully' });
     });
 });
 

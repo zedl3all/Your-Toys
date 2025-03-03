@@ -32,31 +32,42 @@
                 </thead>
                 <tbody>
                     <!-- Example product rows -->
+                    <% orders.forEach(order => { %>
                     <tr>
-                        <td>Order 1</td>
-                        <td>John Doe</td>
-                        <td>Desktop Computer Parts</td>
-                        <td>24/2/2025</td>
+                        <td><%=order.order_id%></td>
+                        <td><%=order.customer%></td>
+                        <td><%=order.description%></td>
+                        <td><%=order.order_date%></td>
                         <td>
-                            <a href="#" class="btn-image" onclick="viewImage('bill1.jpg')">
+                            <a href="#" class="btn-image" onclick="viewImage('/Asset/Payment/<%=order.image%>')">
                                 <i class="fas fa-eye"></i> View
                             </a>
                         </td>
-                        <td id="status-1" class="status-waiting">Waiting for packing</td>
+                        
+                        <%if (order.status == 3){%>
+                            <td id="status-<%=order.order_id%>" class="status-packing">Packing</td>
+                        <%} else if (order.status == 4){%>
+                            <td id="status-<%=order.order_id%>" class="status-success">Sucess</td>
+                        <%} else if (order.status == 5){%>
+                            <td id="status-<%=order.order_id%>" class="status-failed">Failed</td>
+                        <%}else{%>
+                            <td id="status-<%=order.order_id%>" class="status-waiting">Waiting for packing</td>
+                        <%}%>   
                         <td>
                             <div class="action-buttons">
-                                <a href="#" class="btn-packing" onclick="changeStatus('status-1', 'Packing')">
+                                <a href="#" class="btn-packing" onclick="changeStatus('status-<%=order.order_id%>', 'Packing')">
                                     <i class="fas fa-box"></i> Packing
                                 </a>
-                                <a href="#" class="btn-success" onclick="changeStatus('status-1', 'Success')">
+                                <a href="#" class="btn-success" onclick="changeStatus('status-<%=order.order_id%>', 'Success')">
                                     <i class="fas fa-check"></i> Success
                                 </a>
-                                <a href="#" class="btn-failed" onclick="changeStatus('status-1', 'Failed')">
+                                <a href="#" class="btn-failed" onclick="changeStatus('status-<%=order.order_id%>', 'Failed')">
                                     <i class="fas fa-times"></i> Failed
                                 </a>
                             </div>
                         </td>
                     </tr>
+                    <% }); %>
                 </tbody>
             </table>
         </div>
