@@ -92,9 +92,10 @@ th:nth-child(5), td:nth-child(5) { width: 12%; } /* Image(Bill) - NEW */
 th:nth-child(6), td:nth-child(6) { width: 17%; } /* Status */
 th:nth-child(7), td:nth-child(7) { width: 20%; } /* Actions */
 
-a {
-    background: linear-gradient(45deg, #FFC107, #ffdb4d);
-    color: #333;
+/* Image Button */
+.btn-image {
+    background: linear-gradient(45deg, #9C27B0, #673AB7);
+    color: white;
     padding: 5px 10px;
     border-radius: 8px;
     text-decoration: none;
@@ -105,18 +106,6 @@ a {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     display: inline-block;
-}
-
-a:hover {
-    background: linear-gradient(45deg, #ffdb4d, #FFC107);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Image Button */
-.btn-image {
-    background: linear-gradient(45deg, #9C27B0, #673AB7);
-    color: white;
 }
 
 .btn-image:hover {
@@ -364,16 +353,58 @@ tbody tr:hover {
 .btn-packing {
     background: linear-gradient(45deg, #FFC107, #FFD700);
     color: #333;
+    padding: 5px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 2px;
+    font-size: clamp(12px, 1.5vw, 16px);
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-packing:hover {
+    background: linear-gradient(45deg, #FFD700, #FFC107);
 }
 
 .btn-success {
     background: linear-gradient(45deg, #8BC34A, #689F38);
     color: white;
+    padding: 5px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 2px;
+    font-size: clamp(12px, 1.5vw, 16px);
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-success:hover {
+    background: linear-gradient(45deg, #689F38, #8BC34A);
 }
 
 .btn-failed {
     background: linear-gradient(45deg, #F44336, #D32F2F);
     color: white;
+    padding: 5px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 2px;
+    font-size: clamp(12px, 1.5vw, 16px);
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-failed:hover {
+    background: linear-gradient(45deg, #D32F2F, #F44336);
 }
 
 /* Page header */
