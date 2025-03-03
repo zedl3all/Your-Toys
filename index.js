@@ -877,7 +877,94 @@ app.get('/Tracking', (req, res) => {
 });
 
 app.get('/AllOrder', (req, res) => {
-    res.render('AllOrder/allOrder');
+    const userId = req.query.userId;
+    console.log(`AllOrder request for userId: ${userId}`);
+
+    if (!userId) {
+        return res.render('AllOrder/allOrder', {
+            orders: [],
+            message: "Please log in to view your orders",
+            statusLabels: {
+                2: "Ordered",
+                3: "Packed",
+                4: "Completed"
+            }
+        });
+    }
+
+    const query = `
+        SELECT o.order_id, o.product_id, p.name, p.price, o.amount as quantity, 
+               p.image, o.size, o.detail, o.status_id, o.order_date, o.packing_date,
+               o.total_price
+        FROM orders o
+        JOIN products p ON o.product_id = p.id
+        WHERE o.customer_id = ? AND o.status_id BETWEEN 2 AND 4
+        ORDER BY o.order_date DESC
+    `;
+
+    db.all(query, [userId], (err, items) => {
+        if (err) {
+            console.log('Database error:', err.message);
+            return res.status(500).send('Database error');
+        }
+
+        // Group orders by order_id for display
+        const groupedOrders = {};
+        items.forEach(item => {
+            if (!groupedOrders[item.order_id]) {
+                groupedOrders[item.order_id] = {
+                    order_id: item.order_id,
+                    status_id: item.status_id,
+                    order_date: item.order_date,
+                    packing_date: item.packing_date,
+                    items: [],
+                    total: 0
+                };
+            }
+            
+            // Calculate item price if needed
+            let itemTotal = item.total_price;
+            if (!itemTotal) {
+                // Parse ratio and calculate
+                let x = 1, y = 1;
+                if (item.size) {
+                    try {
+                        [x, y] = item.size.split(':').map(Number);
+                    } catch (e) { console.log(`Error parsing ratio ${item.size}:`, e); }
+                }
+                
+                // Calculate price
+                const priceData = priceCalculator.calculatePrice(
+                    item.price, x, y, item.quantity
+                );
+                itemTotal = priceData.totalPrice;
+            }
+            
+            // Add item to order
+            groupedOrders[item.order_id].items.push({
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity,
+                size: item.size,
+                detail: item.detail,
+                total: itemTotal
+            });
+            
+            // Add to order total
+            groupedOrders[item.order_id].total += itemTotal;
+        });
+
+        res.render('AllOrder/allOrder', {
+            orders: Object.values(groupedOrders),
+            userId: userId,
+            message: (items.length === 0) ? "You don't have any orders yet" : null,
+            statusLabels: {
+                2: "Ordered",
+                3: "Packed",
+                4: "Completed"
+            }
+        });
+    });
 });
 
 // app.get('/categories', (req, res) => {
