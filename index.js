@@ -310,8 +310,8 @@ app.get('/cart', (req, res) => {
     }
 
     const query = `
-        SELECT o.order_id, o.customer_id, o.product_id, p.name, p.price, o.amount as quantity, 
-               p.image, o.size, o.detail, o.img 
+        SELECT o.order_id, o.product_id, p.name, p.price, o.amount as quantity, 
+               p.image, o.size, o.detail
         FROM orders o
         JOIN products p ON o.product_id = p.id
         WHERE o.customer_id = ? AND o.status_id = 0
@@ -450,42 +450,13 @@ app.get('/cart/remove/:id', (req, res) => {
                 res.redirect('/cart?userId=' + userId);
             });
         } else if (row) {
-            // If quantity = 1, delete the order and possibly the image
-            const handleImageDeletion = (callback) => {
-                // Check if there's an image to delete
-                if (row.img) {
-                    const imagePath = path.join(customizeDir, row.img);
-                    
-                    // Check if file exists before attempting to delete
-                    fs.access(imagePath, fs.constants.F_OK, (err) => {
-                        if (!err) {
-                            fs.unlink(imagePath, (err) => {
-                                if (err) {
-                                    console.error(`Error deleting image file ${row.img}:`, err.message);
-                                } else {
-                                    console.log(`Successfully deleted image file: ${row.img}`);
-                                }
-                                callback();
-                            });
-                        } else {
-                            console.log(`Image file ${row.img} not found, skipping deletion`);
-                            callback();
-                        }
-                    });
-                } else {
-                    callback();
+            const deleteQuery = 'DELETE FROM orders WHERE order_id = ?';
+            db.run(deleteQuery, [orderId], (err) => {
+                if (err) {
+                    console.log(err.message);
+                    return res.status(500).send('Database error');
                 }
-            };
-            
-            handleImageDeletion(() => {
-                const deleteQuery = 'DELETE FROM orders WHERE order_id = ?';
-                db.run(deleteQuery, [orderId], (err) => {
-                    if (err) {
-                        console.log(err.message);
-                        return res.status(500).send('Database error');
-                    }
-                    res.redirect('/cart?userId=' + userId);
-                });
+                res.redirect('/cart?userId=' + userId);
             });
         } else {
             res.redirect('/cart?userId=' + userId);
@@ -955,8 +926,8 @@ app.get('/Packing', (req, res) => {
     res.render('Packing/packing');
 });
 
-app.get('/tracking', (req, res) => {
-    const orderId = req.query.orderId;
+app.get('/tracking/:id', (req, res) => {
+    const orderId = req.params.id;
 
     if (!orderId) {
         return res.render('Tracking/tracking', {
@@ -1007,8 +978,8 @@ app.get('/tracking', (req, res) => {
     });
 });
 
-app.get('/AllOrder', (req, res) => {
-    const userId = req.query.userId;
+app.get('/AllOrder/:id', (req, res) => {
+    const userId = req.params.id;
     console.log(`AllOrder request for userId: ${userId}`);
 
     if (!userId) {
