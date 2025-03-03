@@ -32,30 +32,55 @@ table {
     border-collapse: collapse;
     margin-bottom: 20px;
     min-width: 800px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: none;
 }
 
-table, th, td {
-    border: 1px solid #ccc;
-}
-
-th, td {
+th,
+td {
     padding: 8px;
     text-align: left;
     white-space: nowrap;
+    /* ป้องกันข้อความขึ้นบรรทัดใหม่ */
 }
 
-#qua {
-    text-align: center;
-}
-
+/* ปรับขนาดคอลัมน์ Description ให้ยืดหยุ่น */
 td:nth-child(2) {
     max-width: 200px;
     white-space: normal;
+    /* อนุญาตให้ข้อความขึ้นบรรทัดใหม่ได้ */
     word-wrap: break-word;
 }
 
 th {
-    background-color: #f4f4f4;
+    background-color: #FFC107;
+    color: #333;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    border: none;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+td {
+    vertical-align: middle;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    border-right: none;
+    border-left: none;
+}
+
+table tbody tr {
+    transition: all 0.2s ease;
+}
+
+table tbody tr:hover {
+    background-color: #fff8e1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 /* ======= TOTAL AND ACTIONS ======= */
@@ -66,7 +91,7 @@ th {
 
 .actions a {
     margin: 0 10px;
-    background: linear-gradient(45deg, #FFC107, #ffdb4d);
+    background: linear-gradient(45deg, #FFC107, #FFD700);
     color: #333;
     padding: 12px 30px;
     border-radius: 8px;
@@ -79,26 +104,29 @@ th {
 }
 
 .actions a:hover {
-    background-color: #FFC107;
+    background: linear-gradient(45deg, #FFD700, #FFC107);
+    transform: translateY(-3px);
 }
 
 .btnt {
-    text-decoration: none;
-    background: linear-gradient(45deg, #FFC107, #ffdb4d);
+    background: linear-gradient(45deg, #FFC107, #FFD700);
     color: #333;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin: 0 5px;
-    font-size: 16px;
-    font-weight: 600;
-    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 6px;
     transition: all 0.3s ease;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
 }
 
 .btnt:hover {
-    background-color: #FFC107;
+    background: linear-gradient(45deg, #FFD700, #FFC107);
+    transform: translateY(-3px);
 }
 
 /* ======= MODAL COMMON STYLES ======= */
