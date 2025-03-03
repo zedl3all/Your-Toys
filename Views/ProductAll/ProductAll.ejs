@@ -42,6 +42,7 @@
                         </div>
                         <div id="categoryCollapse" class="collapse show">
                             <div class="list-group list-group-flush">
+                                <a href="/ProductAll" class="list-group-item list-group-item-action">All</a>
                                 <% categories.forEach(category => { %>
                                     <!-- <button class="list-group-item list-group-item-action"
                                             onclick="selectCategory('<%= category %>')">
@@ -62,6 +63,7 @@
                     </div>
                     <div class="offcanvas-body">
                         <div class="list-group">
+                            <a href="/ProductAll" class="list-group-item list-group-item-action">All</a>
                             <% categories.forEach(category => { %>
                                 <a href="/ProductAll/<%= category.id %>" class="list-group-item list-group-item-action"><%= category.name %></a>
                             <% }) %>

@@ -9,13 +9,11 @@ const changeBarDisplay = function () {
   const actives = document.querySelectorAll(".active");
 
   if (window.innerWidth >= 375 && window.innerWidth < 810) {
-    progressBar.style.height = `${
-      ((actives.length - 1) / (circles.length - 1)) * 100
-    }%`;
+    progressBar.style.height = `${((actives.length - 1) / (circles.length - 1)) * 100
+      }%`;
   } else {
-    progressBar.style.width = `${
-      ((actives.length - 1) / (circles.length - 1)) * 100
-    }%`;
+    progressBar.style.width = `${((actives.length - 1) / (circles.length - 1)) * 100
+      }%`;
   }
 };
 
@@ -72,3 +70,28 @@ const fetchDataAndUpdateProgress = async function () {
 
 // Call the function to fetch data and update the progress bar on page load
 fetchDataAndUpdateProgress();
+
+/**
+ * Updates the progress bar width based on the status ID
+ * @param {number} statusId - The order status ID
+ */
+function updateProgressBar(statusId) {
+  if (!progressBar) return;
+
+  if (statusId === 2) progressBar.style.width = '0%';
+  else if (statusId === 3) progressBar.style.width = '50%';
+  else if (statusId === 4) progressBar.style.width = '100%';
+  else progressBar.style.width = '0%';
+
+  console.log('Set progress bar width to:', progressBar.style.width);
+}
+
+// Initialize when the DOM is loaded
+document.addEventListener('DOMContentLoaded', function () {
+  // Get the status ID from the data attribute
+  const container = document.querySelector('.progress__container');
+  if (container) {
+    const statusId = parseInt(container.getAttribute('data-status-id'));
+    updateProgressBar(statusId);
+  }
+});

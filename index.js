@@ -152,7 +152,26 @@ app.get("/", (req, res) => {
 });
 
 app.get("/ProductAll", (req, res) => {
-    res.redirect('/ProductAll/1');
+    const categoriesQuery = 'SELECT * FROM categories';
+    const productsQuery = `SELECT * FROM products;`;
+
+    db.all(categoriesQuery, [], (err, categories) => {
+        if (err) {
+            console.error(`Error fetching categories: ${err.message}`);
+            res.status(500).send('Failed to fetch categories');
+            return;
+        }
+
+        db.all(productsQuery, [], (err, products) => {
+            if (err) {
+                console.error(`Error fetching products: ${err.message}`);
+                res.status(500).send('Failed to fetch products');
+                return;
+            }
+                const cat = [{name:"All Product", id:0}];
+                res.render('ProductAll/ProductAll', { categories, products, cat});
+        });
+    });
 });
 
 app.get("/ProductAll/:id", (req, res) => {
@@ -201,10 +220,6 @@ app.get('/product/:id', (req, res) => { // test
         console.log(rows);
         res.render('Product/product', { data: rows });
     });
-});
-
-app.get('/productAll', (req, res) => { // test
-    res.render('ProductAll/productAll');
 });
 
 app.post('/getqr', (req, res) => {
@@ -872,8 +887,56 @@ app.get('/Packing', (req, res) => {
     res.render('Packing/packing');
 });
 
-app.get('/Tracking', (req, res) => {
-    res.render('Tracking/tracking');
+app.get('/tracking', (req, res) => {
+    const orderId = req.query.orderId;
+    
+    if (!orderId) {
+        return res.render('Tracking/tracking', {
+            order: null,
+            message: "No order specified"
+        });
+    }
+    
+    const query = `
+        SELECT o.order_id, o.customer_id, o.product_id, p.name, p.price, 
+               o.amount as quantity, p.image, o.size, o.detail, 
+               o.status_id, o.order_date, o.packing_date, o.total_price,
+               u.username as customer_name, u.email, u.phone, u.address
+        FROM orders o
+        JOIN products p ON o.product_id = p.id
+        JOIN users u ON o.customer_id = u.user_id
+        WHERE o.order_id = ? AND o.status_id BETWEEN 2 AND 4
+    `;
+    
+    db.all(query, [orderId], (err, items) => {
+        if (err) {
+            console.log('Database error:', err.message);
+            return res.status(500).send('Database error');
+        }
+        
+        if (!items || items.length === 0) {
+            return res.render('Tracking/tracking', {
+                order: null,
+                message: "Order not found or not in tracking status"
+            });
+        }
+        
+        console.log("Found order with status:", items[0].status_id);
+        
+        // Group all items under one order object
+        const order = {
+            order_id: items[0].order_id,
+            customer_name: items[0].customer_name,
+            email: items[0].email,
+            phone: items[0].phone,
+            address: items[0].address,
+            status_id: items[0].status_id,
+            order_date: items[0].order_date,
+            packing_date: items[0].packing_date
+        };
+        
+        res.render('Tracking/tracking', { order });
+    });
 });
 
 app.get('/AllOrder', (req, res) => {
