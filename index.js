@@ -152,7 +152,26 @@ app.get("/", (req, res) => {
 });
 
 app.get("/ProductAll", (req, res) => {
-    res.redirect('/ProductAll/1');
+    const categoriesQuery = 'SELECT * FROM categories';
+    const productsQuery = `SELECT * FROM products;`;
+
+    db.all(categoriesQuery, [], (err, categories) => {
+        if (err) {
+            console.error(`Error fetching categories: ${err.message}`);
+            res.status(500).send('Failed to fetch categories');
+            return;
+        }
+
+        db.all(productsQuery, [], (err, products) => {
+            if (err) {
+                console.error(`Error fetching products: ${err.message}`);
+                res.status(500).send('Failed to fetch products');
+                return;
+            }
+                const cat = [{name:"All Product", id:0}];
+                res.render('ProductAll/ProductAll', { categories, products, cat});
+        });
+    });
 });
 
 app.get("/ProductAll/:id", (req, res) => {
