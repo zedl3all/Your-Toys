@@ -34,15 +34,15 @@
         <table>
             <thead>
                 <tr>
-                    <th style="text-align: center;">ID</th>
-                    <th>Product Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Ratio</th>
-                    <th>Current Amount</th>
-                    <th>Image</th>
-                    <th>Category</th>
-                    <th style="text-align: center;">Actions</th>
+                    <th style="text-align: center;"><i class="fas fa-hashtag me-2"></i>ID</th>
+                    <th><i class="fas fa-box me-2"></i>Product Name</th>
+                    <th><i class="fas fa-align-left me-2"></i>Description</th>
+                    <th><i class="fas fa-tag me-2"></i>Price</th>
+                    <th><i class="fas fa-expand me-2"></i>Ratio</th>
+                    <th><i class="fas fa-cubes me-2"></i>Current Amount</th>
+                    <th><i class="fas fa-image me-2"></i>Image</th>
+                    <th><i class="fas fa-tags me-2"></i>Category</th>
+                    <th style="text-align: center;"><i class="fas fa-cog me-2"></i>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -72,7 +72,7 @@
                             <% if (item.categories && item.categories.length > 0) { %>
                                 <ul class="category-list">
                                     <% item.categories.forEach((cat) => { %>
-                                        <li><%= cat.name %></li>
+                                        <li><%= cat.name %></li><br>
                                     <% }); %>
                                 </ul>
                             <% } else { %>
@@ -80,48 +80,16 @@
                             <% } %>
                         </td>
                         <td style="text-align: center;">
-                            <a class="edit-link" onclick="event.preventDefault(); openEditModal('<%= item.id %>')">Edit</a>
+                            <a class="edit-link" onclick="event.preventDefault(); openEditModal('<%= item.id %>')">
+                                <i class="fas fa-edit me-2"></i>Edit
+                            </a>
                             <span style="border: #33322B solid 1px; height: 2rem; opacity: 0.3; margin-left:5px; margin-right:8px"></span>
-                            <a class="remove-link" onclick="event.preventDefault(); removeProduct('<%= item.id %>')">Remove</a>
+                            <a class="remove-link" onclick="event.preventDefault(); removeProduct('<%= item.id %>')">
+                                <i class="fas fa-trash-alt me-2"></i>Remove
+                            </a>
                         </td>
                     </tr>
                     <% }); %>
-                        <!-- <tr>
-                    <td>Product 1</td>
-                    <td>Sample description for product 1</td>
-                    <td>$10.00</td>
-                    <td>Medium</td>
-                    <td>
-                        <div class="amount-controls">
-                            <button onclick="updateAmount(1, -1)">-</button>
-                            <input type="number" id="amount-1" value="50" onchange="updateAmountDirectly(1)">
-                            <button onclick="updateAmount(1, 1)">+</button>
-                        </div>
-                    </td>
-                    <td><img src="/path/to/image1.jpg" alt="Product 1" width="50"></td>
-                    <td>
-                        <a href="#" class="edit-link" onclick="openEditModal(1)">Edit</a><a href="#" class="remove-link" onclick="removeProduct(1)">Remove</a>
-                    </td>
-                    
-                </tr> -->
-                        <!-- <tr>
-                    <td>Product 2</td>
-                    <td>Sample description for product 2</td>
-                    <td>$20.00</td>
-                    <td>Large</td>
-                    <td>
-                        <div class="amount-controls">
-                            <button onclick="updateAmount(2, -1)">-</button>
-                            <input type="number" id="amount-2" value="30" onchange="updateAmountDirectly(2)">
-                            <button onclick="updateAmount(2, 1)">+</button>
-                        </div>
-                    </td>
-                    <td><img src="/path/to/image2.jpg" alt="Product 2" width="50"></td>
-                    <td>
-                        <a href="#" class="edit-link" onclick="openEditModal(2)">Edit</a><a href="#" class="remove-link" onclick="removeProduct(2)">Remove</a>
-                    </td>
-                </tr> -->
-                        <!-- Add more product rows as needed -->
             </tbody>
         </table>
     </div>
@@ -147,23 +115,27 @@
     <!-- The Edit Modal -->
     <div id="editModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeEditModal()">&times;</span>
+            <span class="close" onclick="closeEditModal()"><i class="fas fa-times"></i></span>
             <h2>Edit Product</h2>
             <form id="editForm">
                 <div class="form-group">
-                    <label for="editProductName">Product Name:</label>
+                    <label for="editProductName"><i class="fas fa-tag me-2"></i>Product Name:</label>
                     <input type="text" id="editProductName" name="productName" required>
+                    <div class="warning-message mt-2">
+                        <i class="fas fa-exclamation-triangle text-warning"></i> 
+                        <span class="text-muted"><small>Note: You cannot change both the product name and image simultaneously.</small></span>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="editDescription">Description:</label>
+                    <label for="editDescription"><i class="fas fa-align-left me-2"></i>Description:</label>
                     <textarea id="editDescription" name="description" rows="4" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="editPrice">Price: <span class="required">*</span></label>
+                    <label for="editPrice"><i class="fas fa-dollar-sign me-2"></i>Price: <span class="required">*</span></label>
                     <input type="number" id="editPrice" name="price" step="0.01" min="0.01" required>
                 </div>
                 <div class="form-group">
-                    <label for="editRatio">Ratio:</label>
+                    <label for="editRatio"><i class="fas fa-expand-alt me-2"></i>Ratio:</label>
                     <div class="ratio-inputs">
                         <input type="number" id="number_x" name="number_x" min="1" value="1">
                         <span>:</span>
@@ -178,7 +150,7 @@
                     </select> -->
                 </div>
                 <div class="form-group">
-                    <label class="mb-2">Categories: <span class="required">*</span></label>
+                    <label class="mb-2"><i class="fas fa-tags me-2"></i>Categories: <span class="required">*</span></label>
                     <div class="category-checkbox-container border rounded p-3 needs-validation"
                         style="background-color: #f8f9fa; max-height: 250px; overflow-y: auto;">
                         <% categories.forEach(function(category) { %>
@@ -198,20 +170,20 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="editAmount">Amount:</label>
+                    <label for="editAmount"><i class="fas fa-boxes me-2"></i>Amount:</label>
                     <input type="number" id="editAmount" name="amount" step="1" required>
                 </div>
                 <div class="form-group">
-                    <label for="editImage">Upload Image:</label>
+                    <label for="editImage"><i class="fas fa-image me-2"></i>Upload Image:</label>
                     <div class="image-upload-container">
                         <input type="file" id="editImage" name="image" accept="image/*" onchange="previewImage(this, 'editImagePreview')">
                         <div class="image-preview-container">
-                            <img id="editImagePreview" src="/Asset/placeholder-image.png" alt="Preview" class="image-preview">
+                            <img id="editImagePreview" src="/Asset/placeholder-image.webp" alt="Preview" class="image-preview">
                             <div class="no-image-text">No image selected</div>
                         </div>
                     </div>
                 </div>
-                <button type="submit">Save Changes</button>
+                <button type="submit" class="submit-btn"><i class="fas fa-save me-2"></i>Save Changes</button>
             </form>
         </div>
     </div>
@@ -219,23 +191,23 @@
     <!-- The Add Modal -->
     <div id="addModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeAddModal()">&times;</span>
+            <span class="close" onclick="closeAddModal()"><i class="fas fa-times"></i></span>
             <h2>Add Product</h2>
             <form id="addForm" action="/manageProduct/addProduct" method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="addProductName">Product Name:</label>
+                    <label for="addProductName"><i class="fas fa-tag me-2"></i>Product Name:</label>
                     <input type="text" id="addProductName" name="productName" required>
                 </div>
                 <div class="form-group">
-                    <label for="addDescription">Description:</label>
+                    <label for="addDescription"><i class="fas fa-align-left me-2"></i>Description:</label>
                     <textarea id="addDescription" name="description" rows="4" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="addPrice">Price: <span class="required">*</span></label>
+                    <label for="addPrice"><i class="fas fa-dollar-sign me-2"></i>Price: <span class="required">*</span></label>
                     <input type="number" id="addPrice" name="price" step="0.01" min="0.01" required>
                 </div>
                 <div class="form-group">
-                    <label for="editRatio">Ratio:</label>
+                    <label for="editRatio"><i class="fas fa-expand-alt me-2"></i>Ratio:</label>
                     <div class="ratio-inputs">
                         <input type="number" id="number_x" name="number_x" min="1" value="1">
                         <span>:</span>
@@ -250,7 +222,7 @@
                     </select> -->
                 </div>
                 <div class="form-group">
-                    <label class="mb-2">Categories: <span class="required">*</span></label>
+                    <label class="mb-2"><i class="fas fa-tags me-2"></i>Categories: <span class="required">*</span></label>
                     <div class="category-checkbox-container border rounded p-3 needs-validation"
                         style="background-color: #f8f9fa; max-height: 250px; overflow-y: auto;">
                         <% categories.forEach(function(category) { %>
@@ -270,11 +242,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="addAmount">Amount:</label>
+                    <label for="addAmount"><i class="fas fa-boxes me-2"></i>Amount:</label>
                     <input type="number" id="addAmount" name="amount" required>
                 </div>
                 <div class="form-group">
-                    <label for="addImage">Upload Image:</label>
+                    <label for="addImage"><i class="fas fa-image me-2"></i>Upload Image:</label>
                     <div class="image-upload-container">
                         <input type="file" id="addImage" name="image" accept="image/jpeg, image/jpg, image/png, image/webp, image/gif, image/jfif" onchange="previewImage(this, 'addImagePreview')">
                         <div class="image-preview-container">
@@ -283,7 +255,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit">Add Product</button>
+                <button type="submit" class="submit-btn"><i class="fas fa-plus me-2"></i>Add Product</button>
             </form>
         </div>
     </div>

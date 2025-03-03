@@ -1,5 +1,39 @@
 let currentProductId = null;
 
+function showNotification(message) {
+    // Create notification element if it doesn't exist
+    let notification = document.getElementById('status-notification');
+    
+    // Always create a new notification to ensure animation plays
+    if (notification) {
+        notification.remove();
+    }
+    
+    notification = document.createElement('div');
+    notification.id = 'status-notification';
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(45deg, #FFC107, #ffdb4d);
+        color: #333;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+        z-index: 1000;
+        font-weight: 500;
+    `;
+    
+    // Update and show notification
+    notification.innerHTML = `<i class="fas fa-bell me-2"></i> ${message}`;
+    document.body.appendChild(notification);
+    
+    // Remove after animation completes
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
 function openEditModal(productId) {
     currentProductId = productId;
     const modal = document.getElementById('editModal');
@@ -102,15 +136,15 @@ function removeProduct(productId) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Product deleted successfully');
+                    showNotification('Product deleted successfully');
                     window.location.reload();
                 } else {
-                    alert('Error: ' + data.message);
+                    showNotification('Error: ' + data.message);
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Failed to delete product');
+                showNotification('Failed to delete product');
             });
     }
 }
@@ -169,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 container.classList.add('is-invalid');
                 const feedback = document.getElementById('edit-category-feedback');
                 feedback.style.display = 'block !important';
-                alert('Please select at least one category');
+                showNotification('Please select at least one category');
                 return false;
             }
 
@@ -192,13 +226,13 @@ document.addEventListener('DOMContentLoaded', function () {
             })
                 .then(response => response.json())
                 .then(data => {
-                    alert('Product updated successfully');
+                    showNotification('Product updated successfully');
                     closeEditModal();
                     window.location.reload();
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Failed to update product');
+                    showNotification('Failed to update product');
                 });
         });
     }
@@ -220,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 container.classList.add('is-invalid');
                 const feedback = document.getElementById('add-category-feedback');
                 feedback.style.display = 'block !important';
-                alert('Please select at least one category');
+                showNotification('Please select at least one category');
                 return false;
             }
 
@@ -250,16 +284,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert('Product added successfully');
+                        showNotification('Product added successfully');
                         closeAddModal();
                         window.location.reload();
                     } else {
-                        alert('Failed to add product: ' + data.message);
+                        showNotification('Failed to add product: ' + data.message);
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Failed to add product');
+                    showNotification('Failed to add product');
                 });
         });
     }
