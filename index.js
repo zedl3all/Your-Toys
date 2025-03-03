@@ -63,7 +63,7 @@ app.post("/upload/:imgname", (req, res) => {
             cb(null, req.params.imgname + path.extname(file.originalname));
         }
     });
-    const upload = multer({ 
+    const upload = multer({
         storage,
         fileFilter,
         limits: { fileSize: 25 * 1024 * 1024 } // 25MB
@@ -100,17 +100,17 @@ app.post('/validateUser', async (req, res) => {
             if (error) {
                 console.error(`Error: ${error.message}`);
                 return res.json({ success: false, message: "Database error" });
-            } 
-            
+            }
+
             if (row) {
                 console.log(`Login successful for: ${username}`);
-                console.log("User data being sent:", { 
+                console.log("User data being sent:", {
                     success: true,
                     user_id: row.user_id,
                     username: row.username,
                     role_id: row.role_id
                 });
-                
+
                 return res.json({
                     success: true,
                     user_id: row.user_id,
@@ -145,7 +145,7 @@ app.get("/", (req, res) => {
                 res.status(500).send('Failed to fetch products');
                 return;
             }
-            
+
             res.render('Home/home', { categories, products });
         });
     });
@@ -179,9 +179,9 @@ app.get("/ProductAll/:id", (req, res) => {
                     res.status(500).send('Failed to fetch products');
                     return;
                 }
-            console.log(cat)
-            res.render('ProductAll/ProductAll', { categories, products, cat });
-        });
+                console.log(cat)
+                res.render('ProductAll/ProductAll', { categories, products, cat });
+            });
         });
     });
 });
@@ -194,12 +194,12 @@ app.get('/product/:id', (req, res) => { // test
     const id = req.params.id;
     const query = 'SELECT * FROM products WHERE id = ?';
     db.get(query, [id], (err, rows) => {
-      if (err) {
-        console.log(err.message);
-        return res.status(500).send('Database error');
-      }
-      console.log(rows);
-      res.render('Product/product', { data: rows });
+        if (err) {
+            console.log(err.message);
+            return res.status(500).send('Database error');
+        }
+        console.log(rows);
+        res.render('Product/product', { data: rows });
     });
 });
 
@@ -221,18 +221,18 @@ app.post('/getqr', (req, res) => {
         if (err) {
             return res.status(500).send('Error generating QR Code');
         }
-        
+
         if (format === 'json') {
             // Return just the QR code as JSON for Ajax requests
-            return res.json({ 
+            return res.json({
                 qrCode: qrCodeSvg,
                 amount: amount,
                 promptpay: promptpay
             });
         }
-        
+
         // Regular HTML response for direct page loads
-        res.render('Test/test', { 
+        res.render('Test/test', {
             qrCode: qrCodeSvg,
             amount: amount,
             promptpay: promptpay
@@ -247,15 +247,15 @@ app.get('/test', (req, res) => { // test
 app.get('/cart', (req, res) => {
     const userId = req.query.userId;
     console.log(`Cart request for userId: ${userId}`);
-    
+
     if (!userId) {
-        return res.render('Cart/cart', { 
+        return res.render('Cart/cart', {
             cart: [],
             total: 0,
             message: "Please log in to view your cart"
         });
     }
-    
+
     const query = `
         SELECT o.order_id, o.product_id, p.name, p.price, o.amount as quantity, 
                p.image, o.size, o.detail
@@ -263,26 +263,33 @@ app.get('/cart', (req, res) => {
         JOIN products p ON o.product_id = p.id
         WHERE o.customer_id = ? AND o.status_id = 0
     `;
-    
+
     db.all(query, [userId], (err, items) => {
         if (err) {
             console.log('Database error:', err.message);
             return res.status(500).send('Database error');
         }
-        
+
+        console.log("==== CART PRICE DEBUG ====");
         // Calculate price with ratio factor using the shared function
         let total = 0;
         if (items && items.length > 0) {
             items.forEach(item => {
+                console.log(`Processing item: ${item.name} (Order ID: ${item.order_id})`);
+                console.log(`- Base price: ${item.price}`);
+                console.log(`- Quantity: ${item.quantity}`);
+                console.log(`- Size string: "${item.size}"`);
+
                 let x = 1, y = 1;
                 if (item.size) {
                     try {
                         [x, y] = item.size.split(':').map(Number);
+                        console.log(`- Parsed dimensions: x=${x}, y=${y}`);
                     } catch (e) {
                         console.log(`Error parsing ratio ${item.size}:`, e);
                     }
                 }
-                
+
                 // Use the shared calculation function
                 const priceData = priceCalculator.calculatePrice(
                     item.price,   // base price
@@ -290,13 +297,16 @@ app.get('/cart', (req, res) => {
                     y,            // height
                     item.quantity // quantity
                 );
-                
+
+                console.log(`- Adjusted unit price: ${priceData.unitPrice}`);
+                console.log(`- Item total: ${priceData.totalPrice}`);
+
                 item.priceWithRatio = priceData.unitPrice;
                 item.itemTotal = priceData.totalPrice;
                 total += item.itemTotal;
             });
         }
-        
+
         res.render('Cart/cart', {
             cart: items || [],
             total: total,
@@ -312,7 +322,7 @@ app.get('/cart/add/:id', (req, res) => {
     const quantity = parseInt(req.query.quantity) || 1;
     const specify = req.query.specify || '';
     const ratio = req.query.ratio || '1:1';
-    
+
     // Debug incoming parameters
     console.log('Cart Add Request:');
     console.log('- Product ID:', productId);
@@ -320,20 +330,20 @@ app.get('/cart/add/:id', (req, res) => {
     console.log('- Quantity:', quantity);
     console.log('- Specifications:', specify);
     console.log('- Ratio:', ratio);
-    
+
     if (!userId) {
         return res.redirect('/login');
     }
-    
+
     // Check if this exact combination already exists
     const checkQuery = 'SELECT * FROM orders WHERE customer_id = ? AND product_id = ? AND size = ? AND detail = ? AND status_id = 0';
-    
+
     db.get(checkQuery, [userId, productId, ratio, specify], (err, row) => {
         if (err) {
             console.log('Database error when checking existing item:', err.message);
             return res.status(500).send('Database error');
         }
-        
+
         if (row) {
             console.log(`Found existing item (order_id: ${row.order_id}) with matching product, size and details`);
             const updateQuery = 'UPDATE orders SET amount = amount + ? WHERE order_id = ?';
@@ -348,7 +358,7 @@ app.get('/cart/add/:id', (req, res) => {
         } else {
             console.log('Creating new cart item with these parameters');
             const insertQuery = 'INSERT INTO orders (customer_id, product_id, amount, status_id, order_date, detail, size) VALUES (?, ?, ?, 0, date("now"), ?, ?)';
-            db.run(insertQuery, [userId, productId, quantity, specify, ratio], function(err) {
+            db.run(insertQuery, [userId, productId, quantity, specify, ratio], function (err) {
                 if (err) {
                     console.log('Error inserting new item:', err.message);
                     return res.status(500).send('Database error');
@@ -363,19 +373,19 @@ app.get('/cart/add/:id', (req, res) => {
 app.get('/cart/remove/:id', (req, res) => {
     const orderId = req.params.id;
     const userId = req.query.userId;
-    
+
     if (!userId) {
         return res.redirect('/login');
     }
-    
+
     const checkQuery = 'SELECT * FROM orders WHERE order_id = ? AND customer_id = ? AND status_id = 0';
-    
+
     db.get(checkQuery, [orderId, userId], (err, row) => {
         if (err) {
             console.log(err.message);
             return res.status(500).send('Database error');
         }
-        
+
         if (row && row.amount > 1) {
             const updateQuery = 'UPDATE orders SET amount = amount - 1 WHERE order_id = ?';
             db.run(updateQuery, [orderId], (err) => {
@@ -429,35 +439,35 @@ app.get('/manageProduct', (req, res) => {
         JOIN pro_cat pc ON p.id = pc.p_id 
         JOIN categories c ON pc.c_id = c.id
     `;
-    
+
     db.all(productsQuery, [], (err, products) => {
         if (err) {
             console.log(err.message);
             return res.status(500).send('Database error');
         }
-        
+
         db.all(categoriesQuery, [], (err, categories) => {
             if (err) {
                 console.log(err.message);
                 return res.status(500).send('Database error');
             }
-            
+
             db.all(productCategoriesQuery, [], (err, productCategories) => {
                 if (err) {
                     console.log(err.message);
                     return res.status(500).send('Database error');
                 }
-                
+
                 products.forEach(product => {
                     product.categories = productCategories
                         .filter(pc => pc.product_id === product.id)
                         .map(pc => ({ id: pc.category_id, name: pc.category_name }));
                 });
-                
+
                 // console.log(products);
-                res.render('ManageProduct/manageProduct', { 
+                res.render('ManageProduct/manageProduct', {
                     data: products,
-                    categories: categories 
+                    categories: categories
                 });
             });
         });
@@ -473,35 +483,35 @@ app.get('/manageProduct/:id', (req, res) => {
         JOIN pro_cat pc ON p.id = pc.p_id 
         JOIN categories c ON pc.c_id = c.id
     `;
-    
+
     db.all(productsQuery, [], (err, products) => {
         if (err) {
             console.log(err.message);
             return res.status(500).send('Database error');
         }
-        
+
         db.all(categoriesQuery, [], (err, categories) => {
             if (err) {
                 console.log(err.message);
                 return res.status(500).send('Database error');
             }
-            
+
             db.all(productCategoriesQuery, [], (err, productCategories) => {
                 if (err) {
                     console.log(err.message);
                     return res.status(500).send('Database error');
                 }
-                
+
                 products.forEach(product => {
                     product.categories = productCategories
                         .filter(pc => pc.product_id === product.id)
                         .map(pc => ({ id: pc.category_id, name: pc.category_name }));
                 });
-                
+
                 // console.log(products);
-                res.render('ManageProduct/manageProduct', { 
+                res.render('ManageProduct/manageProduct', {
                     data: products,
-                    categories: categories 
+                    categories: categories
                 });
             });
         });
@@ -510,34 +520,34 @@ app.get('/manageProduct/:id', (req, res) => {
 
 app.get('/manageProduct/product/:id', (req, res) => {
     const id = req.params.id;
-    
+
     const productQuery = 'SELECT * FROM products WHERE id = ?';
-    
+
     const categoriesQuery = `
         SELECT c.id, c.name
         FROM categories c
         JOIN pro_cat pc ON c.id = pc.c_id
         WHERE pc.p_id = ?
     `;
-    
+
     db.get(productQuery, [id], (err, product) => {
         if (err) {
             console.error(err.message);
             return res.status(500).send('Database error');
         }
-        
+
         if (!product) {
             return res.status(404).send('Product not found');
         }
-        
+
         db.all(categoriesQuery, [id], (err, categories) => {
             if (err) {
                 console.error(err.message);
                 return res.status(500).send('Database error');
             }
-            
+
             product.categories = categories || [];
-            
+
             // console.log(product);
             res.send(JSON.stringify(product));
         });
@@ -558,7 +568,7 @@ app.put('/manageProduct/editproducts/:id', (req, res) => {
         }
     });
 
-    const upload = multer({ 
+    const upload = multer({
         storage,
         fileFilter,
         limits: { fileSize: 25 * 1024 * 1024 } // 25MB
@@ -621,21 +631,21 @@ app.put('/manageProduct/editproducts/:id', (req, res) => {
         query += ' WHERE id = ?';
         params.push(id);
 
-        db.run(query, params, function(err) {
+        db.run(query, params, function (err) {
             if (err) {
                 console.error("Database error:", err.message);
                 return res.status(500).json({ error: err.message });
             }
 
             if (categories && Array.isArray(categories)) {
-                db.run('DELETE FROM pro_cat WHERE p_id = ?', [id], function(err) {
+                db.run('DELETE FROM pro_cat WHERE p_id = ?', [id], function (err) {
                     if (err) {
                         console.error("Error removing categories:", err.message);
                         return res.status(500).json({ error: err.message });
                     }
 
                     if (categories.length === 0) {
-                        return res.json({ 
+                        return res.json({
                             message: 'Product updated successfully',
                             id: id
                         });
@@ -643,7 +653,7 @@ app.put('/manageProduct/editproducts/:id', (req, res) => {
 
                     let completed = 0;
                     categories.forEach(categoryId => {
-                        db.run('INSERT INTO pro_cat (p_id, c_id) VALUES (?, ?)', [id, categoryId], function(err) {
+                        db.run('INSERT INTO pro_cat (p_id, c_id) VALUES (?, ?)', [id, categoryId], function (err) {
                             completed++;
 
                             if (err) {
@@ -651,7 +661,7 @@ app.put('/manageProduct/editproducts/:id', (req, res) => {
                             }
 
                             if (completed === categories.length) {
-                                res.json({ 
+                                res.json({
                                     message: 'Product and categories updated successfully',
                                     id: id
                                 });
@@ -660,7 +670,7 @@ app.put('/manageProduct/editproducts/:id', (req, res) => {
                     });
                 });
             } else {
-                res.json({ 
+                res.json({
                     message: 'Product updated successfully',
                     id: id
                 });
@@ -673,14 +683,14 @@ app.put('/manageProduct/editproducts/:id', (req, res) => {
 app.post("/manageProduct/addProduct", (req, res) => {
 
     const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadDir);
-    },
-    filename: (req, file, cb) => {
-        cb(null, req.body.productName + path.extname(file.originalname));
-    }
+        destination: (req, file, cb) => {
+            cb(null, uploadDir);
+        },
+        filename: (req, file, cb) => {
+            cb(null, req.body.productName + path.extname(file.originalname));
+        }
     });
-    const upload = multer({ 
+    const upload = multer({
         storage,
         fileFilter,
         limits: { fileSize: 25 * 1024 * 1024 } // 25MB
@@ -710,7 +720,7 @@ app.post("/manageProduct/addProduct", (req, res) => {
         const query = `INSERT INTO products (name, description, price, size, amount, image) 
                     VALUES (?, ?, ?, ?, ?, ?)`;
 
-        db.run(query, [productName, description, price, size, amount, image], function(err) {
+        db.run(query, [productName, description, price, size, amount, image], function (err) {
             if (err) {
                 console.error("Error adding product:", err.message);
                 return res.status(500).json({ success: false, message: err.message });
@@ -723,8 +733,8 @@ app.post("/manageProduct/addProduct", (req, res) => {
             // console.log(!Array.isArray(categories));
             // console.log(categories.length === 0);
             if (!categories || !Array.isArray(categories) || categories.length === 0) {
-                return res.json({ 
-                    success: true, 
+                return res.json({
+                    success: true,
                     message: 'Product added successfully (no categories)',
                     productId: productId
                 });
@@ -734,7 +744,7 @@ app.post("/manageProduct/addProduct", (req, res) => {
             let errorOccurred = false;
 
             categories.forEach(categoryId => {
-                db.run('INSERT INTO pro_cat (p_id, c_id) VALUES (?, ?)', [productId, categoryId], function(err) {
+                db.run('INSERT INTO pro_cat (p_id, c_id) VALUES (?, ?)', [productId, categoryId], function (err) {
                     completedCount++;
 
                     if (err) {
@@ -743,21 +753,21 @@ app.post("/manageProduct/addProduct", (req, res) => {
                     }
                     if (completedCount === categories.length) {
                         if (errorOccurred) {
-                            return res.json({ 
-                                success: true, 
+                            return res.json({
+                                success: true,
                                 warning: 'Product added but some categories failed',
                                 productId: productId
                             })
-                            
+
                         } else {
-                            
-                            return res.json({ 
-                                success: true, 
+
+                            return res.json({
+                                success: true,
                                 message: 'Product and categories added successfully',
                                 productId: productId
                             })
                         }
-                        
+
                     }
                 });
             });
@@ -767,75 +777,75 @@ app.post("/manageProduct/addProduct", (req, res) => {
 
 app.delete('/manageProduct/product/:id', (req, res) => {
     const id = req.params.id;
-    
+
     db.serialize(() => {
         db.run('BEGIN TRANSACTION');
-        
-        db.run('DELETE FROM pro_cat WHERE p_id = ?', [id], function(err) {
+
+        db.run('DELETE FROM pro_cat WHERE p_id = ?', [id], function (err) {
             if (err) {
                 console.error("Error deleting from pro_cat:", err.message);
                 db.run('ROLLBACK');
-                return res.status(500).json({ 
-                    success: false, 
-                    message: 'Failed to delete product categories' 
+                return res.status(500).json({
+                    success: false,
+                    message: 'Failed to delete product categories'
                 });
             }
             db.get('SELECT image FROM products WHERE id = ?', [id], (err, row) => {
                 if (err) {
-                console.error("Error fetching product image:", err.message);
-                db.run('ROLLBACK');
-                return res.status(500).json({ 
-                    success: false, 
-                    message: 'Failed to fetch product image' 
-                });
+                    console.error("Error fetching product image:", err.message);
+                    db.run('ROLLBACK');
+                    return res.status(500).json({
+                        success: false,
+                        message: 'Failed to fetch product image'
+                    });
                 }
 
                 if (row && row.image) {
-                const imagePath = path.join(uploadDir, row.image);
-                fs.unlink(imagePath, (err) => {
-                    if (err) {
-                    console.error("Error deleting image file:", err.message);
-                    db.run('ROLLBACK');
-                    return res.status(500).json({ 
-                        success: false, 
-                        message: 'Failed to delete image file' 
-                    });
-                    }
+                    const imagePath = path.join(uploadDir, row.image);
+                    fs.unlink(imagePath, (err) => {
+                        if (err) {
+                            console.error("Error deleting image file:", err.message);
+                            db.run('ROLLBACK');
+                            return res.status(500).json({
+                                success: false,
+                                message: 'Failed to delete image file'
+                            });
+                        }
 
-                    db.run('DELETE FROM products WHERE id = ?', [id], function(err) {
-                    if (err) {
-                        console.error("Error deleting product:", err.message);
-                        db.run('ROLLBACK');
-                        return res.status(500).json({ 
-                        success: false, 
-                        message: 'Failed to delete product' 
+                        db.run('DELETE FROM products WHERE id = ?', [id], function (err) {
+                            if (err) {
+                                console.error("Error deleting product:", err.message);
+                                db.run('ROLLBACK');
+                                return res.status(500).json({
+                                    success: false,
+                                    message: 'Failed to delete product'
+                                });
+                            }
+
+                            db.run('COMMIT');
+                            res.json({
+                                success: true,
+                                message: 'Product and related data deleted successfully'
+                            });
                         });
-                    }
-
-                    db.run('COMMIT');
-                    res.json({ 
-                        success: true, 
-                        message: 'Product and related data deleted successfully' 
                     });
-                    });
-                });
                 } else {
-                db.run('DELETE FROM products WHERE id = ?', [id], function(err) {
-                    if (err) {
-                    console.error("Error deleting product:", err.message);
-                    db.run('ROLLBACK');
-                    return res.status(500).json({ 
-                        success: false, 
-                        message: 'Failed to delete product' 
-                    });
-                    }
+                    db.run('DELETE FROM products WHERE id = ?', [id], function (err) {
+                        if (err) {
+                            console.error("Error deleting product:", err.message);
+                            db.run('ROLLBACK');
+                            return res.status(500).json({
+                                success: false,
+                                message: 'Failed to delete product'
+                            });
+                        }
 
-                    db.run('COMMIT');
-                    res.json({ 
-                    success: true, 
-                    message: 'Product and related data deleted successfully' 
+                        db.run('COMMIT');
+                        res.json({
+                            success: true,
+                            message: 'Product and related data deleted successfully'
+                        });
                     });
-                });
                 }
             });
             // db.run('DELETE FROM products WHERE id = ?', [id], function(err) {
@@ -847,7 +857,7 @@ app.delete('/manageProduct/product/:id', (req, res) => {
             //             message: 'Failed to delete product' 
             //         });
             //     }
-                
+
             //     db.run('COMMIT');
             //     res.json({ 
             //         success: true, 
