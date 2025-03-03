@@ -503,3 +503,116 @@ body {
     z-index: 1000;
     /* Ensure it is above other elements */
 }
+
+/* Enhanced breadcrumb styles */
+.breadcrumb {
+    background-color: transparent;
+    padding: 0.5rem 0;
+    margin-bottom: 1.5rem;
+}
+
+.breadcrumb-item a {
+    color: #FAD401;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumb-item a:hover {
+    color: #d9b700;
+}
+
+/* Enhanced product card styles */
+.product-card {
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+    transition: transform 0.5s ease;
+    height: 180px;
+    object-fit: contain;
+}
+
+.product-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.price {
+    color: #ff6b6b;
+    font-size: 1.1rem;
+    margin-top: auto;
+}
+
+.product-card:hover {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Sorting and view options */
+.form-select-sm {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.5rem;
+}
+
+
+/* Enhanced category sidebar */
+.list-group-item {
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.list-group-item:hover,
+.list-group-item.active {
+    border-left: 3px solid #FAD401;
+    background-color: rgba(250, 212, 1, 0.05);
+}
+
+/* Additional responsive adjustments */
+@media (max-width: 768px) {
+    
+    .breadcrumb {
+        font-size: 0.9rem;
+    }
+    
+    .card-title {
+        font-size: 0.95rem;
+    }
+    
+    .card-text {
+        font-size: 0.85rem;
+    }
+    
+    .price {
+        font-size: 1rem;
+    }
+}
+
+/* Hover effect for touch devices */
+@media (hover: none) {
+    .product-actions {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    
+    .product-card:hover {
+        transform: none;
+    }
+    
+    .product-card:hover .card-img-top {
+        transform: none;
+    }
+}
