@@ -15,10 +15,14 @@
 </head>
 <body>
     <div class="container-fluid py-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i> หน้าหลัก</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-tags"></i> <%=cat[0].name%></li>
+        </ol>
         <!-- Offcanvas Sidebar for Mobile -->
         <div class="d-xl-none mb-3" id="cat-button">
             <button class="btn btn-warning" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
-                <i class="fas fa-bars"></i> Categories
+                <i class="fas fa-bars"></i> หมวดหมู่สินค้า
             </button>
         </div>
 
@@ -35,20 +39,20 @@
                                         data-bs-toggle="collapse" 
                                         data-bs-target="#categoryCollapse" 
                                         aria-expanded="true">
-                                    PRODUCT CATEGORY
+                                    <i class="fas fa-list-ul me-2"></i> หมวดหมู่สินค้า
                                     <i class="fas fa-chevron-down"></i>
                                 </button>
                             </h5>
                         </div>
                         <div id="categoryCollapse" class="collapse show">
                             <div class="list-group list-group-flush">
-                                <a href="/ProductAll" class="list-group-item list-group-item-action">All</a>
+                                <a href="/ProductAll" class="list-group-item list-group-item-action">
+                                    <i class="fas fa-th-large me-2"></i> ทั้งหมด
+                                </a>
                                 <% categories.forEach(category => { %>
-                                    <!-- <button class="list-group-item list-group-item-action"
-                                            onclick="selectCategory('<%= category %>')">
-                                        <%= category.name %>
-                                    </button> -->
-                                    <a href="/ProductAll/<%= category.id %>" class="list-group-item list-group-item-action"><%= category.name %></a>
+                                    <a href="/ProductAll/<%= category.id %>" class="list-group-item list-group-item-action">
+                                        <i class="fas fa-tag me-2"></i> <%= category.name %>
+                                    </a>
                                 <% }) %>
                             </div>
                         </div>
@@ -58,14 +62,18 @@
                 <!-- Mobile Offcanvas Sidebar -->
                 <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
                     <div class="offcanvas-header bg-warning">
-                        <h5 class="offcanvas-title" id="sidebarLabel">PRODUCT CATEGORY</h5>
+                        <h5 class="offcanvas-title" id="sidebarLabel"><i class="fas fa-list-ul me-2"></i> หมวดหมู่สินค้า</h5>
                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
                         <div class="list-group">
-                            <a href="/ProductAll" class="list-group-item list-group-item-action">All</a>
+                            <a href="/ProductAll" class="list-group-item list-group-item-action">
+                                <i class="fas fa-th-large me-2"></i> ทั้งหมด
+                            </a>
                             <% categories.forEach(category => { %>
-                                <a href="/ProductAll/<%= category.id %>" class="list-group-item list-group-item-action"><%= category.name %></a>
+                                <a href="/ProductAll/<%= category.id %>" class="list-group-item list-group-item-action">
+                                    <i class="fas fa-tag me-2"></i> <%= category.name %>
+                                </a>
                             <% }) %>
                         </div>
                     </div>
@@ -76,35 +84,32 @@
             <div class="col-xl-10">
                 <div class="mb-4">
                     <h2 class="text-center"><%=cat[0].name%></h2>
-                    <p class="text-muted text-center"><%=products.length%> ชิ้น</p>
+                    <p class="text-muted text-center"><i class="fas fa-box-open me-2"></i><%=products.length%> ชิ้น</p>
                 </div>
 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
-                    <!-- <% for(let i = 0; i < 4; i++) { %>
-                        <div class="col">
-                            <div class="card h-100 shadow-sm product-card" onclick="location.href='/product?id=1'">
-                                <img src="/Asset/Logo.svg" class="card-img-top p-3" alt="Product Image">
-                                <div class="card-body">
-                                    <h5 class="card-title">Product Title</h5>
-                                    <p class="card-text text-muted">Product Description</p>
-                                    <p class="card-text fw-bold">฿ 299</p>
-                                </div>
-                            </div>
-                        </div>
-                    <% } %> -->
                     <% products.forEach(item => { %>
                         <div class="col">
                             <div class="card h-100 shadow-sm product-card" onclick="location.href='/Product/<%=item.id%>'">
-                                <img src="/Asset/Product/<%=item.image%>" class="card-img-top p-3" alt="Product Image">
+                                <div class="position-relative">
+                                    <img src="/Asset/Product/<%=item.image%>" class="card-img-top p-3" alt="<%=item.name%>">
+                                </div>
                                 <div class="card-body">
-                                    <h5 class="card-title"><%=item.name%></h5>
-                                    <p class="card-text text-muted"><%=item.description%></p>
-                                    <p class="card-text fw-bold">฿ <%=item.price%></p>
+                                    <h5 class="card-title text-truncate"><%=item.name%></h5>
+                                    <div class="product-rating mb-2">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star-half-alt text-warning"></i>
+                                        <small class="text-muted ms-1">(4.5)</small>
+                                    </div>
+                                    <p class="card-text text-muted small text-truncate"><%=item.description%></p>
+                                    <p class="card-text fw-bold price">฿ <%= item.price.toLocaleString() %></p>
                                 </div>
                             </div>
                         </div>
                     <% }) %>
-                    
                 </div>
             </div>
         </div>
