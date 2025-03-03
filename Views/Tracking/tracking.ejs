@@ -4,44 +4,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script defer src="Views/Tracking/tracking.js"></script>
     <link rel="stylesheet" href="/Views/Tracking/tracking.css" />
-    <title>Tracking Page</title>
+    <title>Order Tracking</title>
     <%- include("../Template/navbar.ejs") %>
 </head>
 
 <body>
-    <main class="container">
-        <div class="progress__container">
-            <div class="progress__bar js-bar"></div>
-            <div class="progress__circle js-circle active">
-                <img src="/Asset/Tracking/order.png" alt="Step 1" class="progress__img">
-            </div>
-            <div class="progress__circle js-circle">
-                <img src="/Asset/Tracking/packed.png" alt="Step 2" class="progress__img">
-            </div>
-            <div class="progress__circle js-circle">
-                <img src="/Asset/Tracking/complete.png" alt="Step 3" class="progress__img">
-            </div>
-        </div>
 
-        <!-- <div class="wrapper">
-            <button type="button" class="btn js-prev" disabled>Previous</button>
-            <button type="button" class="btn js-next">Next</button>
-        </div> -->
+    <body>
+        <main class="container">
+            <% if (typeof order==='undefined' || !order) { %>
+                <div class="message">
+                    <p>
+                        <%= typeof message !=='undefined' ? message : "No order found" %>
+                    </p>
+                    <div class="buttons">
+                        <button onclick="window.history.back()">Back</button>
+                    </div>
+                </div>
+                <% } else { %>
+                    <div class="progress__container" data-status-id="<%= order.status_id %>">
+                        <div class="progress__bar js-bar"></div>
 
-        <div class="order-details">
-            <h2>Order Details</h2>
-            <p><strong>Order Number:</strong> 123456</p>
-            <p><strong>Customer Name:</strong> John Doe</p>
-            <p><strong>Shipping Address:</strong> 1234 Elm Street, Springfield, IL 62704</p>
-            <p><strong>Order Date:</strong> February 25, 2025</p>
-            <p><strong>Estimated Delivery:</strong> March 1, 2025</p>
-        </div>
-        <div class="buttons">
-            <button onclick="window.history.back()">Back</button>
-        </div>
-    </main>
-</body>
+                        <div class="progress__circle js-circle <%= order.status_id >= 2 ? 'active' : '' %>">
+                            <img src="/Asset/Tracking/order.png" alt="Step 1" class="progress__img">
+                        </div>
+                        <div class="progress__circle js-circle <%= order.status_id >= 3 ? 'active' : '' %>">
+                            <img src="/Asset/Tracking/packed.png" alt="Step 2" class="progress__img">
+                        </div>
+                        <div class="progress__circle js-circle <%= order.status_id >= 4 ? 'active' : '' %>">
+                            <img src="/Asset/Tracking/complete.png" alt="Step 3" class="progress__img">
+                        </div>
+                    </div>
+
+                    <div class="order-details">
+                        <h2>Order Details</h2>
+                        <p><strong>Order Number:</strong>
+                            <%= order.order_id %>
+                        </p>
+                        <p><strong>Customer Name:</strong>
+                            <%= order.customer_name %>
+                        </p>
+                        <p><strong>Contact:</strong>
+                            <%= order.email || 'N/A' %> | <%= order.phone || 'N/A' %>
+                        </p>
+                        <p><strong>Shipping Address:</strong>
+                            <%= order.address || 'Not provided' %>
+                        </p>
+                        <p><strong>Order Date:</strong>
+                            <%= order.order_date %>
+                        </p>
+                        <p><strong>Estimated Delivery:</strong>
+                            <% if (order.status_id===4) { %>
+                                Completed
+                                <% } else { %>
+                                    Please be patient
+                                    <% } %>
+                        </p>
+                    </div>
+                    <div class="buttons">
+                        <button onclick="window.history.back()">Back</button>
+                    </div>
+                    <% } %>
+        </main>
+    </body>
 
 </html>
