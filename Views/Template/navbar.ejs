@@ -338,7 +338,7 @@
                 loginButton.style.display = 'none';
                 
                 // product
-                if (localStorage.getItem('role_id') === "1") {
+                if (localStorage.getItem('role_id') === "1" || localStorage.getItem('role_id') === "0") {
                     let product = document.createElement('a');
                     product.href = '/manageProduct';
                     product.innerHTML = '<i class="bi bi-gear"></i> Product';
@@ -346,7 +346,7 @@
                     sidenav.appendChild(product);
                 }
                 // packing
-                if (localStorage.getItem('role_id') === "2") {
+                if (localStorage.getItem('role_id') === "2" || localStorage.getItem('role_id') === "0") {
                     let packing = document.createElement('a');
                     packing.href = '/packing';
                     packing.innerHTML = '<i class="bi bi-box-seam"></i> Packing';
