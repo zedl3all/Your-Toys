@@ -5,70 +5,99 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f4f4f4 0%, #e0e0e0 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .login-container {
-    width: 30%;
-    margin: 100px auto;
-    padding: 20px;
+    width: 400px;
+    padding: 30px;
     background: white;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     color: #333;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
 }
 
 input[type="text"],
 input[type="password"] {
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 12px;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #5cb85c;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(92, 184, 92, 0.1);
 }
 
 input[type="submit"] {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background-color: #5cb85c;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     color: white;
     font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 input[type="submit"]:hover {
     background-color: #4cae4c;
-    cursor: pointer;
+    transform: translateY(-2px);
 }
 
-.form-group {
-    margin-bottom: 15px;
+.show-password {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+    gap: 8px;
 }
 
 #show-password {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
 }
 
-.error-message {
-    color: red;
-    margin-top: 10px;
-    text-align: center;
-}
-
 .toggle-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .toggle-switch {
@@ -77,53 +106,79 @@ input[type="submit"]:hover {
     background-color: #f4f4f4;
     border-radius: 25px;
     padding: 4px;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 .toggle-option {
-    padding: 8px 16px;
+    padding: 10px 20px;
     cursor: pointer;
     border-radius: 20px;
     transition: all 0.3s ease;
+    font-weight: 500;
 }
 
 .toggle-option.active {
     background-color: #5cb85c;
     color: white;
+    box-shadow: 0 2px 5px rgba(92, 184, 92, 0.2);
 }
 
 .register-link {
-    margin-top: 20px;
+    margin-top: 25px;
     text-align: center;
 }
 
 .register-link p {
-    margin: 0;
-    font-size: 14px;
-    color: #333;
+    color: #666;
+    font-size: 15px;
 }
 
 .register-link a {
     color: #5cb85c;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 600;
+    transition: color 0.3s ease;
 }
 
 .register-link a:hover {
-    text-decoration: underline;
+    color: #4cae4c;
 }
 
-@media screen and (max-width: 1200px) {
-    .login-container {
-        width: 80%;
-    }
+.error-message {
+    color: #dc3545;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    animation: shake 0.5s ease-in-out;
 }
 
-@media screen and (max-width: 600px) {
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@media screen and (max-width: 480px) {
     .login-container {
         width: 90%;
+        margin: 20px;
+        padding: 20px;
     }
 
-    .form-group {
-        text-align: center;
+    h2 {
+        font-size: 1.5em;
+    }
+
+    .toggle-option {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        padding: 10px;
+        font-size: 14px;
     }
 }
