@@ -36,6 +36,12 @@ const uploadDir = path.join(__dirname, "Asset", "Product");
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
+
+const customizeDir = path.join(__dirname, "Asset", "Customize"); // Add this new line
+if (!fs.existsSync(customizeDir)) {
+    fs.mkdirSync(customizeDir, { recursive: true });
+}
+
 app.use('/Asset', express.static(path.join(__dirname, '/Asset')));
 app.use(express.static(path.join(__dirname, '/Public')));
 app.use('/Views', express.static(path.join(__dirname, '/Views')));
@@ -79,6 +85,38 @@ app.post("/upload/:imgname", (req, res) => {
             return res.status(400).json({ message: "No file uploaded or invalid file type" });
         }
         res.json({ message: "File uploaded successfully", filename: req.file.filename });
+    });
+});
+
+app.post("/upload-artwork/:imgname", (req, res) => {
+    const storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, customizeDir); // Use the customize directory
+        },
+        filename: (req, file, cb) => {
+            cb(null, req.params.imgname + path.extname(file.originalname));
+        }
+    });
+    const upload = multer({
+        storage,
+        fileFilter,
+        limits: { fileSize: 25 * 1024 * 1024 } // 25MB
+    });
+    upload.single("image")(req, res, (err) => {
+        if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
+            return res.status(400).json({ message: "File size exceeds the limit of 25MB" });
+        } else if (err) {
+            return res.status(400).json({ message: err.message });
+        }
+
+        if (!req.file) {
+            return res.status(400).json({ message: "No file uploaded or invalid file type" });
+        }
+        res.json({
+            message: "Artwork uploaded successfully",
+            filename: req.file.filename,
+            path: `/Asset/Customize/${req.file.filename}`
+        });
     });
 });
 
@@ -168,8 +206,8 @@ app.get("/ProductAll", (req, res) => {
                 res.status(500).send('Failed to fetch products');
                 return;
             }
-                const cat = [{name:"All Product", id:0}];
-                res.render('ProductAll/ProductAll', { categories, products, cat});
+            const cat = [{ name: "All Product", id: 0 }];
+            res.render('ProductAll/ProductAll', { categories, products, cat });
         });
     });
 });
@@ -337,7 +375,7 @@ app.get('/cart/add/:id', (req, res) => {
     const quantity = parseInt(req.query.quantity) || 1;
     const specify = req.query.specify || '';
     const ratio = req.query.ratio || '1:1';
-
+    const imgFilename = req.query.img || null;
     // Debug incoming parameters
     console.log('Cart Add Request:');
     console.log('- Product ID:', productId);
@@ -345,6 +383,7 @@ app.get('/cart/add/:id', (req, res) => {
     console.log('- Quantity:', quantity);
     console.log('- Specifications:', specify);
     console.log('- Ratio:', ratio);
+    console.log('- Artwork Image:', imgFilename);
 
     if (!userId) {
         return res.redirect('/login');
@@ -372,8 +411,8 @@ app.get('/cart/add/:id', (req, res) => {
             });
         } else {
             console.log('Creating new cart item with these parameters');
-            const insertQuery = 'INSERT INTO orders (customer_id, product_id, amount, status_id, order_date, detail, size) VALUES (?, ?, ?, 0, date("now"), ?, ?)';
-            db.run(insertQuery, [userId, productId, quantity, specify, ratio], function (err) {
+            const insertQuery = 'INSERT INTO orders (customer_id, product_id, amount, status_id, order_date, detail, size, img) VALUES (?, ?, ?, 0, date("now"), ?, ?, ?)';
+            db.run(insertQuery, [userId, productId, quantity, specify, ratio, imgFilename], function (err) {
                 if (err) {
                     console.log('Error inserting new item:', err.message);
                     return res.status(500).send('Database error');
@@ -889,14 +928,14 @@ app.get('/Packing', (req, res) => {
 
 app.get('/tracking', (req, res) => {
     const orderId = req.query.orderId;
-    
+
     if (!orderId) {
         return res.render('Tracking/tracking', {
             order: null,
             message: "No order specified"
         });
     }
-    
+
     const query = `
         SELECT o.order_id, o.customer_id, o.product_id, p.name, p.price, 
                o.amount as quantity, p.image, o.size, o.detail, 
@@ -907,22 +946,22 @@ app.get('/tracking', (req, res) => {
         JOIN users u ON o.customer_id = u.user_id
         WHERE o.order_id = ? AND o.status_id BETWEEN 2 AND 4
     `;
-    
+
     db.all(query, [orderId], (err, items) => {
         if (err) {
             console.log('Database error:', err.message);
             return res.status(500).send('Database error');
         }
-        
+
         if (!items || items.length === 0) {
             return res.render('Tracking/tracking', {
                 order: null,
                 message: "Order not found or not in tracking status"
             });
         }
-        
+
         console.log("Found order with status:", items[0].status_id);
-        
+
         // Group all items under one order object
         const order = {
             order_id: items[0].order_id,
@@ -934,7 +973,7 @@ app.get('/tracking', (req, res) => {
             order_date: items[0].order_date,
             packing_date: items[0].packing_date
         };
-        
+
         res.render('Tracking/tracking', { order });
     });
 });
@@ -984,7 +1023,7 @@ app.get('/AllOrder', (req, res) => {
                     total: 0
                 };
             }
-            
+
             // Calculate item price if needed
             let itemTotal = item.total_price;
             if (!itemTotal) {
@@ -995,14 +1034,14 @@ app.get('/AllOrder', (req, res) => {
                         [x, y] = item.size.split(':').map(Number);
                     } catch (e) { console.log(`Error parsing ratio ${item.size}:`, e); }
                 }
-                
+
                 // Calculate price
                 const priceData = priceCalculator.calculatePrice(
                     item.price, x, y, item.quantity
                 );
                 itemTotal = priceData.totalPrice;
             }
-            
+
             // Add item to order
             groupedOrders[item.order_id].items.push({
                 name: item.name,
@@ -1012,7 +1051,7 @@ app.get('/AllOrder', (req, res) => {
                 detail: item.detail,
                 total: itemTotal
             });
-            
+
             // Add to order total
             groupedOrders[item.order_id].total += itemTotal;
         });
