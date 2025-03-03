@@ -125,12 +125,6 @@ table {
     border: none;
 }
 
-table,
-th,
-td {
-    border: 1px solid #ccc;
-}
-
 th,
 td {
     padding: 8px;
@@ -162,39 +156,6 @@ td {
     border-bottom: 1px solid #eee;
     border-right: none;
     border-left: none;
-}
-
-.edit-link,
-.remove-link {
-    background: linear-gradient(45deg, #FFC107, #FFD700);
-    color: #333;
-    padding: 5px 10px;
-    border-radius: 8px;
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
-    transition: all 0.3s ease;
-}
-
-.edit-link:hover,
-.remove-link:hover {
-    transform: scale(1.1);
-}
-
-.edit-link:hover,
-.remove-link:hover {
-    background: linear-gradient(45deg, #FFD700, #FFC107);
-}
-
-.remove-link {
-    background: linear-gradient(45deg, #F44336, #D32F2F);
-    color: white;
-}
-
-.remove-link:hover {
-    background: linear-gradient(45deg, #D32F2F, #F44336);
 }
 
 .amount-controls {
@@ -625,6 +586,9 @@ table tbody tr:hover {
     font-size: 14px;
     border-radius: 6px;
     transition: all 0.3s ease;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .edit-link {
