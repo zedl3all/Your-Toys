@@ -450,13 +450,42 @@ app.get('/cart/remove/:id', (req, res) => {
                 res.redirect('/cart?userId=' + userId);
             });
         } else if (row) {
-            const deleteQuery = 'DELETE FROM orders WHERE order_id = ?';
-            db.run(deleteQuery, [orderId], (err) => {
-                if (err) {
-                    console.log(err.message);
-                    return res.status(500).send('Database error');
+            // If quantity = 1, delete the order and possibly the image
+            const handleImageDeletion = (callback) => {
+                // Check if there's an image to delete
+                if (row.img) {
+                    const imagePath = path.join(customizeDir, row.img);
+                    
+                    // Check if file exists before attempting to delete
+                    fs.access(imagePath, fs.constants.F_OK, (err) => {
+                        if (!err) {
+                            fs.unlink(imagePath, (err) => {
+                                if (err) {
+                                    console.error(`Error deleting image file ${row.img}:`, err.message);
+                                } else {
+                                    console.log(`Successfully deleted image file: ${row.img}`);
+                                }
+                                callback();
+                            });
+                        } else {
+                            console.log(`Image file ${row.img} not found, skipping deletion`);
+                            callback();
+                        }
+                    });
+                } else {
+                    callback();
                 }
-                res.redirect('/cart?userId=' + userId);
+            };
+            
+            handleImageDeletion(() => {
+                const deleteQuery = 'DELETE FROM orders WHERE order_id = ?';
+                db.run(deleteQuery, [orderId], (err) => {
+                    if (err) {
+                        console.log(err.message);
+                        return res.status(500).send('Database error');
+                    }
+                    res.redirect('/cart?userId=' + userId);
+                });
             });
         } else {
             res.redirect('/cart?userId=' + userId);
