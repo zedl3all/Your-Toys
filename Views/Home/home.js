@@ -47,4 +47,36 @@ function add_slick() {
     });
 }
 
+// แสดงและซ่อนปุ่ม Back to Top
+function handleBackToTop() {
+    const backToTopBtn = document.querySelector('.back-to-top');
+    
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
+        }
+    });
+    
+    backToTopBtn.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+// เพิ่ม animation เล็กๆ น้อยๆ
+function addAnimations() {
+    const items = document.querySelectorAll('.item');
+    
+    items.forEach((item, index) => {
+        item.style.animationDelay = `${index * 0.1}s`;
+        item.classList.add('fade-in');
+    });
+}
+
 add_slick();
+handleBackToTop();
+window.addEventListener('DOMContentLoaded', addAnimations);
