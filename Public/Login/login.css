@@ -13,6 +13,24 @@ body {
     justify-content: center;
 }
 
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #5cb85c;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #4cae4c;
+    transform: translateX(-5px);
+}
+
 .login-container {
     width: 400px;
     padding: 30px;
@@ -146,6 +164,13 @@ input[type="submit"]:hover {
     input[type="text"],
     input[type="password"] {
         padding: 10px;
+        font-size: 14px;
+    }
+
+    .back-button {
+        top: 10px;
+        left: 10px;
+        padding: 8px 15px;
         font-size: 14px;
     }
 }
