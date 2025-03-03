@@ -13,9 +13,9 @@ body {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 70%;
-    max-width: 1000px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 1200px;
     margin: 20px auto;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -31,25 +31,30 @@ body {
 }
 
 .container::-webkit-scrollbar-thumb {
-    background: #888;
+    background: #ffd54f;
     border-radius: 2px;
 }
 
 h2 {
+    color: #F57F17;
     text-align: center;
     margin-bottom: 20px;
     font-size: clamp(1.5rem, 2.5vw, 2rem);
 }
 
 table {
-    width: 80%;
+    width: 100%;
     border-collapse: collapse;
     margin: 0 auto 20px auto;
     table-layout: fixed;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: none;
 }
 
 table, th, td {
-    border: 1px solid #ccc;
+    border: 1px solid #f0f0f0;
 }
 
 th, td {
@@ -63,22 +68,29 @@ th {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: clamp(12px, 1.5vw, 14px); /* ลดขนาดตัวอักษรลงเล็กน้อย */
-    line-height: 1.2; /* เพิ่ม line-height เพื่อให้อ่านง่ายขึ้น */
-    padding: 12px 6px; /* ปรับ padding ให้เหมาะสม */
+    line-height: 1.2;
+    padding: 12px 6px;
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.85rem;
 }
 
 td {
     word-break: break-word;
+    border: none;
+    border-bottom: 1px solid #fff8e1;
 }
 
-/* Column widths */
-th:nth-child(1), td:nth-child(1) { width: 10%; } /* Order ID */
-th:nth-child(2), td:nth-child(2) { width: 15%; } /* Customer Name */
-th:nth-child(3), td:nth-child(3) { width: 20%; } /* Description - reduced from 30% */
-th:nth-child(4), td:nth-child(4) { width: 15%; } /* Date */
-th:nth-child(5), td:nth-child(5) { width: 20%; } /* Status - increased from 15% */
-th:nth-child(6), td:nth-child(6) { width: 20%; } /* Actions - increased from 15% */
+/* Column widths - adjusted for new column */
+th:nth-child(1), td:nth-child(1) { width: 8%; }  /* Order ID */
+th:nth-child(2), td:nth-child(2) { width: 13%; } /* Customer Name */
+th:nth-child(3), td:nth-child(3) { width: 18%; } /* Description */
+th:nth-child(4), td:nth-child(4) { width: 12%; } /* Date */
+th:nth-child(5), td:nth-child(5) { width: 12%; } /* Image(Bill) - NEW */
+th:nth-child(6), td:nth-child(6) { width: 17%; } /* Status */
+th:nth-child(7), td:nth-child(7) { width: 20%; } /* Actions */
 
 a {
     background: linear-gradient(45deg, #FFC107, #ffdb4d);
@@ -90,7 +102,7 @@ a {
     margin: 2px;
     font-size: clamp(12px, 1.5vw, 16px);
     font-weight: 600;
-    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     display: inline-block;
 }
@@ -98,12 +110,23 @@ a {
 a:hover {
     background: linear-gradient(45deg, #ffdb4d, #FFC107);
     transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Button */
+.btn-image {
+    background: linear-gradient(45deg, #9C27B0, #673AB7);
+    color: white;
+}
+
+.btn-image:hover {
+    background: linear-gradient(45deg, #673AB7, #9C27B0);
 }
 
 /* Responsive Design - Enhanced version */
 @media screen and (max-width: 1024px) {
     .container {
-        width: 90%;
+        width: 95%;
         padding: 15px;
     }
     
@@ -114,11 +137,20 @@ a:hover {
     th, td {
         padding: 10px 6px;
     }
+    
+    /* Adjust column widths for medium screens */
+    th:nth-child(1), td:nth-child(1) { width: 8%; }
+    th:nth-child(2), td:nth-child(2) { width: 12%; }
+    th:nth-child(3), td:nth-child(3) { width: 18%; }
+    th:nth-child(4), td:nth-child(4) { width: 10%; }
+    th:nth-child(5), td:nth-child(5) { width: 12%; }
+    th:nth-child(6), td:nth-child(6) { width: 15%; }
+    th:nth-child(7), td:nth-child(7) { width: 25%; }
 }
 
 @media screen and (max-width: 768px) {
     .container {
-        width: 95%;
+        width: 98%;
         padding: 12px;
     }
 
@@ -137,9 +169,18 @@ a:hover {
         margin: 2px;
     }
 
+    /* Button text changes to icon only */
+    .btn-image span {
+        display: none;
+    }
+    
+    .btn-image i {
+        margin: 0;
+    }
+
     /* Improve readability for description column */
     td:nth-child(3) {
-        max-width: 150px;
+        max-width: 120px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -147,7 +188,7 @@ a:hover {
 
     /* Stack the action buttons vertically */
     td:last-child {
-        min-width: 100px;
+        min-width: 90px;
     }
 
     th {
@@ -155,7 +196,7 @@ a:hover {
         padding: 8px 4px;
     }
     
-    /* เพิ่ม tooltip สำหรับหัวตารางที่ถูกตัด */
+    /* Add tooltip for truncated headers */
     th[title] {
         cursor: help;
     }
@@ -181,31 +222,45 @@ a:hover {
         padding: 6px 4px;
     }
 
-    /* Optimize column widths for mobile */
-    th:nth-child(1), td:nth-child(1) { width: 12%; } /* Order ID */
+    /* Optimize column display for mobile */
+    th:nth-child(3), 
+    td:nth-child(3) {
+        display: none; /* Hide description column on very small screens */
+    }
+
+    th:nth-child(1), td:nth-child(1) { width: 15%; } /* Order ID */
     th:nth-child(2), td:nth-child(2) { width: 18%; } /* Customer Name */
-    th:nth-child(3), td:nth-child(3) { width: 25%; } /* Description */
     th:nth-child(4), td:nth-child(4) { width: 15%; } /* Date */
-    th:nth-child(5), td:nth-child(5) { width: 15%; } /* Status */
-    th:nth-child(6), td:nth-child(6) { width: 15%; } /* Actions */
+    th:nth-child(5), td:nth-child(5) { width: 12%; } /* Image */
+    th:nth-child(6), td:nth-child(6) { width: 15%; } /* Status */
+    th:nth-child(7), td:nth-child(7) { width: 25%; } /* Actions */
 
     /* Improve text truncation for mobile */
     td:nth-child(2),
-    td:nth-child(3),
-    td:nth-child(4),
-    td:nth-child(5) {
+    td:nth-child(6) {
         max-width: 80px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
 
+    /* All buttons should be icons only */
     a {
         padding: 4px 6px;
         margin: 2px 0;
         font-size: 11px;
         display: block;
         text-align: center;
+    }
+    
+    .btn-packing span, 
+    .btn-success span, 
+    .btn-failed span {
+        display: none;
+    }
+    
+    a i {
+        margin: 0;
     }
 
     /* Add tooltip effect for truncated text */
@@ -238,6 +293,11 @@ a:hover {
         margin-bottom: 10px;
     }
 
+    th:nth-child(4), 
+    td:nth-child(4) {
+        display: none; /* Hide date column on extremely small screens */
+    }
+
     /* Further reduce padding and margins */
     a {
         padding: 3px 4px;
@@ -249,4 +309,139 @@ a:hover {
         font-size: 10px;
         padding: 4px 2px;
     }
+}
+
+/* Status styling */
+td[id^="status-"] {
+    font-weight: 600;
+    border-radius: 4px;
+    padding: 6px 10px;
+    text-align: center;
+}
+
+.status-waiting {
+    background-color: #FFF8E1;
+    color: #FF8F00;
+    border-left: 4px solid #FFC107;
+}
+
+.status-packing {
+    background-color: #E1F5FE;
+    color: #0277BD;
+    border-left: 4px solid #03A9F4;
+}
+
+.status-success {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+    border-left: 4px solid #4CAF50;
+}
+
+.status-failed {
+    background-color: #FFEBEE;
+    color: #C62828;
+    border-left: 4px solid #F44336;
+}
+
+/* Table enhancements */
+thead tr {
+    background: linear-gradient(120deg, #FFD700, #FFC107);
+    color: #333;
+}
+
+tbody tr:hover {
+    background-color: #fffde7;
+    transition: background-color 0.3s ease;
+}
+
+/* Action buttons */
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.btn-packing {
+    background: linear-gradient(45deg, #FFC107, #FFD700);
+    color: #333;
+}
+
+.btn-success {
+    background: linear-gradient(45deg, #8BC34A, #689F38);
+    color: white;
+}
+
+.btn-failed {
+    background: linear-gradient(45deg, #F44336, #D32F2F);
+    color: white;
+}
+
+/* Page header */
+.page-header {
+    background: linear-gradient(120deg, #FFD700, #FFC107);
+    color: #333;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+    text-align: center;
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+/* Animations */
+@keyframes statusChange {
+    0% { transform: scale(0.9); opacity: 0.7; }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.status-changing {
+    animation: statusChange 0.5s ease;
+}
+
+/* Modal for bill image */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 80%;
+    position: relative;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.close-modal {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: #333;
+}
+
+#billImage {
+    width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
 }

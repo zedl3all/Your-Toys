@@ -4,40 +4,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Packing Page</title>
+    <title>Packing Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/Views/Packing/packing.css">
 </head>
 
 <body>
     <div class="container">
-        <h2>Order List</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th title="Customer Name">Customer Name</th>
-                    <th>Description</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Example product rows -->
-                <tr>
-                    <td>Order 1</td>
-                    <td>John Doe</td>
-                    <td>-----</td>
-                    <td>24/2/2025</td>
-                    <td id="status-1">Waiting for packing</td>
-                    <td>
-                        <a href="#" onclick="changeStatus('status-1', 'Packing')">Packing</a>
-                        <a href="#" onclick="changeStatus('status-1', 'Success')">Success</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="page-header">
+            <h1><i class="fas fa-box-open"></i> Order Processing System</h1>
+        </div>
+        
+        <div class="table-container">
+            <h2><i class="fas fa-clipboard-list"></i> Order List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-hashtag"></i> Order ID</th>
+                        <th title="Customer Name"><i class="fas fa-user"></i> Customer</th>
+                        <th><i class="fas fa-info-circle"></i> Description</th>
+                        <th><i class="fas fa-calendar"></i> Date</th>
+                        <th><i class="fas fa-file-invoice"></i> Image(Bill)</th>
+                        <th><i class="fas fa-tasks"></i> Status</th>
+                        <th><i class="fas fa-tools"></i> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example product rows -->
+                    <tr>
+                        <td>Order 1</td>
+                        <td>John Doe</td>
+                        <td>Desktop Computer Parts</td>
+                        <td>24/2/2025</td>
+                        <td>
+                            <a href="#" class="btn-image" onclick="viewImage('bill1.jpg')">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                        </td>
+                        <td id="status-1" class="status-waiting">Waiting for packing</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="#" class="btn-packing" onclick="changeStatus('status-1', 'Packing')">
+                                    <i class="fas fa-box"></i> Packing
+                                </a>
+                                <a href="#" class="btn-success" onclick="changeStatus('status-1', 'Success')">
+                                    <i class="fas fa-check"></i> Success
+                                </a>
+                                <a href="#" class="btn-failed" onclick="changeStatus('status-1', 'Failed')">
+                                    <i class="fas fa-times"></i> Failed
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Add more example rows for better visualization -->
+                    <tr>
+                        <td>Order 2</td>
+                        <td>Jane Smith</td>
+                        <td>Office Supplies</td>
+                        <td>25/2/2025</td>
+                        <td>
+                            <a href="#" class="btn-image" onclick="viewImage('bill2.jpg')">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                        </td>
+                        <td id="status-2" class="status-packing">Packing</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="#" class="btn-packing" onclick="changeStatus('status-2', 'Packing')">
+                                    <i class="fas fa-box"></i> Packing
+                                </a>
+                                <a href="#" class="btn-success" onclick="changeStatus('status-2', 'Success')">
+                                    <i class="fas fa-check"></i> Success
+                                </a>
+                                <a href="#" class="btn-failed" onclick="changeStatus('status-2', 'Failed')">
+                                    <i class="fas fa-times"></i> Failed
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Order 3</td>
+                        <td>Robert Johnson</td>
+                        <td>Electronic Gadgets</td>
+                        <td>26/2/2025</td>
+                        <td>
+                            <a href="#" class="btn-image" onclick="viewImage('bill3.jpg')">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                        </td>
+                        <td id="status-3" class="status-success">Success</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="#" class="btn-packing" onclick="changeStatus('status-3', 'Packing')">
+                                    <i class="fas fa-box"></i> Packing
+                                </a>
+                                <a href="#" class="btn-success" onclick="changeStatus('status-3', 'Success')">
+                                    <i class="fas fa-check"></i> Success
+                                </a>
+                                <a href="#" class="btn-failed" onclick="changeStatus('status-3', 'Failed')">
+                                    <i class="fas fa-times"></i> Failed
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+    
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <img id="billImage" src="" alt="Bill Image">
+        </div>
+    </div>
+    
     <script src="/Views/Packing/packing.js"></script>
 </body>
 
