@@ -105,25 +105,6 @@ html {
 }
 
 
-.wishlist-icon, .cart-icon {
-    background-color: white;
-    border-radius: 50%;
-    padding: 8px;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transition: all 0.2s ease;
-}
-
-.wishlist-icon:hover {
-    color: #ff6b6b;
-    transform: scale(1.1);
-}
-
-.cart-icon:hover {
-    color: #38b000;
-    transform: scale(1.1);
-}
-
 .item-bottom {
     margin-left: 5px;    /* ลดขอบซ้ายจาก 10px เป็น 5px เพื่อให้มีพื้นที่ข้อความมากขึ้น */
     display: flex;
@@ -230,7 +211,7 @@ html {
 .slick-prev:hover,
 .slick-next:hover {
     background-color: rgba(51, 51, 51, 1) !important;
-    transform: scale(1.1);
+    /* transform: scale(1.1); */
 }
 
 .container-ad {
