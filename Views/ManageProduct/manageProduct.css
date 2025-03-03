@@ -20,6 +20,19 @@ body {
     transition: all 0.5s ease-in-out;
 }
 
+.product-container::-webkit-scrollbar {
+    height: 4px;
+}
+
+.product-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.product-container::-webkit-scrollbar-thumb {
+    background: #ffd54f;
+    border-radius: 2px;
+}
+
 h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -152,7 +165,7 @@ td {
 
 .edit-link,
 .remove-link {
-    background: linear-gradient(45deg, #FFC107, #ffdb4d);
+    background: linear-gradient(45deg, #FFC107, #FFD700);
     color: #333;
     padding: 5px 10px;
     border-radius: 8px;
@@ -171,7 +184,16 @@ td {
 
 .edit-link:hover,
 .remove-link:hover {
-    background-color: #FFC107;
+    background: linear-gradient(45deg, #FFD700, #FFC107);
+}
+
+.remove-link {
+    background: linear-gradient(45deg, #F44336, #D32F2F);
+    color: white;
+}
+
+.remove-link:hover {
+    background: linear-gradient(45deg, #D32F2F, #F44336);
 }
 
 .amount-controls {
