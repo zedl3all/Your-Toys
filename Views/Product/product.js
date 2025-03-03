@@ -199,19 +199,18 @@ function addToCart(productId) {
     const userId = localStorage.getItem('user_id');
     const quantity = document.getElementById('quantity').value || 1;
     const specify = document.getElementById('specify').value || '';
-
-    // Fix the ratio parameter construction
+    
     const ratioX = document.getElementById('number_x').value || 1;
     const ratioY = document.getElementById('number_y').value || 1;
     const ratio = `${ratioX}:${ratioY}`;
-
+    
     if (!userId) {
         alert('Please log in to add items to your cart');
         window.location.href = '/login';
         return;
     }
-
-    // Log data being sent
+    
+    // Debug what's being sent
     console.log('Adding to cart:', {
         productId: productId,
         userId: userId,
@@ -219,14 +218,12 @@ function addToCart(productId) {
         specify: specify,
         ratio: ratio
     });
-
-    // Properly encode parameters for URL
+    
     const params = new URLSearchParams();
     params.append('userId', userId);
     params.append('quantity', quantity);
     params.append('specify', specify);
     params.append('ratio', ratio);
-
-    // Redirect with properly encoded parameters
+    
     window.location.href = `/cart/add/${productId}?${params.toString()}`;
 }

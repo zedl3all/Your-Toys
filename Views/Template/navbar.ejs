@@ -239,7 +239,7 @@
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                 <a id="sidenav-search" onclick="openSearch()">Search</a>
                 <a href="javascript:void(0)" onclick="goToCartWithId()">Cart</a>
-                <a href="/AllOrder">Order</a>
+                <a href="javascript:void(0)" onclick="goToAllOrderWithId()">Orders</a>
                 <a href="/Packing">Packing</a>
                 <a href="/ManageProduct">Manage Product</a>
             </div>
@@ -465,6 +465,17 @@
                 window.location.href = `/cart?userId=${userId}`;
             } else {
                 alert('Please log in to view your cart');
+                window.location.href = '/login';
+            }
+        }
+
+        function goToAllOrderWithId() {
+            const userId = localStorage.getItem('user_id');
+
+            if (userId) {
+                window.location.href = `/AllOrder?userId=${userId}`;
+            } else {
+                alert('Please log in to view your orders');
                 window.location.href = '/login';
             }
         }

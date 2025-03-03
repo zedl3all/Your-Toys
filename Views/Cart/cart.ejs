@@ -20,8 +20,10 @@
                     <tr>
                         <th>Image</th>
                         <th>Product</th>
-                        <th>Price</th>
+                        <th>Base Price</th>
+                        <th>Size</th>
                         <th id="qua">Quantity</th>
+                        <th>Unit Price</th>
                         <th>Total</th>
                         <th id="qua">Detail</th>
                     </tr>
@@ -35,24 +37,30 @@
                                 <td>
                                     <%= cart[i].name %>
                                 </td>
-                                <td>฿<%= cart[i].price %>
+                                <td>฿<%= cart[i].price.toFixed(2) %>
+                                </td>
+                                <td>
+                                    <%= cart[i].size || '1:1' %>
                                 </td>
                                 <td class="quantity" id="qua">
                                     <a href="/cart/remove/<%= cart[i].order_id %>?userId=<%= userId %>"
                                         class="btnt">-</a>
                                     <%= cart[i].quantity %>
-                                        <a href="/cart/add/<%= cart[i].product_id %>?userId=<%= userId %>"
+                                        <a href="/cart/add/<%= cart[i].product_id %>?userId=<%= userId %>&ratio=<%= encodeURIComponent(cart[i].size) %>&specify=<%= encodeURIComponent(cart[i].detail || '') %>"
                                             class="btnt">+</a>
                                 </td>
-                                <td>฿<%= cart[i].price * cart[i].quantity %>
+                                <td><%= cart[i].priceWithRatio.toFixed(2) %>฿
                                 </td>
-                                <td style="width: 8%;"><a href="/product/<%= cart[i].product_id %>"
-                                        class="btnt">Detail</a></td>
+                                <td><%= cart[i].itemTotal.toFixed(2) %>฿
+                                </td>
+                                <td style="width: 8%;">
+                                    <button type="button" class="btnt" data-bs-toggle="modal" data-bs-target="#productDetailModal" data-product='<%= JSON.stringify(cart[i]) %>'>Detail</button>
+                                </td>
                             </tr>
                             <% } %>
                                 <% } else { %>
                                     <tr>
-                                        <td colspan="6" class="text-center">
+                                        <td colspan="8" class="text-center">
                                             <%= typeof message !=='undefined' && message ? message
                                                 : "Your cart is empty" %>
                                         </td>
@@ -62,7 +70,7 @@
             </table>
         </div>
         <div class="total">
-            <h2>Total: <%= total %>
+            <h2>Total: <%= total.toFixed(2) %>฿
             </h2>
         </div>
         <div class="actions">
@@ -70,6 +78,30 @@
             <a href="/checkout">Checkout</a>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productDetailModalLabel">Product Detail</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalProductImage" src="" alt="" style="width: 100%;">
+                    <h5 id="modalProductName"></h5>
+                    <p id="modalProductDetail"></p>
+                    <p>Price: ฿<span id="modalProductPrice"></span></p>
+                    <p>Size: <span id="modalProductSize"></span></p>
+                    <p>Quantity: <span id="modalProductQuantity"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="/Views/Cart/cart.js"></script>
 </body>
 

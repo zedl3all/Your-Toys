@@ -10,22 +10,29 @@ function calculatePrice(basePrice, x, y, quantity) {
         y = 1;
     }
 
+    console.log(`Price calculation - Base: ${basePrice}, Size: ${x}x${y}, Quantity: ${quantity}`);
+    
     // Calculate ratio outside conditionals for cleaner code
     const ratio = Math.max(x, y) / Math.min(x, y);
     
     let unitPrice;
-    if (Math.abs(x - y) < 0.001) {
+    if (Math.abs(x - y) < 0.001) { // Square (same dimensions)
         unitPrice = basePrice * x;
+        console.log(`Square pricing: ${basePrice} × ${x} = ${unitPrice}`);
     } else if (ratio > 5) {
         unitPrice = basePrice * ((x + y) / 2);
+        console.log(`Extreme rectangle pricing: ${basePrice} × (${x} + ${y})/2 = ${unitPrice}`);
     } else if (ratio > 2) {
         unitPrice = basePrice * Math.max(x, y);
+        console.log(`Moderate rectangle pricing: ${basePrice} × max(${x},${y}) = ${unitPrice}`);
     } else {
         unitPrice = basePrice * (x * y);
+        console.log(`Mild rectangle pricing: ${basePrice} × ${x} × ${y} = ${unitPrice}`);
     }
 
     // Multiply by quantity for final price
     const totalPrice = unitPrice * quantity;
+    console.log(`Final calculation: ${unitPrice} × ${quantity} = ${totalPrice}`);
     
     return {
         unitPrice: unitPrice,

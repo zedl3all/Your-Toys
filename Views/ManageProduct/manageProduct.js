@@ -1,5 +1,4 @@
 let currentProductId = null;
-require("express");
 
 function openEditModal(productId) {
     currentProductId = productId;
@@ -133,21 +132,18 @@ document.addEventListener('DOMContentLoaded', function () {
             const y = document.getElementById('number_y').value;
             const sizeRatio = `${x}:${y}`;
 
-            const jsonData = {
-                productName: document.getElementById('editProductName').value,
-                description: document.getElementById('editDescription').value,
-                price: document.getElementById('editPrice').value,
-                size: sizeRatio,
-                amount: document.getElementById('editAmount').value,
-                categories: selectedCategories  // Array of selected category IDs
-            };
+            const formData = new FormData();
+            formData.append('productName', document.getElementById('editProductName').value);
+            formData.append('description', document.getElementById('editDescription').value);
+            formData.append('price', document.getElementById('editPrice').value);
+            formData.append('size', sizeRatio);
+            formData.append('amount', document.getElementById('editAmount').value);
+            formData.append('categories', JSON.stringify(selectedCategories));
+            formData.append('image', document.getElementById('editImage').files[0]);
 
-            fetch(`/manageProduct/products/${currentProductId}`, {
+            fetch(`/manageProduct/editproducts/${currentProductId}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(jsonData)
+                body: formData
             })
                 .then(response => response.json())
                 .then(data => {
@@ -200,14 +196,11 @@ document.addEventListener('DOMContentLoaded', function () {
             formData.append('number_x', x);
             formData.append('number_y', y);
             formData.append('image', document.getElementById('addImage').files[0]);
-            formData.append('categories', selectedCategories);
+            formData.append('categories', JSON.stringify(selectedCategories));
 
             fetch('/manageProduct/addProduct', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+                body: formData,
             })
                 .then(response => response.json())
                 .then(data => {

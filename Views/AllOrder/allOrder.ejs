@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Page</title>
+    <title>Your Orders</title>
     <link rel="stylesheet" href="/Views/AllOrder/allOrder.css">
     <%- include("../Template/navbar.ejs") %>
 </head>
@@ -12,31 +12,67 @@
 <body>
     <div class="container">
         <h2>Order List</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Customer Name</th>
-                    <th>Description</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Example product rows -->
-                <tr>
-                    <td>Order 1</td>
-                    <td>John Doe</td>
-                    <td>-----</td>
-                    <td>24/2/2025</td>
-                    <td id="status-1">Waiting for packing</td>
-                    <td>
-                        <a class="detail" href="/tracking">Detail</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <% if (typeof message !== 'undefined' && message) { %>
+            <div class="message">
+                <p><%= message %></p>
+                <% if (message === "Please log in to view your orders") { %>
+                    <a href="/login" class="login-button">Login</a>
+                <% } %>
+            </div>
+        <% } else { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Product</th>
+                        <th>Details</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (orders && orders.length > 0) { %>
+                        <% orders.forEach(order => { %>
+                            <tr>
+                                <td><%= order.order_id %></td>
+                                <td>
+                                    <% let productNames = order.items.map(item => item.name).join(', '); %>
+                                    <%= productNames %>
+                                </td>
+                                <td>
+                                    <% if (order.items && order.items.length > 0) { %>
+                                        <% order.items.forEach((item, index) => { %>
+                                            <div>
+                                                <%= item.detail || 'No specifications' %>
+                                                <% if (index < order.items.length - 1) { %><hr><% } %>
+                                            </div>
+                                        <% }); %>
+                                    <% } else { %>
+                                        No details available
+                                    <% } %>
+                                </td>
+                                <td><%= order.order_date %></td>
+                                <td id="status-<%= order.status_id %>">
+                                    <%= statusLabels[order.status_id] %>
+                                </td>
+                                <td>
+                                    ฿<%= order.total.toFixed(2) %>
+                                </td>
+                                <td>
+                                    <a class="detail" href="/tracking?orderId=<%= order.order_id %>">Detail</a>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="7" class="no-orders">You don't have any orders yet</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        <% } %>
     </div>
     <script src="/Views/AllOrder/allOrder.js"></script>
 </body>
