@@ -146,7 +146,7 @@ th {
 
 .edit-link,
 .remove-link {
-    background: linear-gradient(45deg, #FFC107, #ffdb4d);
+    background: linear-gradient(45deg, #FFC107, #FFD700);
     color: #333;
     padding: 5px 10px;
     border-radius: 8px;
@@ -165,7 +165,16 @@ th {
 
 .edit-link:hover,
 .remove-link:hover {
-    background-color: #FFC107;
+    background: linear-gradient(45deg, #FFD700, #FFC107);
+}
+
+.remove-link {
+    background: linear-gradient(45deg, #F44336, #D32F2F);
+    color: white;
+}
+
+.remove-link:hover {
+    background: linear-gradient(45deg, #D32F2F, #F44336);
 }
 
 .amount-controls {
