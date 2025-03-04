@@ -1,18 +1,16 @@
-# Your-Toys Project#HAZARD
+# Your-Toys Project #HAZARD 🧸🔥
 
-## ⚠️ Warning
-This is a development branch maintained by Pao 112. Please review the code carefully before use.
+## Overview 📋
+Your-Toys is a toy management and retail platform that helps you organize, track, and manage your toy inventory efficiently.
 
-## Overview
-Separate login from user and employee with selective button.
+## Features ✨
+- Product management system
+- Category organization
+- User authentication
+- Sales tracking and reporting
+- Responsive design
 
-## Plan
-- add table products
-- preview products list ex. standee, pillow 
-- preview a product page with description and review
-- preview able to select/custom a product ex. heigh, wide, add a picture to product
-
-## Installation
+## Installation 🚀
 To set up the project locally, follow these steps:
 
 1. Clone the repository:
@@ -25,8 +23,23 @@ To set up the project locally, follow these steps:
     cd Your-Toys
     ```
 
-3. Install the required dependencies:
+3. Run the setup script:
     ```bash
-    npm install sqlite3 express ejs
+    run.bat
     ```
 
+## Usage 🖱️
+After installation, you can access the application through your web browser at `http://localhost:3000`.
+
+## Technologies Used 💻
+- Node.js
+- Express.js
+- SQLite3
+- EJS templating
+- QR Code generation
+- PromptPay integration
+- Multer (file uploads)
+- Body Parser
+
+## Contributing 👥
+Contributions are welcome! Please feel free to submit a Pull Request.
