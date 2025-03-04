@@ -443,18 +443,18 @@ tbody tr:hover {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
     overflow: auto;
 }
 
 .modal-content {
     background-color: #fff;
-    margin: 5% auto;
+    margin: 3% auto;
     padding: 20px;
     border-radius: 10px;
-    max-width: 80%;
+    max-width: 90%;
     position: relative;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .close-modal {
@@ -475,4 +475,68 @@ tbody tr:hover {
     width: 100%;
     max-height: 80vh;
     object-fit: contain;
+}
+
+.image-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.tab-btn {
+    padding: 8px 16px;
+    border: none;
+    background: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    background: #FFC107;
+    color: #333;
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    min-height: 300px;
+}
+
+.modal-image {
+    width: 100%;
+    max-height: 60vh;
+    object-fit: contain;
+    border-radius: 4px;
+    display: block;
+}
+
+.modal-image.active {
+    display: block;
+}
+
+.images-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.image-card {
+    background: #f8f8f8;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.image-card h3 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 1.1em;
+}
+
+@media (max-width: 768px) {
+    .images-grid {
+        grid-template-columns: 1fr;
+    }
 }
