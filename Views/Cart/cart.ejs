@@ -15,19 +15,19 @@
 <body>
     <!-- Cart Container -->
     <div class="cart-container">
-        <h2>Cart</h2>
+        <h2>รถเข็น</h2>
         <div class="cart">
             <table>
                 <thead>
                     <tr>
-                        <th>Image</th>
-                        <th>Product</th>
-                        <th>Base Price</th>
-                        <th>Size</th>
-                        <th id="qua">Quantity</th>
-                        <th>Unit Price</th>
-                        <th>Total</th>
-                        <th id="qua">Detail</th>
+                        <th>รูปภาพ</th>
+                        <th>สินค้า</th>
+                        <th>ราคาพื้นฐาน</th>
+                        <th>อัตราส่วน</th>
+                        <th id="qua">ปริมาณ</th>
+                        <th>ราคาต่อชิ้น</th>
+                        <th>ราคารวม</th>
+                        <th id="qua">รายละเอียด</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,7 +69,7 @@
                                             quantity: cart[i].quantity,
                                             detail: cart[i].detail
                                         }) %>'>
-                                        Detail
+                                        รายละเอียด
                                     </button>
                                 </td>
                             </tr>
@@ -78,7 +78,7 @@
                                     <tr>
                                         <td colspan="8" class="text-center">
                                             <%= typeof message !=='undefined' && message ? message
-                                                : "Your cart is empty" %>
+                                                : "รถเข็นของคุณว่างเปล่า" %>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -94,16 +94,16 @@
             <h2>Total: <%= total.toFixed(2) %>฿</h2>
         </div>
         <div class="actions">
-            <a href="/ProductAll"><i class="fa-solid fa-cart-plus"></i> Continue Shopping</a>
-            <a onclick="generateQR()"><i class="fa-solid fa-credit-card"></i> Checkout</a>
+            <a href="/ProductAll"><i class="fa-solid fa-cart-plus"></i> ดำเนินการเลือกซื้อต่อไป</a>
+            <a onclick="generateQR()"><i class="fa-solid fa-credit-card"></i> ชำระเงิน</a>
         </div>
     </div>
 
     <!-- Product Detail Modal -->
     <div id="productDetailModal" class="modal">
         <div class="modal-content">
-            <button class="close-btn" onclick="closeProductDetailModal()">&times;</button>
-            <h2>Product Detail</h2>
+            <button class="close" onclick="closeProductDetailModal()">&times;</button>
+            <h2>รายละเอียดสินค้า</h2>
 
             <div class="payment-flex-container">
                 <!-- Left side - Product image -->
@@ -119,40 +119,40 @@
                     <h3 id="modalProductName" class="product-title"></h3>
 
                     <div class="product-info-box">
-                        <h4>Description</h4>
+                        <h4>รายละเอียด</h4>
                         <p id="modalProductDetail" class="product-description"></p>
                     </div>
 
                     <div class="product-info-grid">
                         <div class="info-item">
-                            <span class="info-label">Price:</span>
+                            <span class="info-label">ราคา:</span>
                             <span class="info-value">฿<span id="modalProductPrice"></span></span>
                         </div>
 
                         <div class="info-item">
-                            <span class="info-label">Size:</span>
+                            <span class="info-label">อัตราส่วน:</span>
                             <span class="info-value" id="modalProductSize"></span>
                         </div>
 
                         <div class="info-item">
-                            <span class="info-label">Quantity:</span>
+                            <span class="info-label">ปริมาณ:</span>
                             <span class="info-value" id="modalProductQuantity"></span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button type="button" class="btn-secondary" onclick="closeProductDetailModal()">Close</button>
-            </div>
+            </div> -->
         </div>
     </div>
 
     <!-- QR Payment Modal -->
     <div id="qrModal" class="modal">
         <div class="modal-content">
-            <button class="close-btn" onclick="closeQRModal()">&times;</button>
-            <h2>PromptPay QR Payment</h2>
+            <button class="close" onclick="closeQRModal()">&times;</button>
+            <h2>ชำระเงินผ่าน PromptPay QR</h2>
 
             <div class="payment-flex-container">
                 <!-- Left side - QR code -->
@@ -163,7 +163,7 @@
                     </div>
 
                     <div class="qr-info">
-                        <p>Scan this QR code with any banking app that supports PromptPay</p>
+                        <p>สแกนรหัส QR นี้ด้วยแอพธนาคารใด ๆ ที่รองรับ PromptPay</p>
                         <p class="promptpay-id" id="promptpayDisplay"></p>
                         <div class="amount-display" id="amountDisplay"></div>
                     </div>
@@ -171,8 +171,8 @@
 
                 <!-- Right side - Upload section -->
                 <div id="uploadSection" class="payment-right-section" style="display: none;">
-                    <h3>Payment Completed?</h3>
-                    <p>Please upload a screenshot of your payment confirmation</p>
+                    <h3>ชำระเงินเสร็จสิ้น?</h3>
+                    <p>โปรดอัปโหลดภาพหน้าจอของการยืนยันการชำระเงินของคุณ</p>
 
                     <div id="previewContainer" class="preview-container" style="display: none;">
                         <img id="imagePreview" src="#" alt="Payment Proof Preview">
@@ -180,10 +180,10 @@
 
                     <div class="file-input-wrapper">
                         <input type="file" id="paymentProof" accept="image/*" class="file-input">
-                        <label for="paymentProof" class="file-label">Select Screenshot</label>
+                        <label for="paymentProof" class="file-label">เลือกภาพหน้าจอ</label>
                     </div>
 
-                    <button id="uploadBtn" class="upload-btn" disabled>Upload Payment Proof</button>
+                    <button id="uploadBtn" class="upload-btn" disabled>อัปโหลดหลักฐานการชำระเงิน</button>
                     <div id="uploadStatus" class="upload-status"></div>
                 </div>
             </div>
