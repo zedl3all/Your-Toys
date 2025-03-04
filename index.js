@@ -269,13 +269,51 @@ app.get("/ProductAll/:id", (req, res) => {
 app.get('/product/:id', (req, res) => { // test
     const id = req.params.id;
     const query = 'SELECT * FROM products WHERE id = ?';
+    const reviewquery = `SELECT u.username username, r.review_title title, r.review_description description, r.review_date rdate, r.score score FROM reviews r JOIN users u ON u.user_id = r.user_id WHERE r.product_id = ${id};`;
     db.get(query, [id], (err, rows) => {
         if (err) {
             console.log(err.message);
             return res.status(500).send('Database error');
         }
-        console.log(rows);
-        res.render('Product/product', { data: rows });
+        db.all(reviewquery, [], (err, reviewsdata) => {
+            if (err) {
+                console.log(err.message);
+                return res.status(500).send('Database error');
+            }
+            console.log(reviewsdata);
+            let allscore = {"five":0, "four":0, "three":0, "two":0, "one":0, "zero": 0};
+            let total = 0;
+            for (reviews of reviewsdata){
+                switch (reviews.score){
+                    case 0:
+                        allscore.zero += 1;
+                    case 1:
+                        allscore.one += 1;
+                        break;
+                    case 2:
+                        allscore.two += 1;
+                        break;
+                    case 3:
+                        allscore.three += 1;
+                        break;
+                    case 4:
+                        allscore.four += 1
+                        break;
+                    case 5:
+                        allscore.five += 1
+                        break;
+                }
+                total += reviews.score
+                
+            }
+            let average = total/reviewsdata.length;
+            for (index in allscore){
+                allscore[index] = allscore[index]/reviewsdata.length*100
+            }
+            console.log(average)
+            console.log(allscore);
+            res.render('Product/product', { data: rows, reviews: reviewsdata , allscore: allscore, average: average});
+        });
     });
 });
 
