@@ -9,6 +9,7 @@ const app = express();
 const port = 3000;
 const promptpayQR = require('promptpay-qr');
 const qrcode = require('qrcode');
+const open = require('opn');
 
 // using sqlite3
 const sqlite3 = require('sqlite3').verbose();
@@ -1253,7 +1254,10 @@ app.use((req, res, next) => {
     res.status(404).sendFile(path.join(__dirname, 'Public/404.html'));
 });
 
-app.listen(port, () => {
+app.listen(port, async() => {
     console.log(`listening to port ${port}`);
-    console.log(`http://localhost:${port}`);
+    console.log('<--------------------->');
+    console.log(`Server running at: http://localhost:${port}`);
+    console.log('<--------------------->');
+    await open(`http://localhost:${port}`);
 });
