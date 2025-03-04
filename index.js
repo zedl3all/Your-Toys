@@ -1255,4 +1255,5 @@ app.use((req, res, next) => {
 
 app.listen(port, () => {
     console.log(`listening to port ${port}`);
+    console.log(`http://localhost:${port}`);
 });
