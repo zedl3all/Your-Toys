@@ -1,7 +1,7 @@
-# Your-Toys Project #HAZARD 🧸🔥
+# Your-Toys Project 🧸🎮
 
 ## Overview 📋
-Your-Toys is a toy management and retail platform that helps you organize, track, and manage your toy inventory efficiently.
+Your-Toys is an e-commerce platform for toy products that helps you organize, track, and manage your toy inventory efficiently. Customers can customize product details according to their preferences, making each purchase unique and personalized.
 
 ## Features ✨
 - Product management system
@@ -9,13 +9,17 @@ Your-Toys is a toy management and retail platform that helps you organize, track
 - User authentication
 - Sales tracking and reporting
 - Responsive design
+- Product customization by customers
+- Personalized shopping experience
+- Secure payment integration with PromptPay
+- QR code generation for transactions
 
 ## Installation 🚀
 To set up the project locally, follow these steps:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/zedl3all/Your-Toys/tree/work-in-sql
+    git clone https://github.com/zedl3all/Your-Toys
     ```
 
 2. Navigate to the project directory:
