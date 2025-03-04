@@ -288,6 +288,7 @@ app.get('/product/:id', (req, res) => { // test
                 switch (reviews.score){
                     case 0:
                         allscore.zero += 1;
+                        break;
                     case 1:
                         allscore.one += 1;
                         break;
