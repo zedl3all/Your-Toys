@@ -42,6 +42,11 @@ if (!fs.existsSync(customizeDir)) {
     fs.mkdirSync(customizeDir, { recursive: true });
 }
 
+const paymentUploadDir = path.join(__dirname, "Asset", "PaymentProof");
+if (!fs.existsSync(paymentUploadDir)) {
+    fs.mkdirSync(paymentUploadDir, { recursive: true });
+}
+
 app.use('/Asset', express.static(path.join(__dirname, '/Asset')));
 app.use(express.static(path.join(__dirname, '/Public')));
 app.use('/Views', express.static(path.join(__dirname, '/Views')));
@@ -88,36 +93,50 @@ app.post("/upload/:imgname", (req, res) => {
     });
 });
 
-app.post("/upload-artwork/:imgname", (req, res) => {
-    const storage = multer.diskStorage({
-        destination: (req, file, cb) => {
-            cb(null, customizeDir); // Use the customize directory
-        },
-        filename: (req, file, cb) => {
-            cb(null, req.params.imgname + path.extname(file.originalname));
-        }
-    });
-    const upload = multer({
-        storage,
-        fileFilter,
-        limits: { fileSize: 25 * 1024 * 1024 } // 25MB
-    });
-    upload.single("image")(req, res, (err) => {
-        if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
-            return res.status(400).json({ message: "File size exceeds the limit of 25MB" });
-        } else if (err) {
-            return res.status(400).json({ message: err.message });
-        }
-
-        if (!req.file) {
-            return res.status(400).json({ message: "No file uploaded or invalid file type" });
-        }
-        res.json({
-            message: "Artwork uploaded successfully",
-            filename: req.file.filename,
-            path: `/Asset/Customize/${req.file.filename}`
+// File upload oop able to reuse by 112
+function createUploadMiddleware(destinationDir, sizeLimit = 25) {
+    return function(req, res) {
+        const storage = multer.diskStorage({
+            destination: (req, file, cb) => {
+                cb(null, destinationDir);
+            },
+            filename: (req, file, cb) => {
+                cb(null, req.params.imgname + path.extname(file.originalname));
+            }
         });
-    });
+        
+        const upload = multer({
+            storage,
+            fileFilter,
+            limits: { fileSize: sizeLimit * 1024 * 1024 }
+        });
+        
+        return upload.single("image")(req, res, (err) => {
+            if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
+                return res.status(400).json({ message: `File size exceeds the limit of ${sizeLimit}MB` });
+            } else if (err) {
+                return res.status(400).json({ message: err.message });
+            }
+
+            if (!req.file) {
+                return res.status(400).json({ message: "No file uploaded or invalid file type" });
+            }
+            
+            res.json({
+                message: "File uploaded successfully",
+                filename: req.file.filename,
+                path: `/${path.relative(__dirname, destinationDir).replace(/\\/g, '/')}/${req.file.filename}`
+            });
+        });
+    };
+}
+
+app.post("/upload-artwork/:imgname", (req, res) => {
+    createUploadMiddleware(customizeDir)(req, res);
+});
+
+app.post("/upload-payment/:imgname", (req, res) => {
+    createUploadMiddleware(paymentUploadDir)(req, res);
 });
 
 // routing 
@@ -461,6 +480,96 @@ app.get('/cart/remove/:id', (req, res) => {
         } else {
             res.redirect('/cart?userId=' + userId);
         }
+    });
+});
+
+// Process payment in testing
+app.post("/upload-payment-proof", (req, res) => {
+    // Create multer upload handler
+    const storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, paymentUploadDir);
+        },
+        filename: (req, file, cb) => {
+            // Generate unique filename
+            const timestamp = Date.now();
+            const randomString = Math.random().toString(36).substring(2, 10);
+            cb(null, `payment_${timestamp}_${randomString}${path.extname(file.originalname)}`);
+        }
+    });
+    
+    const upload = multer({
+        storage,
+        fileFilter,
+        limits: { fileSize: 10 * 1024 * 1024 } // 10MB
+    }).single('paymentProof');
+    
+    // Process the upload
+    upload(req, res, function(err) {
+        // Log full request body for debugging
+        console.log('Received payment upload request with body:', req.body);
+        
+        if (err) {
+            console.error('Upload error:', err);
+            return res.status(400).json({ 
+                success: false, 
+                message: err.message 
+            });
+        }
+        
+        if (!req.file) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'No file uploaded' 
+            });
+        }
+        
+        // Get userId from form data
+        const userId = req.body.userId;
+        console.log('User ID from request:', userId);
+        
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Missing user ID'
+            });
+        }
+        
+        // Update database with payment proof
+        const filePath = req.file.filename;
+        console.log('File uploaded successfully:', filePath);
+        
+        const updateQuery = `
+            UPDATE orders 
+            SET status_id = 2, 
+                bill_img = ?
+            WHERE customer_id = ? AND status_id = 0
+        `;
+        
+        db.run(updateQuery, [filePath, userId], function(err) {
+            if (err) {
+                console.error('Database error:', err.message);
+                return res.status(500).json({
+                    success: false,
+                    message: 'Error updating order status'
+                });
+            }
+            
+            console.log(`Updated ${this.changes} orders for user ${userId}`);
+            
+            if (this.changes === 0) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'No items in cart to update'
+                });
+            }
+            
+            res.json({
+                success: true,
+                message: 'Payment proof uploaded successfully',
+                file: filePath
+            });
+        });
     });
 });
 
@@ -924,7 +1033,7 @@ app.delete('/manageProduct/product/:id', (req, res) => {
 
 app.get('/Packing', (req, res) => {
     const query = `
-    SELECT o.order_id order_id, c.username customer,  o.detail description, order_date, o.img image, s.status_id status
+    SELECT o.order_id order_id, c.username customer,  o.detail description, order_date, o.img image, s.status_id status, o.bill_img bill_img
     FROM orders o 
     JOIN users c on o.customer_id = c.user_id
     JOIN status s on o.status_id = s.status_id;

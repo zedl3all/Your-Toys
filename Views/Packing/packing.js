@@ -1,15 +1,15 @@
 function changeStatus(id, status) {
     // Get the status element
     const statusElement = document.getElementById(id);
-    
+
     // Remove all existing status classes
     statusElement.classList.remove('status-waiting', 'status-packing', 'status-success', 'status-failed');
-    
+
     // Add animation class
     statusElement.classList.add('status-changing');
-    
+
     // Add appropriate status class
-    switch(status) {
+    switch (status) {
         case 'Waiting for packing':
             statusElement.classList.add('status-waiting');
             break;
@@ -23,15 +23,15 @@ function changeStatus(id, status) {
             statusElement.classList.add('status-failed');
             break;
     }
-    
+
     // Update the text
     statusElement.innerText = status;
-    
+
     // Remove animation class after animation completes
     setTimeout(() => {
         statusElement.classList.remove('status-changing');
     }, 500);
-    
+
     // Show notification
     showNotification(`Order status updated to "${status}"`);
 
@@ -45,16 +45,16 @@ function changeStatus(id, status) {
         },
         body: JSON.stringify({ orderId: parseInt(order_id), status: status })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (!data.success) {
-            showNotification(`Failed to update status: ${data.message}`);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        showNotification('Failed to update status');
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                showNotification(`Failed to update status: ${data.message}`);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Failed to update status');
+        });
 }
 
 function showNotification(message) {
@@ -79,62 +79,54 @@ function showNotification(message) {
         `;
         document.body.appendChild(notification);
     }
-    
+
     // Update and show notification
     notification.textContent = message;
     notification.style.transform = 'translateY(0)';
-    
+
     // Hide after 3 seconds
     setTimeout(() => {
         notification.style.transform = 'translateY(100px)';
     }, 3000);
 }
 
-// Function to view bill image
+// Simple function to view bill image
 function viewImage(imageSrc) {
+    // Get modal elements
     const modal = document.getElementById('imageModal');
     const billImage = document.getElementById('billImage');
-    
-    // Set the image source
-    // billImage.src = `/images/bills/${imageSrc}`;
+
+    // Log for debugging
+    console.log('Opening image:', imageSrc);
+
+    // Set image source
     billImage.src = imageSrc;
-    // Show the modal
+
+    // Display the modal
     modal.style.display = 'block';
-    
-    // Show notification
-    showNotification('Viewing bill image');
 }
 
-// Close the modal when clicking the X
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize status classes
-    document.querySelectorAll('[id^="status-"]').forEach(element => {
-        const status = element.innerText;
-        if (status.includes('Waiting')) {
-            element.classList.add('status-waiting');
-        } else if (status === 'Packing') {
-            element.classList.add('status-packing');
-        } else if (status === 'Success') {
-            element.classList.add('status-success');
-        } else if (status === 'Failed') {
-            element.classList.add('status-failed');
+// Function to close modal
+function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Set up event listeners
+document.addEventListener('DOMContentLoaded', function () {
+    // Close modal when clicking the X button
+    const closeBtn = document.querySelector('.close-modal');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeImageModal);
+    }
+
+    // Close modal when clicking outside the image
+    window.addEventListener('click', function (event) {
+        const modal = document.getElementById('imageModal');
+        if (event.target === modal) {
+            closeImageModal();
         }
     });
-    
-    // Setup modal close functionality
-    const modal = document.getElementById('imageModal');
-    const closeBtn = document.querySelector('.close-modal');
-    
-    if (closeBtn) {
-        closeBtn.onclick = function() {
-            modal.style.display = 'none';
-        }
-    }
-    
-    // Close modal when clicking outside of it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    }
 });

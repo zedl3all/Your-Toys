@@ -157,6 +157,23 @@ function uploadPaymentProof() {
     const file = fileInput.files[0];
     const statusDiv = document.getElementById('uploadStatus');
     const uploadBtn = document.getElementById('uploadBtn');
+    
+    // Try getting userId from URL first, then localStorage as backup
+    const urlParams = new URLSearchParams(window.location.search);
+    let userId = urlParams.get('userId'); // Get from URL query parameter
+    
+    // If not in URL, try localStorage
+    if (!userId) {
+        userId = localStorage.getItem('user_id');
+    }
+
+    if (!userId) {
+        statusDiv.textContent = 'User ID not found. Please log in again.';
+        statusDiv.className = 'upload-status status-error';
+        return;
+    }
+
+    console.log('Using userId:', userId); // Debug output
 
     if (!file) {
         statusDiv.textContent = 'Please select a file first';
@@ -167,8 +184,8 @@ function uploadPaymentProof() {
     // Create FormData object
     const formData = new FormData();
     formData.append('paymentProof', file);
+    formData.append('userId', userId);
     formData.append('amount', document.getElementById('total-value').innerText);
-    formData.append('promptpay', '0875513773');
 
     // Disable button and show loading state
     uploadBtn.disabled = true;
@@ -176,33 +193,43 @@ function uploadPaymentProof() {
     statusDiv.textContent = 'Uploading your payment proof...';
     statusDiv.className = 'upload-status';
 
-    // Send the file to server
+    // Send the file to server with better error handling
     fetch('/upload-payment-proof', {
         method: 'POST',
         body: formData
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                statusDiv.textContent = 'Payment proof uploaded successfully!';
-                statusDiv.className = 'upload-status status-success';
-                uploadBtn.textContent = 'Uploaded ✓';
-            } else {
-                throw new Error(data.message || 'Upload failed');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            statusDiv.textContent = 'Error uploading payment proof: ' + error.message;
-            statusDiv.className = 'upload-status status-error';
-            uploadBtn.disabled = false;
-            uploadBtn.textContent = 'Try Again';
-        });
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => {
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    throw new Error(text || 'Server error');
+                }
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            statusDiv.textContent = 'Payment proof uploaded successfully! Redirecting to orders...';
+            statusDiv.className = 'upload-status status-success';
+            uploadBtn.textContent = 'Uploaded ✓';
+
+            setTimeout(() => {
+                window.location.href = `/AllOrder/${userId}`;
+            }, 2000);
+        } else {
+            throw new Error(data.message || 'Upload failed');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        statusDiv.textContent = 'Error uploading payment proof: ' + error.message;
+        statusDiv.className = 'upload-status status-error';
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = 'Try Again';
+    });
 }
 
 // ===== EVENT LISTENERS =====
@@ -219,23 +246,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if (uploadBtn) {
         uploadBtn.addEventListener('click', uploadPaymentProof);
     }
-
-    // Close modals when clicking outside
-    window.addEventListener('click', function (event) {
-        const productModal = document.getElementById('productDetailModal');
-        const qrModal = document.getElementById('qrModal');
-
-        if (event.target === productModal) {
-            closeProductDetailModal();
-        }
-
-        if (event.target === qrModal) {
-            closeQRModal();
-        }
-    });
 });
 
-document.getElementById('modalProductImage').onerror = function() {
+document.getElementById('modalProductImage').onerror = function () {
     // If the image fails to load, fall back to a default image
     this.src = '/Asset/Product/dummy.jpg';
     console.log('Failed to load image, using fallback image');
