@@ -1288,6 +1288,22 @@ app.post('/updateOrderStatus', (req, res) => {
     });
 });
 
+app.post('/addReview', (req, res) => {
+    const { userId, productId, rating, title, content } = req.body;
+    console.log(req.body);
+    const query = `
+        INSERT INTO reviews (user_id, product_id, score, review_title, review_description, review_date)
+        VALUES (?, ?, ?, ?, ?, date('now'))
+    `;
+    db.run(query, [userId, productId, rating, title, content], function(err) {
+        if (err) {
+            console.error('Database error:', err.message);
+            return res.status(500).json({ success: false, message: 'Database error' });
+        }
+        res.json({ success: true, message: 'Review added successfully' });
+    });
+});
+
 // 404 Not Found routing
 app.use((req, res, next) => {
     res.status(404).sendFile(path.join(__dirname, 'Public/404.html'));
