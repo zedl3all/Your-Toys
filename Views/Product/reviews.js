@@ -71,28 +71,31 @@ document.addEventListener('DOMContentLoaded', function() {
         const rating = parseInt(ratingValue.value);
         const title = document.getElementById('reviewTitle').value.trim();
         const content = document.getElementById('reviewContent').value.trim();
-        
-        // Generate demo user data (in a real application, this would come from authentication)
-        const username = getRandomUsername();
-        const avatarUrl = `https://ui-avatars.com/api/?name=${username.replace(' ', '+')}&background=random`;
-        
-        // Create timestamp
-        const currentDate = new Date();
-        const formattedDate = formatDate(currentDate);
+        const userId = localStorage.getItem('user_id') // Assuming userId is available in a hidden input field
+        const productId = document.getElementById('productId').innerHTML.replace("<i class=\"bi bi-box-seam me-1\"></i> Product ID: ", ""); // Assuming productId is available in a hidden input field
         
         // Add review to DOM
-        addReviewToDOM({
-            username,
-            avatarUrl,
+        // addReviewToDOM({
+        //     username: 'You', // Placeholder for the current user
+        //     avatarUrl: '', // Placeholder for the current user's avatar
+        //     rating,
+        //     title,
+        //     content,
+        //     date: formatDate(new Date())
+        // });
+        
+        // // Update review statistics
+        // updateReviewStatistics(rating);
+        
+        // Insert review into database
+        insertReviewIntoDatabase({
+            userId,
+            productId,
             rating,
             title,
-            content,
-            date: formattedDate
+            content
         });
-        
-        // Update review statistics
-        updateReviewStatistics(rating);
-        
+
         // Reset form and close modal
         resetReviewForm();
         const modalInstance = bootstrap.Modal.getInstance(reviewModal);
@@ -330,4 +333,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     `;
     document.head.appendChild(style);
+
+    function insertReviewIntoDatabase(reviewData) {
+        fetch('/addReview', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(reviewData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                console.error('Failed to insert review:', data.message);
+                showToast('Failed to submit review. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error inserting review:', error);
+            showToast('Failed to submit review. Please try again.');
+        });
+    }
 });
