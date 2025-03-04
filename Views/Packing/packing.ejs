@@ -27,7 +27,7 @@
                         <th title="Customer Name"><i class="fas fa-user"></i> Customer</th>
                         <th><i class="fas fa-info-circle"></i> Description</th>
                         <th><i class="fas fa-calendar"></i> Date</th>
-                        <th><i class="fas fa-file-invoice"></i> Image(Bill)</th>
+                        <th><i class="fas fa-file-invoice"></i> Images</th>
                         <th><i class="fas fa-tasks"></i> Status</th>
                         <th><i class="fas fa-tools"></i> Actions</th>
                     </tr>
@@ -50,8 +50,8 @@
                             </td>
                             <td>
                                 <a href="#" class="btn-image"
-                                    onclick="viewImage('/Asset/PaymentProof/<%=order.bill_img%>')">
-                                    <i class="fas fa-eye"></i> View
+                                    onclick="viewImages('/Asset/PaymentProof/<%=order.bill_img%>', '/Asset/Products/<%=order.product_img%>')">
+                                    <i class="fas fa-images"></i> View
                                 </a>
                             </td>
 
@@ -93,7 +93,16 @@
     <div id="imageModal" class="modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
-            <img id="billImage" alt="Payment Receipt">
+            <div class="images-grid">
+                <div class="image-card">
+                    <h3>Payment Receipt</h3>
+                    <img id="billImage" class="modal-image" alt="Payment Receipt">
+                </div>
+                <div class="image-card">
+                    <h3>Product Image</h3>
+                    <img id="productImage" class="modal-image" alt="Product Image">
+                </div>
+            </div>
         </div>
     </div>
 

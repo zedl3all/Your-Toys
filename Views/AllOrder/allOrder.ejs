@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Orders</title>
     <link rel="stylesheet" href="/Views/AllOrder/allOrder.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <%- include("../Template/navbar.ejs") %>
 </head>
 
@@ -23,14 +24,14 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Order ID</th>
-                        <th>Product</th>
-                        <th>Details</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Total</th>
-                        <th>Images</th>
-                        <th>Actions</th>
+                        <th><i class="fas fa-hashtag"></i> Order ID</th>
+                        <th><i class="fas fa-box"></i> Product</th>
+                        <th><i class="fas fa-info-circle"></i> Details</th>
+                        <th><i class="far fa-calendar-alt"></i> Date</th>
+                        <th><i class="fas fa-flag"></i> Status</th>
+                        <th><i class="fas fa-money-bill-wave"></i> Total</th>
+                        <th id="cen"><i class="fas fa-image"></i> Images</th>
+                        <th id="cen"><i class="fas fa-cog"></i> Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,7 +65,7 @@
                                 <td>
                                     <a href="#" class="btn-image"
                                         onclick="viewImages('/Asset/PaymentProof/<%=order.bill_img%>', '/Asset/Products/<%=order.product_img%>')">
-                                        <i class="fas fa-images"></i> View Images
+                                        <i class="fas fa-images"></i> View
                                     </a>
                                 </td>
                                 <td>
@@ -80,18 +81,18 @@
                 </tbody>
             </table>
         <% } %>
-        <div id="imageModal" class="modal">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <div class="images-grid">
-                    <div class="image-card">
-                        <h3>Payment Receipt</h3>
-                        <img id="billImage" class="modal-image" alt="Payment Receipt">
-                    </div>
-                    <div class="image-card">
-                        <h3>Product Image</h3>
-                        <img id="productImage" class="modal-image" alt="Product Image">
-                    </div>
+    </div>
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="images-grid">
+                <div class="image-card">
+                    <h3>Payment Receipt</h3>
+                    <img id="billImage" class="modal-image" alt="Payment Receipt">
+                </div>
+                <div class="image-card">
+                    <h3>Product Image</h3>
+                    <img id="productImage" class="modal-image" alt="Product Image">
                 </div>
             </div>
         </div>

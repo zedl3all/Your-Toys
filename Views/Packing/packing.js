@@ -91,16 +91,14 @@ function showNotification(message) {
 }
 
 // Simple function to view bill image
-function viewImage(imageSrc) {
-    // Get modal elements
+function viewImages(billSrc, productSrc) {
     const modal = document.getElementById('imageModal');
     const billImage = document.getElementById('billImage');
+    const productImage = document.getElementById('productImage');
 
-    // Log for debugging
-    console.log('Opening image:', imageSrc);
-
-    // Set image source
-    billImage.src = imageSrc;
+    // Set image sources
+    billImage.src = billSrc;
+    productImage.src = productSrc;
 
     // Display the modal
     modal.style.display = 'block';
@@ -116,13 +114,11 @@ function closeImageModal() {
 
 // Set up event listeners
 document.addEventListener('DOMContentLoaded', function () {
-    // Close modal when clicking the X button
     const closeBtn = document.querySelector('.close-modal');
     if (closeBtn) {
         closeBtn.addEventListener('click', closeImageModal);
     }
 
-    // Close modal when clicking outside the image
     window.addEventListener('click', function (event) {
         const modal = document.getElementById('imageModal');
         if (event.target === modal) {
