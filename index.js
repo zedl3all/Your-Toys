@@ -1036,7 +1036,8 @@ app.get('/Packing', (req, res) => {
     SELECT o.order_id order_id, c.username customer,  o.detail description, order_date, o.img image, s.status_id status, o.bill_img bill_img
     FROM orders o 
     JOIN users c on o.customer_id = c.user_id
-    JOIN status s on o.status_id = s.status_id;
+    JOIN status s on o.status_id = s.status_id
+    where s.status_id > 0;
     `;
     db.all(query, (err, orders) => {
         if (err) {
