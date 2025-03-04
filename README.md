@@ -17,17 +17,21 @@ Your-Toys is an e-commerce platform for toy products that helps you organize, tr
 ## Installation 🚀
 To set up the project locally, follow these steps:
 
-1. Clone the repository:
+1. Download and install Node.js from [nodejs.org](https://nodejs.org/):
+   - Select the LTS version recommended for most users
+   - Follow the installation instructions for your operating system
+
+2. Clone the repository:
     ```bash
     git clone https://github.com/zedl3all/Your-Toys
     ```
 
-2. Navigate to the project directory:
+3. Navigate to the project directory:
     ```bash
     cd Your-Toys
     ```
 
-3. Run the setup script:
+4. Run the setup script:
     ```bash
     run.bat
     ```
