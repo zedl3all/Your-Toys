@@ -175,59 +175,116 @@
                             <!-- Summary Rating -->
                             <div class="row mb-4">
                                 <div class="col-md-4 text-center border-end">
-                                    <h1 class="display-3 fw-bold mb-0">4.5</h1>
-                                    <div class="mb-2">
+                                    <h1 class="display-3 fw-bold mb-0"><%=average%></h1>
+                                    <!-- <div class="mb-2">
                                         <i class="bi bi-star-fill text-warning"></i>
                                         <i class="bi bi-star-fill text-warning"></i>
                                         <i class="bi bi-star-fill text-warning"></i>
                                         <i class="bi bi-star-fill text-warning"></i>
                                         <i class="bi bi-star-half text-warning"></i>
-                                    </div>
-                                    <p class="text-muted mb-0">Based on 3 reviews</p>
+                                    </div> -->
+                                    <p class="text-muted mb-0">Based on <%=reviews.length%> reviews</p>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="d-flex align-items-center mb-1">
                                         <div class="text-muted me-3" style="width: 60px">5 stars</div>
                                         <div class="progress flex-grow-1" style="height: 10px;">
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 75%"></div>
+                                            <div class="progress-bar bg-warning" role="progressbar" id="5star"></div>
                                         </div>
-                                        <div class="text-muted ms-3" style="width: 40px">75%</div>
+                                        <div class="text-muted ms-3" style="width: 40px" id="5text"><%=allscore.five%>%</div>
                                     </div>
                                     <div class="d-flex align-items-center mb-1">
                                         <div class="text-muted me-3" style="width: 60px">4 stars</div>
-                                        <div class="progress flex-grow-1" style="height: 10px;">
+                                        <!-- <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" style="width: 25%"></div>
                                         </div>
-                                        <div class="text-muted ms-3" style="width: 40px">25%</div>
+                                        <div class="text-muted ms-3" style="width: 40px">25%</div> -->
+                                        <div class="progress flex-grow-1" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" id="4star"></div>
+                                        </div>
+                                        <div class="text-muted ms-3" style="width: 40px" id="4text"><%=allscore.four%>%</div>
                                     </div>
                                     <div class="d-flex align-items-center mb-1">
                                         <div class="text-muted me-3" style="width: 60px">3 stars</div>
-                                        <div class="progress flex-grow-1" style="height: 10px;">
+                                        <!-- <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
                                         </div>
-                                        <div class="text-muted ms-3" style="width: 40px">0%</div>
+                                        <div class="text-muted ms-3" style="width: 40px">0%</div> -->
+                                        <div class="progress flex-grow-1" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" id="3star"></div>
+                                        </div>
+                                        <div class="text-muted ms-3" style="width: 40px" id="3text"><%=allscore.three%>%</div>
                                     </div>
                                     <div class="d-flex align-items-center mb-1">
                                         <div class="text-muted me-3" style="width: 60px">2 stars</div>
-                                        <div class="progress flex-grow-1" style="height: 10px;">
+                                        <!-- <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
                                         </div>
-                                        <div class="text-muted ms-3" style="width: 40px">0%</div>
+                                        <div class="text-muted ms-3" style="width: 40px">0%</div> -->
+                                        <div class="progress flex-grow-1" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" id="2star"></div>
+                                        </div>
+                                        <div class="text-muted ms-3" style="width: 40px" id="2text"><%=allscore.two%>%</div>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <div class="text-muted me-3" style="width: 60px">1 star</div>
-                                        <div class="progress flex-grow-1" style="height: 10px;">
+                                        <!-- <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
                                         </div>
-                                        <div class="text-muted ms-3" style="width: 40px">0%</div>
+                                        <div class="text-muted ms-3" style="width: 40px">0%</div> -->
+                                        <div class="progress flex-grow-1" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" id="1star"></div>
+                                        </div>
+                                        <div class="text-muted ms-3" style="width: 40px" id="1text"><%=allscore.one%>%</div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <div class="text-muted me-3" style="width: 60px">0 star</div>
+                                        <!-- <div class="progress flex-grow-1" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
+                                        </div>
+                                        <div class="text-muted ms-3" style="width: 40px">0%</div> -->
+                                        <div class="progress flex-grow-1" style="height: 10px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" id="0star"></div>
+                                        </div>
+                                        <div class="text-muted ms-3" style="width: 40px" id="0text"><%=allscore.zero%>%</div>
                                     </div>
                                 </div>
                             </div>
-
+                            <script>
+                                document.getElementById("5star").style.width = document.getElementById("5text").innerText;
+                                document.getElementById("4star").style.width = document.getElementById("4text").innerText;
+                                document.getElementById("3star").style.width = document.getElementById("3text").innerText;
+                                document.getElementById("2star").style.width = document.getElementById("2text").innerText;
+                                document.getElementById("1star").style.width = document.getElementById("1text").innerText;
+                                document.getElementById("0star").style.width = document.getElementById("0text").innerText;
+                            </script>
                             <!-- Individual Reviews -->
                             <div class="reviews-container">
+                                <%reviews.forEach((review) =>{%>
+                                    <div class="review-item pb-4 mb-4 border-bottom">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="avatar me-3">
+                                            <img src="https://ui-avatars.com/api/?name=<%=review.username%>&background=random" class="rounded-circle" width="48" alt="John D">
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-0"><%=review.username%></h5>
+                                            <div class="text-muted small">Posted on <%=review.rdate%></div>
+                                        </div>
+                                        <div class="stars ms-auto">
+                                            <%for (let i=0; i < review.score; i++){%>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <%}%>
+                                            <%for (let i=0; i < (5-review.score); i++){%>
+                                                <i class="bi bi-star text-warning"></i>
+                                                <%}%>
+                                        </div>
+                                    </div>
+                                    <h6 class="review-title fw-bold"><%=review.title%></h6>
+                                    <p class="review-text"><%=review.description%></p>
+                                </div>
+                                <%});%>
                                 <!-- Review 1 -->
-                                <div class="review-item pb-4 mb-4 border-bottom">
+                                <!-- <div class="review-item pb-4 mb-4 border-bottom">
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="avatar me-3">
                                             <img src="https://ui-avatars.com/api/?name=Tanapat+Sanguanwong&background=random" class="rounded-circle" width="48" alt="John D">
@@ -246,10 +303,10 @@
                                     </div>
                                     <h6 class="review-title fw-bold">Excellent quality and service</h6>
                                     <p class="review-text">This product exceeded my expectations! The quality is top-notch and I received it much faster than expected. Would definitely recommend to anyone looking for this type of product.</p>
-                                </div>
+                                </div> -->
 
                                 <!-- Review 2 -->
-                                <div class="review-item pb-4 mb-4 border-bottom">
+                                <!-- <div class="review-item pb-4 mb-4 border-bottom">
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="avatar me-3">
                                             <img src="https://ui-avatars.com/api/?name=Teetat+Thongkumtae&background=random" class="rounded-circle" width="48" alt="Sarah M">
@@ -268,10 +325,10 @@
                                     </div>
                                     <h6 class="review-title fw-bold">Great product with minor issues</h6>
                                     <p class="review-text">I'm very happy with my purchase! The product works great and looks fantastic. The only reason I'm giving 4 stars instead of 5 is because the delivery took a bit longer than expected.</p>
-                                </div>
+                                </div> -->
 
                                 <!-- Review 3 -->
-                                <div class="review-item">
+                                <!-- <div class="review-item">
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="avatar me-3">
                                             <img src="https://ui-avatars.com/api/?name=Thanasit+Tungjai&background=random" class="rounded-circle" width="48" alt="Alex L">
@@ -290,7 +347,7 @@
                                     </div>
                                     <h6 class="review-title fw-bold">Very satisfied with my purchase</h6>
                                     <p class="review-text">The quality of this product is excellent. I've been using it for a few weeks now and it has performed flawlessly. The customer service was also excellent when I had questions about the features.</p>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
