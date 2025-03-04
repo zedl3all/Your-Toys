@@ -248,8 +248,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-document.getElementById('modalProductImage').onerror = function () {
-    // If the image fails to load, fall back to a default image
-    this.src = '/Asset/Product/dummy.jpg';
-    console.log('Failed to load image, using fallback image');
-};
+// document.getElementById('modalProductImage').onerror = function () {
+//     // If the image fails to load, fall back to a default image
+//     this.src = '/Asset/Product/dummy.jpg';
+//     console.log('Failed to load image, using fallback image');
+// };
