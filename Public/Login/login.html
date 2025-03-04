@@ -10,27 +10,27 @@
 </head>
 
 <body>
-    <a href="/" class="back-button">← Back to Home</a>
+    <a href="/" class="back-button">← กลับหน้าหลัก</a>
     <div class="login-container">
-        <h2>Login</h2>
+        <h2>เข้าสู่ระบบ</h2>
         <form id="loginForm" data-user-type="customer">
             <div class="form-group">
-                <label for="username">Username:</label>
+                <label for="username">ชื่อผู้ใช้:</label>
                 <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
-                <label for="password">Password:</label>
+                <label for="password">รหัสผ่าน:</label>
                 <input type="password" id="password" name="password" required>
                 <div class="show-password">
                     <input type="checkbox" id="show-password" onclick="showpassword()">
-                    <label for="show-password">Show Password</label>
+                    <label for="show-password">แสดงรหัสผ่าน</label>
                 </div>
             </div>
-            <input type="submit" value="Login">
+            <input type="submit" value="เข้าสู่ระบบ">
         </form>
         <div id="error-message" class="error-message"></div>
         <div class="register-link">
-            <p>Don't have an account? <a href="/register">register</a></p>
+            <p>ยังไม่มีบัญชี? <a href="/register">ลงทะเบียน</a></p>
         </div>
     </div>
     <script src="/Login/login.js"></script>
