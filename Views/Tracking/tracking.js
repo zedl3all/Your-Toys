@@ -1,97 +1,75 @@
-const prevBtn = document.querySelector(".js-prev");
-const nextBtn = document.querySelector(".js-next");
-const progressBar = document.querySelector(".js-bar");
-const circles = document.querySelectorAll(".js-circle");
-
-let currentActive = 1;
-
-const changeBarDisplay = function () {
-  const actives = document.querySelectorAll(".active");
-
-  if (window.innerWidth >= 375 && window.innerWidth < 810) {
-    progressBar.style.height = `${((actives.length - 1) / (circles.length - 1)) * 100
-      }%`;
-  } else {
-    progressBar.style.width = `${((actives.length - 1) / (circles.length - 1)) * 100
-      }%`;
-  }
-};
-
-const updateCircleState = function () {
-  circles.forEach((circle, i) => {
-    i < currentActive
-      ? circle.classList.add("active")
-      : circle.classList.remove("active");
-  });
-
-  changeBarDisplay();
-
-  if (currentActive === 1) prevBtn.disabled = true;
-  else if (currentActive === circles.length) nextBtn.disabled = true;
-  else {
-    prevBtn.disabled = false;
-    nextBtn.disabled = false;
-  }
-};
-
-const incrementCurrent = function () {
-  currentActive++;
-
-  currentActive > circles.length && (currentActive = circles.length);
-};
-
-const decrementCurrent = function () {
-  currentActive--;
-
-  currentActive < 1 && (currentActive = 1);
-};
-
-nextBtn.addEventListener("click", () => {
-  incrementCurrent();
-  updateCircleState();
-});
-
-prevBtn.addEventListener("click", () => {
-  decrementCurrent();
-  updateCircleState();
-});
-
-// Fetch data from the database and update the progress bar
-const fetchDataAndUpdateProgress = async function () {
-  try {
-    const response = await fetch('/api/progress'); // Replace with your API endpoint
-    const data = await response.json();
-    currentActive = data.currentStep; // Assuming the API returns an object with currentStep
-    updateCircleState();
-  } catch (error) {
-    console.error('Error fetching progress data:', error);
-  }
-};
-
-// Call the function to fetch data and update the progress bar on page load
-fetchDataAndUpdateProgress();
-
-/**
- * Updates the progress bar width based on the status ID
- * @param {number} statusId - The order status ID
- */
-function updateProgressBar(statusId) {
-  if (!progressBar) return;
-
-  if (statusId === 2) progressBar.style.width = '0%';
-  else if (statusId === 3) progressBar.style.width = '50%';
-  else if (statusId === 4) progressBar.style.width = '100%';
-  else progressBar.style.width = '0%';
-
-  console.log('Set progress bar width to:', progressBar.style.width);
-}
-
-// Initialize when the DOM is loaded
-document.addEventListener('DOMContentLoaded', function () {
-  // Get the status ID from the data attribute
+document.addEventListener('DOMContentLoaded', function() {
+  // Get elements
+  const progressBar = document.querySelector('.js-bar');
+  const circles = document.querySelectorAll('.js-circle');
   const container = document.querySelector('.progress__container');
-  if (container) {
-    const statusId = parseInt(container.getAttribute('data-status-id'));
-    updateProgressBar(statusId);
+  
+  if (!container || !progressBar) return;
+  
+  const statusId = parseInt(container.getAttribute('data-status-id'));
+  
+  /**
+   * Updates the progress bar based on status ID and screen size
+   */
+  function updateProgressBar() {
+      // Calculate progress percentage based on status
+      let progressPercentage = 0;
+      
+      if (statusId >= 5) progressPercentage = 100;
+      else if (statusId === 4) progressPercentage = 75;
+      else if (statusId === 3) progressPercentage = 50;
+      else if (statusId === 2) progressPercentage = 25;
+      
+      // Calculate active steps for animation
+      const activeSteps = statusId - 1;
+      
+      // Check if the layout is vertical or horizontal
+      if (window.innerWidth <= 768) {
+          // Vertical layout
+          progressBar.style.width = '0.3rem';
+          progressBar.style.height = `${progressPercentage}%`;
+          
+          // Adjust for proper vertical positioning
+          if (activeSteps > 0) {
+              const multiplier = Math.min(activeSteps, 4) / 4;
+              const containerHeight = container.offsetHeight - 100;
+              progressBar.style.height = `${containerHeight * multiplier}px`;
+          } else {
+              progressBar.style.height = '0';
+          }
+      } else {
+          // Horizontal layout
+          progressBar.style.height = '0.3rem';
+          progressBar.style.width = `${progressPercentage}%`;
+          
+          // Adjust for proper horizontal positioning
+          const containerWidth = container.offsetWidth - 50;
+          if (activeSteps > 0) {
+              const multiplier = Math.min(activeSteps, 4) / 4;
+              progressBar.style.width = `${containerWidth * multiplier}px`;
+          } else {
+              progressBar.style.width = '0';
+          }
+      }
   }
+  
+  // Add animation delay to each circle
+  circles.forEach((circle, index) => {
+      if (circle.classList.contains('active')) {
+          circle.style.transitionDelay = `${index * 0.2}s`;
+      }
+  });
+  
+  // Initialize progress bar after a short delay to ensure styles are applied
+  setTimeout(updateProgressBar, 200);
+  
+  // Update on window resize
+  window.addEventListener('resize', () => {
+      setTimeout(updateProgressBar, 50);
+  });
+  
+  // Update when orientation changes on mobile devices
+  window.addEventListener('orientationchange', () => {
+      setTimeout(updateProgressBar, 200);
+  });
 });
