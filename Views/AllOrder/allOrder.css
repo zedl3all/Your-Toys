@@ -150,17 +150,25 @@ table tbody tr:hover {
 }
 
 .close-modal {
-    color: #aaa;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 28px;
+    color: #888;
+    float: right;
+    font-size: 24px;
     font-weight: bold;
-    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    background: #f8f8f8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border: none;
 }
 
 .close-modal:hover {
     color: #333;
+    background: #eee;
+    transform: rotate(90deg);
 }
 
 #billImage {

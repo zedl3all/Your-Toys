@@ -12,7 +12,7 @@
 
 <body>
     <div class="container">
-        <h2>Order List</h2>
+        <h2>รายการสั่งซื้อ</h2>
         <% if (typeof message !== 'undefined' && message) { %>
             <div class="message">
                 <p><%= message %></p>
@@ -24,14 +24,14 @@
             <table>
                 <thead>
                     <tr>
-                        <th><i class="fas fa-hashtag"></i> Order ID</th>
-                        <th><i class="fas fa-box"></i> Product</th>
-                        <th><i class="fas fa-info-circle"></i> Details</th>
-                        <th><i class="far fa-calendar-alt"></i> Date</th>
-                        <th><i class="fas fa-flag"></i> Status</th>
-                        <th><i class="fas fa-money-bill-wave"></i> Total</th>
-                        <th id="cen"><i class="fas fa-image"></i> Images</th>
-                        <th id="cen"><i class="fas fa-cog"></i> Actions</th>
+                        <th><i class="fas fa-hashtag"></i> รหัสสั่งซื้อ</th>
+                        <th><i class="fas fa-box"></i> สินค้า</th>
+                        <th><i class="fas fa-info-circle"></i> รายละเอียด</th>
+                        <th><i class="far fa-calendar-alt"></i> วันที่</th>
+                        <th><i class="fas fa-flag"></i> สถานะ</th>
+                        <th><i class="fas fa-money-bill-wave"></i> ราคารวม</th>
+                        <th id="cen"><i class="fas fa-image"></i> รูปภาพ</th>
+                        <th id="cen"><i class="fas fa-cog"></i> การกระทำ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -65,17 +65,17 @@
                                 <td>
                                     <a href="#" class="btn-image"
                                         onclick="viewImages('/Asset/PaymentProof/<%=order.bill_img%>', '/Asset/Products/<%=order.product_img%>')">
-                                        <i class="fas fa-images"></i> View
+                                        <i class="fas fa-images"></i> ดู
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="detail" href="/tracking/<%= order.order_id %>">Detail</a>
+                                    <a class="detail" href="/tracking/<%= order.order_id %>">รายละเอียด</a>
                                 </td>
                             </tr>
                         <% }); %>
                     <% } else { %>
                         <tr>
-                            <td colspan="7" class="no-orders">You don't have any orders yet</td>
+                            <td colspan="7" class="no-orders">คุณยังไม่มีคำสั่งซื้อ</td>
                         </tr>
                     <% } %>
                 </tbody>
@@ -87,11 +87,11 @@
             <span class="close-modal">&times;</span>
             <div class="images-grid">
                 <div class="image-card">
-                    <h3>Payment Receipt</h3>
+                    <h3>ใบเสร็จชำระเงิน</h3>
                     <img id="billImage" class="modal-image" alt="Payment Receipt">
                 </div>
                 <div class="image-card">
-                    <h3>Product Image</h3>
+                    <h3>รูปสินค้า</h3>
                     <img id="productImage" class="modal-image" alt="Product Image">
                 </div>
             </div>
