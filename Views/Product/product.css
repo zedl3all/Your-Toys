@@ -139,6 +139,22 @@ input[type="number"] {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.breadcrumb {
+    background-color: transparent;
+    padding: 0.5rem 0;
+    margin-bottom: 1.5rem;
+}
+
+.breadcrumb-item a {
+    color: #FAD401;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumb-item a:hover {
+    color: #d9b700;
+}
+
 @media (max-width: 990px) {
     .product-image {
         min-height: 250px;

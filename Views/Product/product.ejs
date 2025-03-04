@@ -16,8 +16,8 @@
     <main class="py-5">
         <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/" class="text-decoration-none"><i class="bi bi-house-door"></i> Home</a></li>
-                <li class="breadcrumb-item"><a href="/ProductAll" class="text-decoration-none">ProductAll</a></li>
+                <li class="breadcrumb-item"><a href="/" class="text-decoration-none"><i class="bi bi-house-door"></i>หน้าแรก</a></li>
+                <li class="breadcrumb-item"><a href="/ProductAll" class="text-decoration-none">สินค้าทั้งหมด</a></li>
                 <li class="breadcrumb-item active" aria-current="page"><%= data.name %></li>
             </ol>
 
@@ -32,8 +32,8 @@
                         </div>
                         <div class="card-footer bg-white border-0 p-4">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge bg-success px-3 py-2"><i class="bi bi-check2-circle me-1"></i> Available</span>
-                                <div class="small text-muted" id="productId"><i class="bi bi-box-seam me-1"></i> Product ID: <%= data.id %></div>
+                                <span class="badge bg-success px-3 py-2"><i class="bi bi-check2-circle me-1"></i>มีสินค้า</span>
+                                <div class="small text-muted" id="productId"><i class="bi bi-box-seam me-1"></i> รหัสสินค้า: <%=data.id %></div>
                             </div>
                         </div>
                     </div>
@@ -46,12 +46,12 @@
                             <h2 class="card-title fw-bold mb-1">
                                 <%= data.name %>
                             </h2>
-                            <p class="text-muted mb-0"><i class="bi bi-palette me-1"></i> Personalize it just the way you like.</p>
+                            <p class="text-muted mb-0"><i class="bi bi-palette me-1"></i> ปรับแต่งตามที่คุณต้องการ</p>
                         </div>
                         <div class="card-body p-4">
                             <!-- Description Field -->
                             <div class="mb-4">
-                                <h5 class="form-label fw-medium"><i class="bi bi-info-square me-1"></i> Description:</h5>
+                                <h5 class="form-label fw-medium"><i class="bi bi-info-square me-1"></i> รายละเอียด:</h5>
                                 <div class="card border-0 bg-light">
                                     <div class="card-body">
                                         <p class="mb-0">
@@ -63,14 +63,14 @@
 
                             <!-- Specify detail Field -->
                             <div class="mb-4">
-                                <label for="specify" class="form-label fw-medium"><i class="bi bi-pencil-square me-1"></i> Specify:</label>
+                                <label for="specify" class="form-label fw-medium"><i class="bi bi-pencil-square me-1"></i> ระบุรายละเอียด:</label>
                                 <textarea id="specify" name="specify" rows="3" class="form-control"
-                                    placeholder="Enter product specifications or special requests"></textarea>
+                                    placeholder="ระบุข้อกำหนดหรือคำขอพิเศษสำหรับสินค้า"></textarea>
                             </div>
 
                             <!-- Aspect Ratio Field -->
                             <div class="mb-4">
-                                <label for="number_x" class="form-label fw-medium"><i class="bi bi-aspect-ratio me-1"></i> Aspect Ratio:</label>
+                                <label for="number_x" class="form-label fw-medium"><i class="bi bi-aspect-ratio me-1"></i> อัตราส่วน:</label>
                                 <div class="d-flex align-items-center">
                                     <div class="input-group" style="max-width: 200px;">
                                         <input type="number" id="number_x" name="number_x" min="1" value="1"
@@ -80,13 +80,13 @@
                                             class="form-control text-center">
                                     </div>
                                     <div class="ms-3 text-muted small">
-                                        <i class="bi bi-info-circle"></i> Original ratio <%= data.size %>
+                                        <i class="bi bi-info-circle"></i> อัตราส่วนเดิม <%= data.size %>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="mb-4">
-                                <label for="quantity" class="form-label fw-medium"><i class="bi bi-123 me-1"></i> Amount:</label>
+                                <label for="quantity" class="form-label fw-medium"><i class="bi bi-123 me-1"></i> จำนวน:</label>
                                 <div class="d-flex align-items-center">
                                     <div class="input-group" style="max-width: 200px;">
                                         <button type="button" class="btn btn-outline-secondary" id="decreaseQuantity">
@@ -99,22 +99,22 @@
                                         </button>
                                     </div>
                                     <div class="ms-3 text-muted small">
-                                        <i class="bi bi-box-seam"></i> Available: <%= data.amount %> items
+                                        <i class="bi bi-box-seam"></i> มีสินค้า: <%= data.amount %> ชิ้น
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Image Upload Field -->
                             <div class="mb-4">
-                                <label for="artwork" class="form-label fw-medium"><i class="bi bi-file-earmark-image me-1"></i> Upload Artwork:</label>
+                                <label for="artwork" class="form-label fw-medium"><i class="bi bi-file-earmark-image me-1"></i> อัพโหลดภาพ:</label>
                                 <div class="upload-zone">
                                     <input type="file" id="artwork" name="image" accept="image/*" class="form-control">
-                                    <div class="form-text"><i class="bi bi-info-circle me-1"></i> Supported formats: JPG and PNG. Max 25MB.</div>
+                                    <div class="form-text"><i class="bi bi-info-circle me-1"></i> รองรับไฟล์: JPG และ PNG ขนาดไม่เกิน 25MB</div>
                                 </div>
                                 <div id="upload-preview" class="mt-2 d-none">
                                     <img id="artwork-preview" class="img-thumbnail" style="max-height: 150px;" alt="Artwork preview">
                                     <button type="button" class="btn btn-sm btn-outline-danger mt-1" id="remove-artwork">
-                                        <i class="bi bi-trash me-1"></i> Remove
+                                        <i class="bi bi-trash me-1"></i> ลบ
                                     </button>
                                 </div>
                                 <input type="hidden" id="uploaded-artwork-path" name="artworkPath" value="">
@@ -127,13 +127,13 @@
                             <div class="card bg-light border-0 mb-4 price-card">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="text-muted"><i class="bi bi-tag me-1"></i> Base Price:</span>
+                                        <span class="text-muted"><i class="bi bi-tag me-1"></i> ราคาพื้นฐาน:</span>
                                         <span class="fw-medium">
                                             <%= data.price %>฿
                                         </span>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <span class="fs-5 fw-bold"><i class="bi bi-cash-coin me-1"></i> Total Price:</span>
+                                        <span class="fs-5 fw-bold"><i class="bi bi-cash-coin me-1"></i> ราคารวม:</span>
                                         <span class="fs-4 fw-bold text-success" id="totalPrice">
                                             <%= data.price %>฿
                                         </span>
@@ -152,7 +152,7 @@
                                     <path
                                         d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
                                 </svg>
-                                Add to Cart
+                                เพิ่มลงรถเข็น
                             </button>
                         </div>
                     </div>
@@ -165,10 +165,10 @@
                     <div class="card border-0 shadow-sm">
                         <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                             <h3 class="card-title fw-bold mb-0">
-                                <i class="bi bi-star-fill text-warning me-2"></i>Customer Reviews
+                                <i class="bi bi-star-fill text-warning me-2"></i>รีวิวจากลูกค้า
                             </h3>
                             <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
-                                <i class="bi bi-pencil-square me-1"></i> Write a Review
+                                <i class="bi bi-pencil-square me-1"></i> เขียนรีวิว
                             </button>
                         </div>
                         <div class="card-body">
@@ -176,46 +176,46 @@
                             <div class="row mb-4">
                                 <div class="col-md-4 text-center border-end">
                                     <h1 class="display-3 fw-bold mb-0"><%=average%></h1>
-                                    <p class="text-muted mb-0">Based on <%=reviews.length%> reviews</p>
+                                    <p class="text-muted mb-0">จาก <%=reviews.length%> รีวิว</p>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="d-flex align-items-center mb-1">
-                                        <div class="text-muted me-3" style="width: 60px">5 stars</div>
+                                        <div class="text-muted me-3" style="width: 60px">5 ดาว</div>
                                         <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" id="5star"></div>
                                         </div>
                                         <div class="text-muted ms-3" style="width: 40px" id="5text"><%=allscore.five%>%</div>
                                     </div>
                                     <div class="d-flex align-items-center mb-1">
-                                        <div class="text-muted me-3" style="width: 60px">4 stars</div>
+                                        <div class="text-muted me-3" style="width: 60px">4 ดาว</div>
                                         <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" id="4star"></div>
                                         </div>
                                         <div class="text-muted ms-3" style="width: 40px" id="4text"><%=allscore.four%>%</div>
                                     </div>
                                     <div class="d-flex align-items-center mb-1">
-                                        <div class="text-muted me-3" style="width: 60px">3 stars</div>
+                                        <div class="text-muted me-3" style="width: 60px">3 ดาว</div>
                                         <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" id="3star"></div>
                                         </div>
                                         <div class="text-muted ms-3" style="width: 40px" id="3text"><%=allscore.three%>%</div>
                                     </div>
                                     <div class="d-flex align-items-center mb-1">
-                                        <div class="text-muted me-3" style="width: 60px">2 stars</div>
+                                        <div class="text-muted me-3" style="width: 60px">2 ดาว</div>
                                         <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" id="2star"></div>
                                         </div>
                                         <div class="text-muted ms-3" style="width: 40px" id="2text"><%=allscore.two%>%</div>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <div class="text-muted me-3" style="width: 60px">1 star</div>
+                                        <div class="text-muted me-3" style="width: 60px">1 ดาว</div>
                                         <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" id="1star"></div>
                                         </div>
                                         <div class="text-muted ms-3" style="width: 40px" id="1text"><%=allscore.one%>%</div>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <div class="text-muted me-3" style="width: 60px">0 star</div>
+                                        <div class="text-muted me-3" style="width: 60px">0 ดาว</div>
                                         <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" id="0star"></div>
                                         </div>
@@ -241,7 +241,7 @@
                                         </div>
                                         <div>
                                             <h5 class="mb-0"><%=review.username%></h5>
-                                            <div class="text-muted small">Posted on <%=review.rdate%></div>
+                                            <div class="text-muted small">โพสต์เมื่อ <%=review.rdate%></div>
                                         </div>
                                         <div class="stars ms-auto">
                                             <%for (let i=0; i < review.score; i++){%>
