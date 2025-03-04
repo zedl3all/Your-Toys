@@ -1,0 +1,240 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding-top: 90px !important;
+}
+
+nav {
+    background-color: #f8f8f8;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-left,
+.nav-center,
+.nav-right {
+    flex: 1;
+}
+
+.nav-center {
+    text-align: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.nav-right {
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    gap: 20px;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.logo img {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+    margin-left: 2rem;
+}
+
+.login {
+    padding: 10px 20px;
+    background-color: #FAD401;
+    color: #33322B;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.login:hover {
+    background-color: #c9ab01;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#mySearch {
+    width: 100%;
+    font-size: 18px;
+    padding: 11px;
+    border: 2px solid #33322B;
+    border-radius: 5px;
+}
+
+/* Style the navigation menu */
+#myMenu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+    /* Hide the menu initially */
+    position: absolute;
+    top: 40px;
+    /* Adjust this value to position the menu */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    border: 1px solid #ddd;
+    width: 80%;
+    z-index: 1000;
+}
+
+/* Style the navigation links */
+#myMenu li a {
+    padding: 12px;
+    text-decoration: none;
+    color: black;
+    display: block;
+}
+
+#myMenu li a:hover {
+    background-color: #eee;
+}
+
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1001;
+    top: 0;
+    right: 0;
+    background-color: #1a1a1a;
+    overflow-x: hidden;
+    transition: 0.4s;
+    padding-top: 60px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.sidenav a {
+    padding: 12px 8px 12px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #a0a0a0 !important;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.sidenav a i {
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+.sidenav a:hover {
+    color: #ffffff !important;
+    background-color: #333;
+    padding-left: 40px;
+}
+
+/* Welcome message style */
+.welcome-message {
+    font-weight: 500;
+    color: #33322B;
+    margin-right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    left: 0px;
+    /* Change from right: 25px to left: 25px */
+    font-size: 36px;
+    margin-right: 50px;
+    /* Change from margin-left to margin-right */
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+#mySearch,
+#yourtoy {
+    transition: 0.3s;
+}
+
+#sidenav-search {
+    display: none;
+    transition: 0.3s;
+}
+
+@media screen and (max-width: 800px) {
+
+    #mySearch,
+    #yourtoy {
+        opacity: 0;
+        height: 0;
+        width: 0;
+        overflow: hidden;
+    }
+
+    #sidenav-search {
+        display: flex;
+        align-items: center;
+    }
+
+    #myMenu {
+        left: 50%;
+        right: 50%;
+        width: 90%;
+        max-width: 400px;
+    }
+
+    .welcome-message {
+        max-width: 80px;
+        font-size: 14px;
+    }
+
+    .login {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .welcome-message {
+        display: none;
+    }
+
+    .nav-right {
+        gap: 10px;
+    }
+}
