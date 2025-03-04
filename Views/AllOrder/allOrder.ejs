@@ -29,6 +29,7 @@
                         <th>Date</th>
                         <th>Status</th>
                         <th>Total</th>
+                        <th>Images</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -61,10 +62,13 @@
                                     ฿<%= order.total.toFixed(2) %>
                                 </td>
                                 <td>
-                                    <a class="detail" href="/tracking/<%= order.order_id %>">Detail</a>
-                                    <a href="#" class="btn-image" onclick="viewImages('/Asset/PaymentProof/<%=order.bill_img%>', '/Asset/Products/<%=order.product_img%>')">
+                                    <a href="#" class="btn-image"
+                                        onclick="viewImages('/Asset/PaymentProof/<%=order.bill_img%>', '/Asset/Products/<%=order.product_img%>')">
                                         <i class="fas fa-images"></i> View Images
                                     </a>
+                                </td>
+                                <td>
+                                    <a class="detail" href="/tracking/<%= order.order_id %>">Detail</a>
                                 </td>
                             </tr>
                         <% }); %>
