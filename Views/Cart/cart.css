@@ -166,6 +166,10 @@ td img:hover {
     animation: modalFadeIn 0.3s;
 }
 
+.modal-content h2 i {
+    color: #ffc107;
+}
+
 @keyframes modalFadeIn {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -301,6 +305,11 @@ td img:hover {
     border-bottom: 1px solid #eee;
 }
 
+.info-item i {
+    width: 20px;
+    text-align: center;
+}
+
 .info-label {
     font-weight: bold;
     color: #555;
@@ -379,6 +388,10 @@ td img:hover {
     font-weight: bold;
 }
 
+.file-label i {
+    margin-right: 8px;
+}
+
 .file-label:hover {
     background-color: #d0e9fb;
 }
@@ -393,6 +406,10 @@ td img:hover {
     cursor: pointer;
     transition: background-color 0.3s;
     width: 100%;
+}
+
+.upload-btn i {
+    margin-right: 8px;
 }
 
 .upload-btn:disabled {

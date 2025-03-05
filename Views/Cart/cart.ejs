@@ -20,14 +20,14 @@
             <table>
                 <thead>
                     <tr>
-                        <th>รูปภาพ</th>
-                        <th>สินค้า</th>
-                        <th>ราคาพื้นฐาน</th>
-                        <th>อัตราส่วน</th>
-                        <th id="qua">ปริมาณ</th>
-                        <th>ราคาต่อชิ้น</th>
-                        <th>ราคารวม</th>
-                        <th id="qua">รายละเอียด</th>
+                        <th><i class="fas fa-image me-2"></i>รูปภาพ</th>
+                        <th><i class="fas fa-box me-2"></i>สินค้า</th>
+                        <th><i class="fas fa-tag me-2"></i>ราคาพื้นฐาน</th>
+                        <th><i class="fas fa-expand me-2"></i>อัตราส่วน</th>
+                        <th id="qua"><i class="fas fa-cubes me-2"></i>ปริมาณ</th>
+                        <th><i class="fas fa-tags me-2"></i>ราคาต่อชิ้น</th>
+                        <th><i class="fas fa-calculator me-2"></i>ราคารวม</th>
+                        <th id="qua"><i class="fas fa-cog me-2"></i>การจัดการ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,10 +48,10 @@
                                 </td>
                                 <td class="quantity" id="qua">
                                     <a href="/cart/remove/<%= cart[i].order_id %>?userId=<%= userId %>"
-                                        class="btnt">-</a>
+                                        class="btnt"><i class="fas fa-minus"></i></a>
                                     <%= cart[i].quantity %>
                                         <a href="/cart/add/<%= cart[i].product_id %>?userId=<%= userId %>&ratio=<%= encodeURIComponent(cart[i].size) %>&specify=<%= encodeURIComponent(cart[i].detail || '') %>"
-                                            class="btnt">+</a>
+                                            class="btnt"><i class="fas fa-plus"></i></a>
                                 </td>
                                 <td>
                                     <%= cart[i].priceWithRatio.toFixed(2) %>฿
@@ -69,7 +69,7 @@
                                             quantity: cart[i].quantity,
                                             detail: cart[i].detail
                                         }) %>'>
-                                        รายละเอียด
+                                        <i class="fas fa-info-circle me-2"></i>รายละเอียด
                                     </button>
                                 </td>
                             </tr>
@@ -125,17 +125,17 @@
 
                     <div class="product-info-grid">
                         <div class="info-item">
-                            <span class="info-label">ราคา:</span>
+                            <span class="info-label"><i class="fas fa-tag me-2"></i>ราคา:</span>
                             <span class="info-value">฿<span id="modalProductPrice"></span></span>
                         </div>
 
                         <div class="info-item">
-                            <span class="info-label">อัตราส่วน:</span>
+                            <span class="info-label"><i class="fas fa-expand me-2"></i>อัตราส่วน:</span>
                             <span class="info-value" id="modalProductSize"></span>
                         </div>
 
                         <div class="info-item">
-                            <span class="info-label">ปริมาณ:</span>
+                            <span class="info-label"><i class="fas fa-cubes me-2"></i>ปริมาณ:</span>
                             <span class="info-value" id="modalProductQuantity"></span>
                         </div>
                     </div>
@@ -151,8 +151,8 @@
     <!-- QR Payment Modal -->
     <div id="qrModal" class="modal">
         <div class="modal-content">
-            <button class="close" onclick="closeQRModal()">&times;</button>
-            <h2>ชำระเงินผ่าน PromptPay QR</h2>
+            <button class="close" onclick="closeQRModal()"><i class="fas fa-times"></i></button>
+            <h2><i class="fas fa-qrcode me-2"></i>ชำระเงินผ่าน PromptPay QR</h2>
 
             <div class="payment-flex-container">
                 <!-- Left side - QR code -->
@@ -180,10 +180,10 @@
 
                     <div class="file-input-wrapper">
                         <input type="file" id="paymentProof" accept="image/*" class="file-input">
-                        <label for="paymentProof" class="file-label">เลือกภาพหน้าจอ</label>
+                        <label for="paymentProof" class="file-label"><i class="fas fa-upload me-2"></i>เลือกภาพหน้าจอ</label>
                     </div>
 
-                    <button id="uploadBtn" class="upload-btn" disabled>อัปโหลดหลักฐานการชำระเงิน</button>
+                    <button id="uploadBtn" class="upload-btn" disabled><i class="fas fa-cloud-upload-alt me-2"></i>อัปโหลดหลักฐานการชำระเงิน</button>
                     <div id="uploadStatus" class="upload-status"></div>
                 </div>
             </div>
