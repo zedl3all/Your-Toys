@@ -195,114 +195,135 @@
                             </button>
                         </div>
                         <div class="card-body">
-                            <!-- Summary Rating -->
-                            <div class="row mb-4">
-                                <div class="col-md-4 text-center border-end">
-                                    <h1 class="display-3 fw-bold mb-0">
-                                        <%=average%>
-                                    </h1>
-                                    <p class="text-muted mb-0">จาก <%=reviews.length%> รีวิว</p>
+                            <% if (reviews.length===0) { %>
+                                <!-- No Reviews State -->
+                                <div class="text-center py-5">
+                                    <i class="bi bi-chat-square-text fs-1 text-muted mb-3"></i>
+                                    <h4 class="mb-2">ยังไม่มีรีวิวสำหรับสินค้านี้</h4>
+                                    <p class="text-muted">
+                                        เป็นคนแรกที่รีวิวสินค้านี้และแบ่งปันประสบการณ์ของคุณให้กับผู้อื่น!</p>
+                                    <button class="btn btn-primary mt-2" data-bs-toggle="modal"
+                                        data-bs-target="#reviewModal">
+                                        <i class="bi bi-pencil-square me-1"></i> เขียนรีวิวแรก
+                                    </button>
                                 </div>
-                                <div class="col-md-8">
-                                    <div class="d-flex align-items-center mb-1">
-                                        <div class="text-muted me-3" style="width: 60px">5 ดาว</div>
-                                        <div class="progress flex-grow-1" style="height: 10px;">
-                                            <div class="progress-bar bg-warning" role="progressbar" id="5star"></div>
+                                <% } else { %>
+                                    <!-- Summary Rating -->
+                                    <div class="row mb-4">
+                                        <div class="col-md-4 text-center border-end">
+                                            <h1 class="display-3 fw-bold mb-0">
+                                                <%=average%>
+                                            </h1>
+                                            <p class="text-muted mb-0">จาก <%=reviews.length%> รีวิว</p>
                                         </div>
-                                        <div class="text-muted ms-3" style="width: 40px" id="5text">
-                                            <%=allscore.five%>%
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center mb-1">
-                                        <div class="text-muted me-3" style="width: 60px">4 ดาว</div>
-                                        <div class="progress flex-grow-1" style="height: 10px;">
-                                            <div class="progress-bar bg-warning" role="progressbar" id="4star"></div>
-                                        </div>
-                                        <div class="text-muted ms-3" style="width: 40px" id="4text">
-                                            <%=allscore.four%>%
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center mb-1">
-                                        <div class="text-muted me-3" style="width: 60px">3 ดาว</div>
-                                        <div class="progress flex-grow-1" style="height: 10px;">
-                                            <div class="progress-bar bg-warning" role="progressbar" id="3star"></div>
-                                        </div>
-                                        <div class="text-muted ms-3" style="width: 40px" id="3text">
-                                            <%=allscore.three%>%
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center mb-1">
-                                        <div class="text-muted me-3" style="width: 60px">2 ดาว</div>
-                                        <div class="progress flex-grow-1" style="height: 10px;">
-                                            <div class="progress-bar bg-warning" role="progressbar" id="2star"></div>
-                                        </div>
-                                        <div class="text-muted ms-3" style="width: 40px" id="2text">
-                                            <%=allscore.two%>%
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <div class="text-muted me-3" style="width: 60px">1 ดาว</div>
-                                        <div class="progress flex-grow-1" style="height: 10px;">
-                                            <div class="progress-bar bg-warning" role="progressbar" id="1star"></div>
-                                        </div>
-                                        <div class="text-muted ms-3" style="width: 40px" id="1text">
-                                            <%=allscore.one%>%
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <div class="text-muted me-3" style="width: 60px">0 ดาว</div>
-                                        <div class="progress flex-grow-1" style="height: 10px;">
-                                            <div class="progress-bar bg-warning" role="progressbar" id="0star"></div>
-                                        </div>
-                                        <div class="text-muted ms-3" style="width: 40px" id="0text">
-                                            <%=allscore.zero%>%
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <script>
-                                document.getElementById("5star").style.width = document.getElementById("5text").innerText;
-                                document.getElementById("4star").style.width = document.getElementById("4text").innerText;
-                                document.getElementById("3star").style.width = document.getElementById("3text").innerText;
-                                document.getElementById("2star").style.width = document.getElementById("2text").innerText;
-                                document.getElementById("1star").style.width = document.getElementById("1text").innerText;
-                                document.getElementById("0star").style.width = document.getElementById("0text").innerText;
-                            </script>
-                            <!-- Individual Reviews -->
-                            <div class="reviews-container">
-                                <%reviews.forEach((review)=>{%>
-                                    <div class="review-item pb-4 mb-4 border-bottom">
-                                        <div class="d-flex align-items-center mb-2">
-                                            <div class="avatar me-3">
-                                                <img src="https://ui-avatars.com/api/?name=<%=review.username%>&background=random"
-                                                    class="rounded-circle" width="48" alt="John D">
-                                            </div>
-                                            <div>
-                                                <h5 class="mb-0">
-                                                    <%=review.username%>
-                                                </h5>
-                                                <div class="text-muted small">โพสต์เมื่อ <%=review.rdate%>
+                                        <div class="col-md-8">
+                                            <div class="d-flex align-items-center mb-1">
+                                                <div class="text-muted me-3" style="width: 60px">5 ดาว</div>
+                                                <div class="progress flex-grow-1" style="height: 10px;">
+                                                    <div class="progress-bar bg-warning" role="progressbar" id="5star">
+                                                    </div>
+                                                </div>
+                                                <div class="text-muted ms-3" style="width: 40px" id="5text">
+                                                    <%=allscore.five%>%
                                                 </div>
                                             </div>
-                                            <div class="stars ms-auto">
-                                                <%for (let i=0; i < review.score; i++){%>
-                                                    <i class="bi bi-star-fill text-warning"></i>
-                                                    <%}%>
-                                                        <%for (let i=0; i < (5-review.score); i++){%>
-                                                            <i class="bi bi-star text-warning"></i>
-                                                            <%}%>
+                                            <div class="d-flex align-items-center mb-1">
+                                                <div class="text-muted me-3" style="width: 60px">4 ดาว</div>
+                                                <div class="progress flex-grow-1" style="height: 10px;">
+                                                    <div class="progress-bar bg-warning" role="progressbar" id="4star">
+                                                    </div>
+                                                </div>
+                                                <div class="text-muted ms-3" style="width: 40px" id="4text">
+                                                    <%=allscore.four%>%
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-1">
+                                                <div class="text-muted me-3" style="width: 60px">3 ดาว</div>
+                                                <div class="progress flex-grow-1" style="height: 10px;">
+                                                    <div class="progress-bar bg-warning" role="progressbar" id="3star">
+                                                    </div>
+                                                </div>
+                                                <div class="text-muted ms-3" style="width: 40px" id="3text">
+                                                    <%=allscore.three%>%
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-1">
+                                                <div class="text-muted me-3" style="width: 60px">2 ดาว</div>
+                                                <div class="progress flex-grow-1" style="height: 10px;">
+                                                    <div class="progress-bar bg-warning" role="progressbar" id="2star">
+                                                    </div>
+                                                </div>
+                                                <div class="text-muted ms-3" style="width: 40px" id="2text">
+                                                    <%=allscore.two%>%
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-1">
+                                                <div class="text-muted me-3" style="width: 60px">1 ดาว</div>
+                                                <div class="progress flex-grow-1" style="height: 10px;">
+                                                    <div class="progress-bar bg-warning" role="progressbar" id="1star">
+                                                    </div>
+                                                </div>
+                                                <div class="text-muted ms-3" style="width: 40px" id="1text">
+                                                    <%=allscore.one%>%
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <div class="text-muted me-3" style="width: 60px">0 ดาว</div>
+                                                <div class="progress flex-grow-1" style="height: 10px;">
+                                                    <div class="progress-bar bg-warning" role="progressbar" id="0star">
+                                                    </div>
+                                                </div>
+                                                <div class="text-muted ms-3" style="width: 40px" id="0text">
+                                                    <%=allscore.zero%>%
+                                                </div>
                                             </div>
                                         </div>
-                                        <h6 class="review-title fw-bold">
-                                            <%=review.title%>
-                                        </h6>
-                                        <p class="review-text">
-                                            <%=review.description%>
-                                        </p>
                                     </div>
-                                    <%});%>
+                                    <script>
+                                        document.getElementById("5star").style.width = document.getElementById("5text").innerText;
+                                        document.getElementById("4star").style.width = document.getElementById("4text").innerText;
+                                        document.getElementById("3star").style.width = document.getElementById("3text").innerText;
+                                        document.getElementById("2star").style.width = document.getElementById("2text").innerText;
+                                        document.getElementById("1star").style.width = document.getElementById("1text").innerText;
+                                        document.getElementById("0star").style.width = document.getElementById("0text").innerText;
+                                    </script>
 
-                            </div>
+                                    <!-- Individual Reviews -->
+                                    <div class="reviews-container">
+                                        <%reviews.forEach((review)=>{%>
+                                            <div class="review-item pb-4 mb-4 border-bottom">
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <div class="avatar me-3">
+                                                        <img src="https://ui-avatars.com/api/?name=<%=review.username%>&background=random"
+                                                            class="rounded-circle" width="48"
+                                                            alt="<%=review.username%>">
+                                                    </div>
+                                                    <div>
+                                                        <h5 class="mb-0">
+                                                            <%=review.username%>
+                                                        </h5>
+                                                        <div class="text-muted small">โพสต์เมื่อ <%=review.rdate%>
+                                                        </div>
+                                                    </div>
+                                                    <div class="stars ms-auto">
+                                                        <%for (let i=0; i < review.score; i++){%>
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                            <%}%>
+                                                                <%for (let i=0; i < (5-review.score); i++){%>
+                                                                    <i class="bi bi-star text-warning"></i>
+                                                                    <%}%>
+                                                    </div>
+                                                </div>
+                                                <h6 class="review-title fw-bold">
+                                                    <%=review.title%>
+                                                </h6>
+                                                <p class="review-text">
+                                                    <%=review.description%>
+                                                </p>
+                                            </div>
+                                            <%});%>
+                                    </div>
+                                    <% } %>
                         </div>
                     </div>
                 </div>
