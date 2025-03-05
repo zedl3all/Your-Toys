@@ -15,66 +15,50 @@
         <% if (typeof order==='undefined' || !order) { %>
             <div class="message">
                 <p>
-                    <%= typeof message !=='undefined' ? message : "No order found" %>
+                    <%= typeof message !=='undefined' ? message : "ไม่พบคำสั่งซื้อ" %>
                 </p>
                 <div class="buttons">
-                    <button onclick="window.history.back()">Back</button>
+                    <button onclick="window.history.back()">ย้อนกลับ</button>
                 </div>
             </div>
         <% } else { %>
-            <h1 class="tracking-title">Order Tracking</h1>
+            <h1 class="tracking-title">ติดตามคำสั่งซื้อ</h1>
             
             <div class="progress__container" data-status-id="<%= order.status_id %>">
                 <div class="progress__bar js-bar"></div>
                 
                 <div class="progress__step">
                     <div class="progress__circle js-circle <%= order.status_id >= 2 ? 'active' : '' %>">
-                        <i class="fas fa-shopping-cart"></i>
+                        <i class="fas fa-box-open"></i>
                     </div>
-                    <div class="progress__label">Order Placed</div>
+                    <div class="progress__label">รอการแพ็คสินค้า</div>
                 </div>
                 
                 <div class="progress__step">
                     <div class="progress__circle js-circle <%= order.status_id >= 3 ? 'active' : '' %>">
                         <i class="fas fa-box"></i>
                     </div>
-                    <div class="progress__label">Processing</div>
+                    <div class="progress__label">กำลังแพ็คสินค้า</div>
                 </div>
                 
                 <div class="progress__step">
                     <div class="progress__circle js-circle <%= order.status_id >= 4 ? 'active' : '' %>">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <div class="progress__label">Shipped</div>
-                </div>
-                
-                <div class="progress__step">
-                    <div class="progress__circle js-circle <%= order.status_id >= 5 ? 'active' : '' %>">
                         <i class="fas fa-check-circle"></i>
                     </div>
-                    <div class="progress__label">Delivered</div>
+                    <div class="progress__label">สำเร็จ</div>
                 </div>
             </div>
 
             <div class="order-details">
-                <h2>Order Details</h2>
-                <p><strong>Order Number:</strong> <%= order.order_id %></p>
-                <p><strong>Customer Name:</strong> <%= order.customer_name %></p>
-                <p><strong>Contact:</strong> <%= order.email || 'N/A' %> | <%= order.phone || 'N/A' %></p>
-                <p><strong>Shipping Address:</strong> <%= order.address || 'Not provided' %></p>
-                <p><strong>Order Date:</strong> <%= order.order_date %></p>
-                <p><strong>Estimated Delivery:</strong>
-                    <% if (order.status_id === 5) { %>
-                        Delivered
-                    <% } else if (order.status_id === 4) { %>
-                        Shipped - Expected in 2-3 days
-                    <% } else { %>
-                        Processing - Please be patient
-                    <% } %>
-                </p>
+                <h2>รายละเอียดคำสั่งซื้อ</h2>
+                <p><strong>หมายเลขคำสั่งซื้อ:</strong> <%= order.order_id %></p>
+                <p><strong>ชื่อลูกค้า:</strong> <%= order.customer_name %></p>
+                <p><strong>ช่องทางติดต่อ:</strong> <%= order.email || 'ไม่ระบุ' %> | <%= order.phone || 'ไม่ระบุ' %></p>
+                <p><strong>ที่อยู่จัดส่ง:</strong> <%= order.address || 'ไม่ได้ระบุ' %></p>
+                <p><strong>วันที่สั่งซื้อ:</strong> <%= order.order_date %></p>
             </div>
             <div class="buttons">
-                <button onclick="window.history.back()">Back</button>
+                <button onclick="window.history.back()">ย้อนกลับ</button>
             </div>
         <% } %>
     </main>

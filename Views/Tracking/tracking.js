@@ -15,10 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
       // Calculate progress percentage based on status
       let progressPercentage = 0;
       
-      if (statusId >= 5) progressPercentage = 100;
-      else if (statusId === 4) progressPercentage = 75;
-      else if (statusId === 3) progressPercentage = 50;
-      else if (statusId === 2) progressPercentage = 25;
+      if (statusId >= 4) progressPercentage = 100;
+      else if (statusId === 3) progressPercentage = 66;
+      else if (statusId === 2) progressPercentage = 33;
       
       // Calculate active steps for animation
       const activeSteps = statusId - 1;
@@ -31,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
           
           // Adjust for proper vertical positioning
           if (activeSteps > 0) {
-              const multiplier = Math.min(activeSteps, 4) / 4;
+              const multiplier = Math.min(activeSteps, 3) / 3;
               const containerHeight = container.offsetHeight - 100;
               progressBar.style.height = `${containerHeight * multiplier}px`;
           } else {
@@ -45,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
           // Adjust for proper horizontal positioning
           const containerWidth = container.offsetWidth - 50;
           if (activeSteps > 0) {
-              const multiplier = Math.min(activeSteps, 4) / 4;
+              const multiplier = Math.min(activeSteps, 3) / 3;
               progressBar.style.width = `${containerWidth * multiplier}px`;
           } else {
               progressBar.style.width = '0';
