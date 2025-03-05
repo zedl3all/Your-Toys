@@ -21,28 +21,28 @@
     </div>
 
     <div class="product-container">
-        <h2>Manage Product</h2>
+        <h2>จัดการสินค้า</h2>
         <div class="add-product-link">
             <div class="mb-3" id="cat-button">
                 <button class="btn btn-warning px-4 py-2 fs-5 custom-button" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#sidebar" aria-controls="sidebar">
-                    <i class="fa-solid fa-filter"></i></i> Filter
+                    <i class="fa-solid fa-filter"></i> ตัวกรอง
                 </button>
             </div>
-            <a onclick="openAddModal()" class="custom-button">Add Product</a>
+            <a onclick="openAddModal()" class="custom-button">เพิ่มสินค้า</a>
         </div>
         <table>
             <thead>
                 <tr>
-                    <th style="text-align: center;"><i class="fas fa-hashtag me-2"></i>ID</th>
-                    <th><i class="fas fa-box me-2"></i>Product Name</th>
-                    <th><i class="fas fa-align-left me-2"></i>Description</th>
-                    <th><i class="fas fa-tag me-2"></i>Price</th>
-                    <th><i class="fas fa-expand me-2"></i>Ratio</th>
-                    <th><i class="fas fa-cubes me-2"></i>Current Amount</th>
-                    <th><i class="fas fa-image me-2"></i>Image</th>
-                    <th><i class="fas fa-tags me-2"></i>Category</th>
-                    <th style="text-align: center;"><i class="fas fa-cog me-2"></i>Actions</th>
+                    <th style="text-align: center;"><i class="fas fa-hashtag me-2"></i>รหัส</th>
+                    <th><i class="fas fa-box me-2"></i>ชื่อสินค้า</th>
+                    <th><i class="fas fa-align-left me-2"></i>รายละเอียด</th>
+                    <th><i class="fas fa-tag me-2"></i>ราคา</th>
+                    <th><i class="fas fa-expand me-2"></i>อัตราส่วน</th>
+                    <th><i class="fas fa-cubes me-2"></i>จำนวนคงเหลือ</th>
+                    <th><i class="fas fa-image me-2"></i>รูปภาพ</th>
+                    <th><i class="fas fa-tags me-2"></i>หมวดหมู่</th>
+                    <th style="text-align: center;"><i class="fas fa-cog me-2"></i>การจัดการ</th>
                 </tr>
             </thead>
             <tbody>
@@ -81,11 +81,11 @@
                         </td>
                         <td style="text-align: center;">
                             <a class="edit-link" onclick="event.preventDefault(); openEditModal('<%= item.id %>')">
-                                <i class="fas fa-edit me-2"></i>Edit
+                                <i class="fas fa-edit me-2"></i>แก้ไข
                             </a>
                             <span style="border: #33322B solid 1px; height: 2rem; opacity: 0.3; margin-left:5px; margin-right:8px"></span>
                             <a class="remove-link" onclick="event.preventDefault(); removeProduct('<%= item.id %>')">
-                                <i class="fas fa-trash-alt me-2"></i>Remove
+                                <i class="fas fa-trash-alt me-2"></i>ลบ
                             </a>
                         </td>
                     </tr>
@@ -97,7 +97,7 @@
     <!-- Mobile Offcanvas Sidebar -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
         <div class="offcanvas-header bg-warning">
-            <h5 class="offcanvas-title" id="sidebarLabel">PRODUCT CATEGORY</h5>
+            <h5 class="offcanvas-title" id="sidebarLabel">หมวดหมู่สินค้า</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
@@ -116,26 +116,26 @@
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeEditModal()"><i class="fas fa-times"></i></span>
-            <h2>Edit Product</h2>
+            <h2>แก้ไขสินค้า</h2>
             <form id="editForm">
                 <div class="form-group">
-                    <label for="editProductName"><i class="fas fa-tag me-2"></i>Product Name:</label>
+                    <label for="editProductName"><i class="fas fa-tag me-2"></i>ชื่อสินค้า:</label>
                     <input type="text" id="editProductName" name="productName" required>
                     <div class="warning-message mt-2">
                         <i class="fas fa-exclamation-triangle text-warning"></i> 
-                        <span class="text-muted"><small>Note: You cannot change both the product name and image simultaneously.</small></span>
+                        <span class="text-muted"><small>หมายเหตุ: ไม่สามารถเปลี่ยนชื่อสินค้าและรูปภาพพร้อมกันได้</small></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="editDescription"><i class="fas fa-align-left me-2"></i>Description:</label>
+                    <label for="editDescription"><i class="fas fa-align-left me-2"></i>รายละเอียด:</label>
                     <textarea id="editDescription" name="description" rows="4" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="editPrice"><i class="fas fa-dollar-sign me-2"></i>Price: <span class="required">*</span></label>
+                    <label for="editPrice"><i class="fas fa-dollar-sign me-2"></i>ราคา: <span class="required">*</span></label>
                     <input type="number" id="editPrice" name="price" step="0.01" min="0.01" required>
                 </div>
                 <div class="form-group">
-                    <label for="editRatio"><i class="fas fa-expand-alt me-2"></i>Ratio:</label>
+                    <label for="editRatio"><i class="fas fa-expand-alt me-2"></i>อัตราส่วน:</label>
                     <div class="ratio-inputs">
                         <input type="number" id="number_x" name="number_x" min="1" value="1">
                         <span>:</span>
@@ -143,7 +143,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="mb-2"><i class="fas fa-tags me-2"></i>Categories: <span class="required">*</span></label>
+                    <label class="mb-2"><i class="fas fa-tags me-2"></i>หมวดหมู่: <span class="required">*</span></label>
                     <div class="category-checkbox-container border rounded p-3 needs-validation"
                         style="background-color: #f8f9fa; max-height: 250px; overflow-y: auto;">
                         <% categories.forEach(function(category) { %>
@@ -159,15 +159,15 @@
                             <% }); %>
                     </div>
                     <div class="invalid-feedback d-block" id="edit-category-feedback" style="display: none !important;">
-                        Please select at least one category
+                        กรุณาเลือกอย่างน้อย 1 หมวดหมู่
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="editAmount"><i class="fas fa-boxes me-2"></i>Amount:</label>
+                    <label for="editAmount"><i class="fas fa-boxes me-2"></i>จำนวน:</label>
                     <input type="number" id="editAmount" name="amount" step="1" required>
                 </div>
                 <div class="form-group">
-                    <label for="editImage"><i class="fas fa-image me-2"></i>Upload Image:</label>
+                    <label for="editImage"><i class="fas fa-image me-2"></i>อัพโหลดรูปภาพ:</label>
                     <div class="image-upload-container">
                         <input type="file" id="editImage" name="image" accept="image/*" onchange="previewImage(this, 'editImagePreview')">
                         <div class="image-preview-container">
@@ -176,7 +176,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="submit-btn"><i class="fas fa-save me-2"></i>Save Changes</button>
+                <button type="submit" class="submit-btn"><i class="fas fa-save me-2"></i>บันทึก</button>
             </form>
         </div>
     </div>
@@ -185,22 +185,22 @@
     <div id="addModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeAddModal()"><i class="fas fa-times"></i></span>
-            <h2>Add Product</h2>
+            <h2>เพิ่มสินค้า</h2>
             <form id="addForm" action="/manageProduct/addProduct" method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="addProductName"><i class="fas fa-tag me-2"></i>Product Name:</label>
+                    <label for="addProductName"><i class="fas fa-tag me-2"></i>ชื่อสินค้า:</label>
                     <input type="text" id="addProductName" name="productName" required>
                 </div>
                 <div class="form-group">
-                    <label for="addDescription"><i class="fas fa-align-left me-2"></i>Description:</label>
+                    <label for="addDescription"><i class="fas fa-align-left me-2"></i>รายละเอียด:</label>
                     <textarea id="addDescription" name="description" rows="4" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="addPrice"><i class="fas fa-dollar-sign me-2"></i>Price: <span class="required">*</span></label>
+                    <label for="addPrice"><i class="fas fa-dollar-sign me-2"></i>ราคา: <span class="required">*</span></label>
                     <input type="number" id="addPrice" name="price" step="0.01" min="0.01" required>
                 </div>
                 <div class="form-group">
-                    <label for="editRatio"><i class="fas fa-expand-alt me-2"></i>Ratio:</label>
+                    <label for="editRatio"><i class="fas fa-expand-alt me-2"></i>อัตราส่วน:</label>
                     <div class="ratio-inputs">
                         <input type="number" id="number_x" name="number_x" min="1" value="1">
                         <span>:</span>
@@ -208,7 +208,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="mb-2"><i class="fas fa-tags me-2"></i>Categories: <span class="required">*</span></label>
+                    <label class="mb-2"><i class="fas fa-tags me-2"></i>หมวดหมู่: <span class="required">*</span></label>
                     <div class="category-checkbox-container border rounded p-3 needs-validation"
                         style="background-color: #f8f9fa; max-height: 250px; overflow-y: auto;">
                         <% categories.forEach(function(category) { %>
@@ -224,15 +224,15 @@
                             <% }); %>
                     </div>
                     <div class="invalid-feedback d-block" id="add-category-feedback" style="display: none !important;">
-                        Please select at least one category
+                        กรุณาเลือกอย่างน้อย 1 หมวดหมู่
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="addAmount"><i class="fas fa-boxes me-2"></i>Amount:</label>
+                    <label for="addAmount"><i class="fas fa-boxes me-2"></i>จำนวน:</label>
                     <input type="number" id="addAmount" name="amount" required>
                 </div>
                 <div class="form-group">
-                    <label for="addImage"><i class="fas fa-image me-2"></i>Upload Image:</label>
+                    <label for="addImage"><i class="fas fa-image me-2"></i>อัพโหลดรูปภาพ:</label>
                     <div class="image-upload-container">
                         <input type="file" id="addImage" name="image" accept="image/jpeg, image/jpg, image/png, image/webp, image/gif, image/jfif" onchange="previewImage(this, 'addImagePreview')">
                         <div class="image-preview-container">
@@ -241,7 +241,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="submit-btn"><i class="fas fa-plus me-2"></i>Add Product</button>
+                <button type="submit" class="submit-btn"><i class="fas fa-plus me-2"></i>เพิ่มสินค้า</button>
             </form>
         </div>
     </div>
