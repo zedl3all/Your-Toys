@@ -16,9 +16,12 @@
     <main class="py-5">
         <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/" class="text-decoration-none"><i class="bi bi-house-door"></i>หน้าแรก</a></li>
+                <li class="breadcrumb-item"><a href="/" class="text-decoration-none"><i
+                            class="bi bi-house-door"></i>หน้าแรก</a></li>
                 <li class="breadcrumb-item"><a href="/ProductAll" class="text-decoration-none">สินค้าทั้งหมด</a></li>
-                <li class="breadcrumb-item active" aria-current="page"><%= data.name %></li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <%= data.name %>
+                </li>
             </ol>
 
             <div class="row g-4">
@@ -32,8 +35,11 @@
                         </div>
                         <div class="card-footer bg-white border-0 p-4">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge bg-success px-3 py-2"><i class="bi bi-check2-circle me-1"></i>มีสินค้า</span>
-                                <div class="small text-muted" id="productId"><i class="bi bi-box-seam me-1"></i> รหัสสินค้า: <%=data.id %></div>
+                                <span class="badge bg-success px-3 py-2"><i
+                                        class="bi bi-check2-circle me-1"></i>มีสินค้า</span>
+                                <div class="small text-muted" id="productId"><i class="bi bi-box-seam me-1"></i>
+                                    รหัสสินค้า: <%=data.id %>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -63,14 +69,16 @@
 
                             <!-- Specify detail Field -->
                             <div class="mb-4">
-                                <label for="specify" class="form-label fw-medium"><i class="bi bi-pencil-square me-1"></i> ระบุรายละเอียด:</label>
+                                <label for="specify" class="form-label fw-medium"><i
+                                        class="bi bi-pencil-square me-1"></i> ระบุรายละเอียด:</label>
                                 <textarea id="specify" name="specify" rows="3" class="form-control"
                                     placeholder="ระบุข้อกำหนดหรือคำขอพิเศษสำหรับสินค้า"></textarea>
                             </div>
 
                             <!-- Aspect Ratio Field -->
                             <div class="mb-4">
-                                <label for="number_x" class="form-label fw-medium"><i class="bi bi-aspect-ratio me-1"></i> อัตราส่วน:</label>
+                                <label for="number_x" class="form-label fw-medium"><i
+                                        class="bi bi-aspect-ratio me-1"></i> อัตราส่วน:</label>
                                 <div class="d-flex align-items-center">
                                     <div class="input-group" style="max-width: 200px;">
                                         <input type="number" id="number_x" name="number_x" min="1" value="1"
@@ -86,7 +94,8 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="quantity" class="form-label fw-medium"><i class="bi bi-123 me-1"></i> จำนวน:</label>
+                                <label for="quantity" class="form-label fw-medium"><i class="bi bi-123 me-1"></i>
+                                    จำนวน:</label>
                                 <div class="d-flex align-items-center">
                                     <div class="input-group" style="max-width: 200px;">
                                         <button type="button" class="btn btn-outline-secondary" id="decreaseQuantity">
@@ -98,22 +107,29 @@
                                             <i class="bi bi-plus"></i>
                                         </button>
                                     </div>
-                                    <div class="ms-3 text-muted small">
-                                        <i class="bi bi-box-seam"></i> มีสินค้า: <%= data.amount %> ชิ้น
+                                    <div
+                                        class="ms-3 <%= data.amount <= 0 ? 'text-danger fw-bold' : 'text-muted' %> small">
+                                        <i
+                                            class="bi <%= data.amount <= 0 ? 'bi-exclamation-triangle' : 'bi-box-seam' %>"></i>
+                                        <%= data.amount <=0 ? 'สินค้าหมด' : `มีสินค้า: ${data.amount} ชิ้น` %>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Image Upload Field -->
                             <div class="mb-4">
-                                <label for="artwork" class="form-label fw-medium"><i class="bi bi-file-earmark-image me-1"></i> อัพโหลดภาพ:</label>
+                                <label for="artwork" class="form-label fw-medium"><i
+                                        class="bi bi-file-earmark-image me-1"></i> อัพโหลดภาพ:</label>
                                 <div class="upload-zone">
                                     <input type="file" id="artwork" name="image" accept="image/*" class="form-control">
-                                    <div class="form-text"><i class="bi bi-info-circle me-1"></i> รองรับไฟล์: JPG และ PNG ขนาดไม่เกิน 25MB</div>
+                                    <div class="form-text"><i class="bi bi-info-circle me-1"></i> รองรับไฟล์: JPG และ
+                                        PNG ขนาดไม่เกิน 25MB</div>
                                 </div>
                                 <div id="upload-preview" class="mt-2 d-none">
-                                    <img id="artwork-preview" class="img-thumbnail" style="max-height: 150px;" alt="Artwork preview">
-                                    <button type="button" class="btn btn-sm btn-outline-danger mt-1" id="remove-artwork">
+                                    <img id="artwork-preview" class="img-thumbnail" style="max-height: 150px;"
+                                        alt="Artwork preview">
+                                    <button type="button" class="btn btn-sm btn-outline-danger mt-1"
+                                        id="remove-artwork">
                                         <i class="bi bi-trash me-1"></i> ลบ
                                     </button>
                                 </div>
@@ -144,7 +160,8 @@
                             <!-- Add to Cart Button -->
                             <button
                                 class="btn btn-lg w-100 d-flex align-items-center justify-content-center add-to-cart-btn"
-                                id="yellowbtn" onclick="addToCart('<%= data.id %>')">
+                                id="yellowbtn" onclick="addToCart('<%= data.id %>')" <%=data.amount <=0 ? 'disabled'
+                                : '' %>>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-cart-plus me-2" viewBox="0 0 16 16">
                                     <path
@@ -152,7 +169,7 @@
                                     <path
                                         d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
                                 </svg>
-                                เพิ่มลงรถเข็น
+                                <%= data.amount <=0 ? 'สินค้าหมด' : 'เพิ่มลงรถเข็น' %>
                             </button>
                         </div>
                     </div>
@@ -167,7 +184,8 @@
                             <h3 class="card-title fw-bold mb-0">
                                 <i class="bi bi-star-fill text-warning me-2"></i>รีวิวจากลูกค้า
                             </h3>
-                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                data-bs-target="#reviewModal">
                                 <i class="bi bi-pencil-square me-1"></i> เขียนรีวิว
                             </button>
                         </div>
@@ -175,7 +193,9 @@
                             <!-- Summary Rating -->
                             <div class="row mb-4">
                                 <div class="col-md-4 text-center border-end">
-                                    <h1 class="display-3 fw-bold mb-0"><%=average%></h1>
+                                    <h1 class="display-3 fw-bold mb-0">
+                                        <%=average%>
+                                    </h1>
                                     <p class="text-muted mb-0">จาก <%=reviews.length%> รีวิว</p>
                                 </div>
                                 <div class="col-md-8">
@@ -184,42 +204,54 @@
                                         <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" id="5star"></div>
                                         </div>
-                                        <div class="text-muted ms-3" style="width: 40px" id="5text"><%=allscore.five%>%</div>
+                                        <div class="text-muted ms-3" style="width: 40px" id="5text">
+                                            <%=allscore.five%>%
+                                        </div>
                                     </div>
                                     <div class="d-flex align-items-center mb-1">
                                         <div class="text-muted me-3" style="width: 60px">4 ดาว</div>
                                         <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" id="4star"></div>
                                         </div>
-                                        <div class="text-muted ms-3" style="width: 40px" id="4text"><%=allscore.four%>%</div>
+                                        <div class="text-muted ms-3" style="width: 40px" id="4text">
+                                            <%=allscore.four%>%
+                                        </div>
                                     </div>
                                     <div class="d-flex align-items-center mb-1">
                                         <div class="text-muted me-3" style="width: 60px">3 ดาว</div>
                                         <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" id="3star"></div>
                                         </div>
-                                        <div class="text-muted ms-3" style="width: 40px" id="3text"><%=allscore.three%>%</div>
+                                        <div class="text-muted ms-3" style="width: 40px" id="3text">
+                                            <%=allscore.three%>%
+                                        </div>
                                     </div>
                                     <div class="d-flex align-items-center mb-1">
                                         <div class="text-muted me-3" style="width: 60px">2 ดาว</div>
                                         <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" id="2star"></div>
                                         </div>
-                                        <div class="text-muted ms-3" style="width: 40px" id="2text"><%=allscore.two%>%</div>
+                                        <div class="text-muted ms-3" style="width: 40px" id="2text">
+                                            <%=allscore.two%>%
+                                        </div>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <div class="text-muted me-3" style="width: 60px">1 ดาว</div>
                                         <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" id="1star"></div>
                                         </div>
-                                        <div class="text-muted ms-3" style="width: 40px" id="1text"><%=allscore.one%>%</div>
+                                        <div class="text-muted ms-3" style="width: 40px" id="1text">
+                                            <%=allscore.one%>%
+                                        </div>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <div class="text-muted me-3" style="width: 60px">0 ดาว</div>
                                         <div class="progress flex-grow-1" style="height: 10px;">
                                             <div class="progress-bar bg-warning" role="progressbar" id="0star"></div>
                                         </div>
-                                        <div class="text-muted ms-3" style="width: 40px" id="0text"><%=allscore.zero%>%</div>
+                                        <div class="text-muted ms-3" style="width: 40px" id="0text">
+                                            <%=allscore.zero%>%
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -233,30 +265,38 @@
                             </script>
                             <!-- Individual Reviews -->
                             <div class="reviews-container">
-                                <%reviews.forEach((review) =>{%>
+                                <%reviews.forEach((review)=>{%>
                                     <div class="review-item pb-4 mb-4 border-bottom">
-                                    <div class="d-flex align-items-center mb-2">
-                                        <div class="avatar me-3">
-                                            <img src="https://ui-avatars.com/api/?name=<%=review.username%>&background=random" class="rounded-circle" width="48" alt="John D">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="avatar me-3">
+                                                <img src="https://ui-avatars.com/api/?name=<%=review.username%>&background=random"
+                                                    class="rounded-circle" width="48" alt="John D">
+                                            </div>
+                                            <div>
+                                                <h5 class="mb-0">
+                                                    <%=review.username%>
+                                                </h5>
+                                                <div class="text-muted small">โพสต์เมื่อ <%=review.rdate%>
+                                                </div>
+                                            </div>
+                                            <div class="stars ms-auto">
+                                                <%for (let i=0; i < review.score; i++){%>
+                                                    <i class="bi bi-star-fill text-warning"></i>
+                                                    <%}%>
+                                                        <%for (let i=0; i < (5-review.score); i++){%>
+                                                            <i class="bi bi-star text-warning"></i>
+                                                            <%}%>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h5 class="mb-0"><%=review.username%></h5>
-                                            <div class="text-muted small">โพสต์เมื่อ <%=review.rdate%></div>
-                                        </div>
-                                        <div class="stars ms-auto">
-                                            <%for (let i=0; i < review.score; i++){%>
-                                            <i class="bi bi-star-fill text-warning"></i>
-                                            <%}%>
-                                            <%for (let i=0; i < (5-review.score); i++){%>
-                                                <i class="bi bi-star text-warning"></i>
-                                                <%}%>
-                                        </div>
+                                        <h6 class="review-title fw-bold">
+                                            <%=review.title%>
+                                        </h6>
+                                        <p class="review-text">
+                                            <%=review.description%>
+                                        </p>
                                     </div>
-                                    <h6 class="review-title fw-bold"><%=review.title%></h6>
-                                    <p class="review-text"><%=review.description%></p>
-                                </div>
-                                <%});%>
-                                
+                                    <%});%>
+
                             </div>
                         </div>
                     </div>
@@ -292,7 +332,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="reviewContent" class="form-label">Review</label>
-                            <textarea class="form-control" id="reviewContent" name="content" rows="4" required></textarea>
+                            <textarea class="form-control" id="reviewContent" name="content" rows="4"
+                                required></textarea>
                         </div>
                     </form>
                 </div>

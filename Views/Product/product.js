@@ -248,6 +248,13 @@ document.addEventListener('DOMContentLoaded', function () {
 function addToCart(productId) {
     const userId = localStorage.getItem('user_id');
     const quantity = document.getElementById('quantity').value || 1;
+    const availableStock = parseInt(document.getElementById('quantity').getAttribute('max')) || 0;
+
+    if (availableStock <= 0) {
+        alert('ขออภัย สินค้านี้หมด');
+        return;
+    }
+
     const specify = document.getElementById('specify').value.trim();
     const ratioX = document.getElementById('number_x').value || 1;
     const ratioY = document.getElementById('number_y').value || 1;
