@@ -15,21 +15,21 @@
 <body>
     <div class="container">
         <div class="page-header">
-            <h1><i class="fas fa-box-open"></i> Order Processing System</h1>
+            <h1><i class="fas fa-box-open"></i> ระบบจัดการคำสั่งซื้อ</h1>
         </div>
 
         <div class="table-container">
-            <h2><i class="fas fa-clipboard-list"></i> Order List</h2>
+            <h2><i class="fas fa-clipboard-list"></i> รายการคำสั่งซื้อ</h2>
             <table>
                 <thead>
                     <tr>
-                        <th><i class="fas fa-hashtag"></i> Order ID</th>
-                        <th title="Customer Name"><i class="fas fa-user"></i> Customer</th>
-                        <th><i class="fas fa-info-circle"></i> Description</th>
-                        <th><i class="fas fa-calendar"></i> Date</th>
-                        <th><i class="fas fa-file-invoice"></i> Images</th>
-                        <th><i class="fas fa-tasks"></i> Status</th>
-                        <th><i class="fas fa-tools"></i> Actions</th>
+                        <th><i class="fas fa-hashtag"></i> รหัสคำสั่งซื้อ</th>
+                        <th title="Customer Name"><i class="fas fa-user"></i> ลูกค้า</th>
+                        <th><i class="fas fa-info-circle"></i> รายละเอียด</th>
+                        <th><i class="fas fa-calendar"></i> วันที่</th>
+                        <th><i class="fas fa-file-invoice"></i> รูปภาพ</th>
+                        <th><i class="fas fa-tasks"></i> สถานะ</th>
+                        <th><i class="fas fa-tools"></i> การจัดการ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,34 +51,33 @@
                             <td>
                                 <a href="#" class="btn-image"
                                     onclick="viewImages('/Asset/PaymentProof/<%=order.bill_img%>', '/Asset/Products/<%=order.product_img%>')">
-                                    <i class="fas fa-images"></i> View
+                                    <i class="fas fa-images"></i> ดู
                                 </a>
                             </td>
 
                             <%if (order.status==3){%>
-                                <td id="status-<%=order.order_id%>" class="status-packing">Packing</td>
+                                <td id="status-<%=order.order_id%>" class="status-packing">กำลังแพ็ค</td>
                                 <%} else if (order.status==4){%>
-                                    <td id="status-<%=order.order_id%>" class="status-success">Sucess</td>
+                                    <td id="status-<%=order.order_id%>" class="status-success">สำเร็จ</td>
                                     <%} else if (order.status==5){%>
-                                        <td id="status-<%=order.order_id%>" class="status-failed">Failed</td>
+                                        <td id="status-<%=order.order_id%>" class="status-failed">ล้มเหลว</td>
                                         <%}else if (order.status == 2){%>
-                                            <td id="status-<%=order.order_id%>" class="status-waiting">Waiting for
-                                                packing</td>
+                                            <td id="status-<%=order.order_id%>" class="status-waiting">รอการแพ็ค</td>
                                             <%}%>
                                                 <!-- <td id="status-1" class="status-waiting">Waiting for packing</td> -->
                                                 <td>
                                                     <div class="action-buttons">
                                                         <a href="#" class="btn-packing"
                                                             onclick="changeStatus('status-<%=order.order_id%>', 'Packing')">
-                                                            <i class="fas fa-box"></i> Packing
+                                                            <i class="fas fa-box"></i> กำลังแพ็ค
                                                         </a>
                                                         <a href="#" class="btn-success"
                                                             onclick="changeStatus('status-<%=order.order_id%>', 'Success')">
-                                                            <i class="fas fa-check"></i> Success
+                                                            <i class="fas fa-check"></i> สำเร็จ
                                                         </a>
                                                         <a href="#" class="btn-failed"
                                                             onclick="changeStatus('status-<%=order.order_id%>', 'Failed')">
-                                                            <i class="fas fa-times"></i> Failed
+                                                            <i class="fas fa-times"></i> ล้มเหลว
                                                         </a>
                                                     </div>
                                                 </td>
@@ -95,11 +94,11 @@
             <span class="close-modal">&times;</span>
             <div class="images-grid">
                 <div class="image-card">
-                    <h3>Payment Receipt</h3>
+                    <h3>ใบเสร็จชำระเงิน</h3>
                     <img id="billImage" class="modal-image" alt="Payment Receipt">
                 </div>
                 <div class="image-card">
-                    <h3>Product Image</h3>
+                    <h3>รูปสินค้า</h3>
                     <img id="productImage" class="modal-image" alt="Product Image">
                 </div>
             </div>

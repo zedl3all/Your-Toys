@@ -1,13 +1,20 @@
-function changeStatus(id, status) {
-    // Get the status element
-    const statusElement = document.getElementById(id);
+// เพิ่มตัวแปร object สำหรับเก็บคำแปลสถานะ
+const STATUS_TRANSLATIONS = {
+    'Waiting for packing': 'รอการแพ็ค',
+    'Packing': 'กำลังแพ็ค',
+    'Success': 'สำเร็จ',
+    'Failed': 'ล้มเหลว'
+};
 
+function changeStatus(id, status) {
+    const statusElement = document.getElementById(id);
+    
     // Remove all existing status classes
     statusElement.classList.remove('status-waiting', 'status-packing', 'status-success', 'status-failed');
-
+    
     // Add animation class
     statusElement.classList.add('status-changing');
-
+    
     // Add appropriate status class
     switch (status) {
         case 'Waiting for packing':
@@ -23,21 +30,21 @@ function changeStatus(id, status) {
             statusElement.classList.add('status-failed');
             break;
     }
-
-    // Update the text
-    statusElement.innerText = status;
-
+    
+    // Update text with Thai translation
+    statusElement.innerText = STATUS_TRANSLATIONS[status];
+    
     // Remove animation class after animation completes
     setTimeout(() => {
         statusElement.classList.remove('status-changing');
     }, 500);
-
-    // Show notification
-    showNotification(`Order status updated to "${status}"`);
-
+    
+    // Show notification in Thai
+    showNotification(`อัปเดตสถานะเป็น "${STATUS_TRANSLATIONS[status]}" แล้ว`);
+    
     // Send request to update status in the database
     let order_id = id.replace("status-", "");
-
+    
     fetch('/updateOrderStatus', {
         method: 'POST',
         headers: {
@@ -45,16 +52,16 @@ function changeStatus(id, status) {
         },
         body: JSON.stringify({ orderId: parseInt(order_id), status: status })
     })
-        .then(response => response.json())
-        .then(data => {
-            if (!data.success) {
-                showNotification(`Failed to update status: ${data.message}`);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showNotification('Failed to update status');
-        });
+    .then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            showNotification(`ไม่สามารถอัปเดตสถานะได้: ${data.message}`);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('ไม่สามารถอัปเดตสถานะได้');
+    });
 }
 
 function showNotification(message) {
