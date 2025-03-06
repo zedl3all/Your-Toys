@@ -189,12 +189,25 @@
                             <h3 class="card-title fw-bold mb-0">
                                 <i class="bi bi-star-fill text-warning me-2"></i>รีวิวจากลูกค้า
                             </h3>
-                            <% if (reviews.length> 0) { %>
-                                <button class="btn btn-outline-primary" data-bs-toggle="modal"
-                                    data-bs-target="#reviewModal">
-                                    <i class="bi bi-pencil-square me-1"></i> เขียนรีวิว
+
+                            <% if (!userId) { %>
+                                <button class="btn btn-outline-secondary" onclick="window.location.href='/login'">
+                                    <i class="bi bi-box-arrow-in-right me-1"></i> เข้าสู่ระบบเพื่อรีวิว
                                 </button>
-                                <% } %>
+                                <% } else if (reviewStatus==="can_review" ) { %>
+                                    <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                        data-bs-target="#reviewModal">
+                                        <i class="bi bi-pencil-square me-1"></i> เขียนรีวิว
+                                    </button>
+                                    <% } else if (reviewStatus==="already_reviewed" ) { %>
+                                        <span class="badge bg-secondary px-2 py-2">
+                                            <i class="bi bi-check-circle me-1"></i> คุณได้รีวิวสินค้านี้แล้ว
+                                        </span>
+                                        <% } else if (reviewStatus==="no_purchase" ) { %>
+                                            <span class="badge bg-info px-2 py-2">
+                                                <i class="bi bi-info-circle me-1"></i> ซื้อสินค้าก่อนจึงจะรีวิวได้
+                                            </span>
+                                            <% } %>
                         </div>
                         <div class="card-body">
                             <% if (reviews.length===0) { %>

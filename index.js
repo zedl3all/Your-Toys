@@ -96,7 +96,7 @@ app.post("/upload/:imgname", (req, res) => {
 
 // File upload oop able to reuse by 112
 function createUploadMiddleware(destinationDir, sizeLimit = 25) {
-    return function(req, res) {
+    return function (req, res) {
         const storage = multer.diskStorage({
             destination: (req, file, cb) => {
                 cb(null, destinationDir);
@@ -105,13 +105,13 @@ function createUploadMiddleware(destinationDir, sizeLimit = 25) {
                 cb(null, req.params.imgname + path.extname(file.originalname));
             }
         });
-        
+
         const upload = multer({
             storage,
             fileFilter,
             limits: { fileSize: sizeLimit * 1024 * 1024 }
         });
-        
+
         return upload.single("image")(req, res, (err) => {
             if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
                 return res.status(400).json({ message: `File size exceeds the limit of ${sizeLimit}MB` });
@@ -122,7 +122,7 @@ function createUploadMiddleware(destinationDir, sizeLimit = 25) {
             if (!req.file) {
                 return res.status(400).json({ message: "No file uploaded or invalid file type" });
             }
-            
+
             res.json({
                 message: "File uploaded successfully",
                 filename: req.file.filename,
@@ -267,54 +267,130 @@ app.get("/ProductAll/:id", (req, res) => {
 //     res.render('Home/home');
 // });
 
-app.get('/product/:id', (req, res) => { // test
+app.get('/product/:id', (req, res) => {
     const id = req.params.id;
+    const userId = req.query.userId;
+
+    // Base product query
     const query = 'SELECT * FROM products WHERE id = ?';
-    const reviewquery = `SELECT u.username username, r.review_title title, r.review_description description, r.review_date rdate, r.score score FROM reviews r JOIN users u ON u.user_id = r.user_id WHERE r.product_id = ${id};`;
+
+    // Review query
+    const reviewQuery = `SELECT u.username username, r.review_title title, 
+                         r.review_description description, r.review_date rdate, r.score score 
+                         FROM reviews r JOIN users u ON u.user_id = r.user_id WHERE r.product_id = ?`;
+
+    // Purchase verification query - check if user has completed an order for this product
+    const purchaseQuery = `SELECT 1 FROM orders 
+                           WHERE customer_id = ? AND product_id = ? AND status_id = 4 
+                           LIMIT 1`;
+
+    // Already reviewed check
+    const reviewedQuery = `SELECT 1 FROM reviews 
+                          WHERE user_id = ? AND product_id = ? 
+                          LIMIT 1`;
+
     db.get(query, [id], (err, rows) => {
         if (err) {
             console.log(err.message);
             return res.status(500).send('Database error');
         }
-        db.all(reviewquery, [], (err, reviewsdata) => {
+
+        db.all(reviewQuery, [id], (err, reviewsdata) => {
             if (err) {
                 console.log(err.message);
                 return res.status(500).send('Database error');
             }
-            console.log(reviewsdata);
-            let allscore = {"five":0, "four":0, "three":0, "two":0, "one":0, "zero": 0};
+
+            // Calculate review statistics
+            let allscore = { "five": 0, "four": 0, "three": 0, "two": 0, "one": 0 };
             let total = 0;
-            for (reviews of reviewsdata){
-                switch (reviews.score){
-                    case 0:
-                        allscore.zero += 1;
-                        break;
-                    case 1:
-                        allscore.one += 1;
-                        break;
-                    case 2:
-                        allscore.two += 1;
-                        break;
-                    case 3:
-                        allscore.three += 1;
-                        break;
-                    case 4:
-                        allscore.four += 1
-                        break;
-                    case 5:
-                        allscore.five += 1
-                        break;
+
+            if (reviewsdata.length > 0) {
+                for (reviews of reviewsdata) {
+                    switch (reviews.score) {
+                        case 1:
+                            allscore.one += 1;
+                            break;
+                        case 2:
+                            allscore.two += 1;
+                            break;
+                        case 3:
+                            allscore.three += 1;
+                            break;
+                        case 4:
+                            allscore.four += 1
+                            break;
+                        case 5:
+                            allscore.five += 1
+                            break;
+                    }
+                    total += reviews.score
                 }
-                total += reviews.score
-                
+
+                let average = total / reviewsdata.length;
+
+                for (index in allscore) {
+                    allscore[index] = allscore[index] / reviewsdata.length * 100;
+                }
+
+                console.log(`Average rating: ${average.toFixed(2)}`);
+            } else {
+                // No reviews yet
+                console.log("No reviews for this product");
             }
-            let average = total/reviewsdata.length;
-            for (index in allscore){
-                allscore[index] = allscore[index]/reviewsdata.length*100
+
+            // If user is logged in, check if they purchased this product and haven't reviewed yet
+            let canReview = false;
+            let reviewStatus = "login_required";
+
+            if (userId) {
+                // First check if they already reviewed this product
+                db.get(reviewedQuery, [userId, id], (err, reviewed) => {
+                    if (err) {
+                        console.log(err.message);
+                        // Continue with default values
+                    } else if (reviewed) {
+                        reviewStatus = "already_reviewed";
+                    } else {
+                        // Check if they purchased this product
+                        db.get(purchaseQuery, [userId, id], (err, purchased) => {
+                            if (err) {
+                                console.log(err.message);
+                                // Continue with default values
+                            } else if (purchased) {
+                                canReview = true;
+                                reviewStatus = "can_review";
+                            } else {
+                                reviewStatus = "no_purchase";
+                            }
+
+                            // Render page with all data
+                            renderProductPage();
+                        });
+                        return; // Exit here to wait for the nested query
+                    }
+                    renderProductPage();
+                });
+                return; // Exit here to wait for the nested query
             }
-            console.log(average)
-            console.log(allscore);
-            res.render('Product/product', { data: rows, reviews: reviewsdata , allscore: allscore, average: average});
+
+            // If not logged in or other cases, render directly
+            renderProductPage();
+
+            // Helper function to avoid duplicate code
+            function renderProductPage() {
+                const average = reviewsdata.length > 0 ? total / reviewsdata.length : 0;
+
+                res.render('Product/product', {
+                    data: rows,
+                    reviews: reviewsdata,
+                    allscore: allscore,
+                    average: average,
+                    userId: userId,
+                    canReview: canReview,
+                    reviewStatus: reviewStatus
+                });
+            }
         });
     });
 });
@@ -537,56 +613,56 @@ app.post("/upload-payment-proof", (req, res) => {
             cb(null, `payment_${timestamp}_${randomString}${path.extname(file.originalname)}`);
         }
     });
-    
+
     const upload = multer({
         storage,
         fileFilter,
         limits: { fileSize: 10 * 1024 * 1024 } // 10MB
     }).single('paymentProof');
-    
+
     // Process the upload
-    upload(req, res, function(err) {
+    upload(req, res, function (err) {
         // Log full request body for debugging
         console.log('Received payment upload request with body:', req.body);
-        
+
         if (err) {
             console.error('Upload error:', err);
-            return res.status(400).json({ 
-                success: false, 
-                message: err.message 
+            return res.status(400).json({
+                success: false,
+                message: err.message
             });
         }
-        
+
         if (!req.file) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'No file uploaded' 
+            return res.status(400).json({
+                success: false,
+                message: 'No file uploaded'
             });
         }
-        
+
         // Get userId from form data
         const userId = req.body.userId;
         console.log('User ID from request:', userId);
-        
+
         if (!userId) {
             return res.status(400).json({
                 success: false,
                 message: 'Missing user ID'
             });
         }
-        
+
         // Update database with payment proof
         const filePath = req.file.filename;
         console.log('File uploaded successfully:', filePath);
-        
+
         const updateQuery = `
             UPDATE orders 
             SET status_id = 2, 
                 bill_img = ?
             WHERE customer_id = ? AND status_id = 0
         `;
-        
-        db.run(updateQuery, [filePath, userId], function(err) {
+
+        db.run(updateQuery, [filePath, userId], function (err) {
             if (err) {
                 console.error('Database error:', err.message);
                 return res.status(500).json({
@@ -594,16 +670,16 @@ app.post("/upload-payment-proof", (req, res) => {
                     message: 'Error updating order status'
                 });
             }
-            
+
             console.log(`Updated ${this.changes} orders for user ${userId}`);
-            
+
             if (this.changes === 0) {
                 return res.status(400).json({
                     success: false,
                     message: 'No items in cart to update'
                 });
             }
-            
+
             res.json({
                 success: true,
                 message: 'Payment proof uploaded successfully',
@@ -1084,8 +1160,8 @@ app.get('/Packing', (req, res) => {
             console.log('Database error:', err.message);
             return res.status(500).send('Database error');
         }
-        
-        
+
+
 
         res.render('Packing/packing', { orders });
     });
@@ -1278,7 +1354,7 @@ app.post('/updateOrderStatus', (req, res) => {
     }
 
     const query = `UPDATE orders SET status_id = ${statusId} WHERE order_id = ${orderId};`;
-    db.run(query, function(err) {
+    db.run(query, function (err) {
         if (err) {
             console.error('Database error:', err.message);
             return res.status(500).json({ success: false, message: 'Database error' });
@@ -1295,7 +1371,7 @@ app.post('/addReview', (req, res) => {
         INSERT INTO reviews (user_id, product_id, score, review_title, review_description, review_date)
         VALUES (?, ?, ?, ?, ?, date('now'))
     `;
-    db.run(query, [userId, productId, rating, title, content], function(err) {
+    db.run(query, [userId, productId, rating, title, content], function (err) {
         if (err) {
             console.error('Database error:', err.message);
             return res.status(500).json({ success: false, message: 'Database error' });
@@ -1309,7 +1385,7 @@ app.use((req, res, next) => {
     res.status(404).sendFile(path.join(__dirname, 'Public/404.html'));
 });
 
-app.listen(port, async() => {
+app.listen(port, async () => {
     console.log(`listening to port ${port}`);
     console.log('<--------------------->');
     console.log(`Server running at: http://localhost:${port}`);

@@ -361,3 +361,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const userId = localStorage.getItem('user_id');
+    
+    if (userId) {
+      const url = new URL(window.location.href);
+      if (!url.searchParams.has('userId')) {
+        url.searchParams.set('userId', userId);
+        window.history.replaceState({}, '', url.toString());
+        setTimeout(() => window.location.reload(), 100);
+      }
+      
+      document.querySelectorAll('a[href^="/product/"]').forEach(link => {
+        const linkUrl = new URL(link.href, window.location.origin);
+        linkUrl.searchParams.set('userId', userId);
+        link.href = linkUrl.toString();
+      });
+    }
+  });
