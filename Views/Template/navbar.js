@@ -1,6 +1,3 @@
-function createNav() {
-  var myMenu = document.getElementById("myMenu");
-}
 function search() {
   // Declare variables
   var input, filter, ul, li, a, i;
