@@ -281,8 +281,7 @@ app.get('/product/:id', (req, res) => {
 
     // Purchase verification query - check if user has completed an order for this product
     const purchaseQuery = `SELECT 1 FROM orders 
-                           WHERE customer_id = ? AND product_id = ? AND status_id = 4 
-                           LIMIT 1`;
+                           WHERE customer_id = ? AND product_id = ? AND status_id = 4`;
 
     // Already reviewed check
     const reviewedQuery = `SELECT 1 FROM reviews 

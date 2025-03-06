@@ -215,12 +215,23 @@
                                 <div class="text-center py-5">
                                     <i class="bi bi-chat-square-text fs-1 text-muted mb-3"></i>
                                     <h4 class="mb-2">ยังไม่มีรีวิวสำหรับสินค้านี้</h4>
-                                    <p class="text-muted">
-                                        เป็นคนแรกที่รีวิวสินค้านี้และแบ่งปันประสบการณ์ของคุณให้กับผู้อื่น!</p>
-                                    <button class="btn btn-primary mt-2" data-bs-toggle="modal"
-                                        data-bs-target="#reviewModal">
-                                        <i class="bi bi-pencil-square me-1"></i> เขียนรีวิวแรก
-                                    </button>
+                                    <% if (!userId) { %>
+                                        <p class="text-muted">
+                                            เข้าสู่ระบบเพื่อเป็นคนแรกที่แบ่งปันความคิดเห็นเกี่ยวกับสินค้านี้
+                                        </p>
+                                    <% } else if (reviewStatus === "can_review") { %>
+                                        <p class="text-muted">คุณสามารถเป็นคนแรกที่รีวิวสินค้านี้! กดปุ่ม
+                                            "เขียนรีวิว" ด้านบนเพื่อแบ่งปันประสบการณ์ของคุณ</p>
+                                        <p class="small text-primary mt-2">
+                                            <i class="bi bi-arrow-up-circle"></i>
+                                            ใช้ปุ่มที่อยู่ด้านบนขวาเพื่อเขียนรีวิว
+                                        </p>
+                                    <% } else if (reviewStatus === "no_purchase") { %>
+                                        <p class="text-muted">ซื้อสินค้านี้ก่อนจึงจะสามารถรีวิวได้</p>
+                                    <% } else if (reviewStatus === "already_reviewed") { %>
+                                        <p class="text-muted">คุณได้รีวิวสินค้านี้แล้ว
+                                            แต่รีวิวของคุณยังไม่ปรากฏ อาจจะอยู่ในขั้นตอนการตรวจสอบ</p>
+                                    <% } %>
                                 </div>
                                 <% } else { %>
                                     <!-- Summary Rating -->
