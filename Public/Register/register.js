@@ -53,11 +53,11 @@ function initializeRegister() {
     });
 }
 
-function showpassword() {
-    var x = document.getElementById("password");
-    if (x.type === "password") {
-        x.type = "text";
+function showpassword(id) {
+    var passwordField = document.getElementById(id);
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
     } else {
-        x.type = "password";
+        passwordField.type = "password";
     }
 }
