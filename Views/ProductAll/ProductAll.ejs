@@ -96,13 +96,9 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title text-truncate"><%=item.name%></h5>
-                                    <div class="product-rating mb-2">
-                                        <i class="fas fa-star text-warning"></i>
-                                        <i class="fas fa-star text-warning"></i>
-                                        <i class="fas fa-star text-warning"></i>
-                                        <i class="fas fa-star text-warning"></i>
-                                        <i class="fas fa-star-half-alt text-warning"></i>
-                                        <small class="text-muted ms-1">(4.5)</small>
+                                    <div class="ms-2 <%= item.amount <= 0 ? 'text-danger fw-bold' : 'text-muted' %> small">
+                                        <i class="bi <%= item.amount <= 0 ? 'bi-exclamation-triangle' : 'bi-box-seam' %>"></i>
+                                        <%= item.amount <=0 ? 'สินค้าหมด' : `มีสินค้า: ${item.amount} ชิ้น` %>
                                     </div>
                                     <p class="card-text text-muted small text-truncate"><%=item.description%></p>
                                     <p class="card-text fw-bold price">฿ <%= item.price.toLocaleString() %></p>

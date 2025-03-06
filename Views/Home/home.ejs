@@ -57,14 +57,11 @@
                                     <h5 class="p-name">
                                         <%=item.name%>
                                     </h5>
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <span class="ms-1">(4.0)</span>
+                                    <div class="ms-2 <%= item.amount <= 0 ? 'text-danger fw-bold' : 'text-muted' %> small">
+                                        <i class="bi <%= item.amount <= 0 ? 'bi-exclamation-triangle' : 'bi-box-seam' %>"></i>
+                                        <%= item.amount <=0 ? 'สินค้าหมด' : `มีสินค้า: ${item.amount} ชิ้น` %>
                                     </div>
+
                                     <p class="p-small-text">
                                         <%=item.description%>
                                     </p>
