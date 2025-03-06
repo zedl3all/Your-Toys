@@ -4,6 +4,7 @@
     --color-tertiary: #ccc;
     --color-white: #fff;
     --color-dark: #333;
+    --color-failed: #ff4d4d; /* Add this line */
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -398,4 +399,21 @@ body {
     .order-details {
         padding: 1.5rem;
     }
+}
+
+.progress__container.failed .progress__bar {
+    background-color: var(--color-failed);
+    box-shadow: 0 0 5px rgba(255, 77, 77, 0.5);
+}
+
+.progress__container.failed .progress__circle {
+    border-color: var(--color-failed);
+}
+
+.progress__container.failed .progress__circle i {
+    color: var(--color-failed);
+}
+
+.progress__container.failed .progress__circle.active {
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.5);
 }
