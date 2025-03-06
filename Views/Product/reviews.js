@@ -344,7 +344,13 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            if (!data.success) {
+            if (data.success) {
+                showToast('Review submitted successfully!');
+                
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            } else {
                 console.error('Failed to insert review:', data.message);
                 showToast('Failed to submit review. Please try again.');
             }
