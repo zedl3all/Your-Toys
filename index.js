@@ -1238,7 +1238,7 @@ app.get('/AllOrder/:id', (req, res) => {
     const query = `
         SELECT o.order_id, o.product_id, p.name, p.price, o.amount as quantity, 
                p.image, o.size, o.detail, o.status_id, o.order_date, o.packing_date,
-               o.total_price
+               o.total_price, o.bill_img bill, o.img custom
         FROM orders o
         JOIN products p ON o.product_id = p.id
         WHERE o.customer_id = ? AND o.status_id BETWEEN 2 AND 4
@@ -1260,6 +1260,8 @@ app.get('/AllOrder/:id', (req, res) => {
                     status_id: item.status_id,
                     order_date: item.order_date,
                     packing_date: item.packing_date,
+                    bill: item.bill,
+                    custom: item.custom,
                     items: [],
                     total: 0
                 };
@@ -1290,13 +1292,15 @@ app.get('/AllOrder/:id', (req, res) => {
                 quantity: item.quantity,
                 size: item.size,
                 detail: item.detail,
+                bill: item.bill,
+                custom: item.custom,
                 total: itemTotal
             });
 
             // Add to order total
             groupedOrders[item.order_id].total += itemTotal;
         });
-
+        console.log(groupedOrders);
         res.render('AllOrder/allOrder', {
             orders: Object.values(groupedOrders),
             userId: userId,
