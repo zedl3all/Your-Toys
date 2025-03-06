@@ -43,7 +43,8 @@
                                     <%= data.amount <=0 ? 'สินค้าหมด' : 'มีสินค้า' %>
                                 </span>
                                 <div class="small text-muted" id="productId">
-                                <i class="bi bi-box-seam me-1"></i>รหัสสินค้า: <%=data.id %></div>
+                                    <i class="bi bi-box-seam me-1"></i>รหัสสินค้า: <%=data.id %>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -211,7 +212,7 @@
                                     <div class="row mb-4">
                                         <div class="col-md-4 text-center border-end">
                                             <h1 class="display-3 fw-bold mb-0">
-                                                <%=average%>
+                                                <%= parseFloat(average).toFixed(0) %>
                                             </h1>
                                             <p class="text-muted mb-0">จาก <%=reviews.length%> รีวิว</p>
                                         </div>
@@ -223,7 +224,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="text-muted ms-3" style="width: 40px" id="5text">
-                                                    <%=allscore.five%>%
+                                                    <%= parseFloat(allscore.five).toFixed(0) %>%
                                                 </div>
                                             </div>
                                             <div class="d-flex align-items-center mb-1">
@@ -233,7 +234,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="text-muted ms-3" style="width: 40px" id="4text">
-                                                    <%=allscore.four%>%
+                                                    <%= parseFloat(allscore.four).toFixed(0) %>%
                                                 </div>
                                             </div>
                                             <div class="d-flex align-items-center mb-1">
@@ -243,7 +244,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="text-muted ms-3" style="width: 40px" id="3text">
-                                                    <%=allscore.three%>%
+                                                    <%= parseFloat(allscore.three).toFixed(0) %>%
                                                 </div>
                                             </div>
                                             <div class="d-flex align-items-center mb-1">
@@ -253,27 +254,17 @@
                                                     </div>
                                                 </div>
                                                 <div class="text-muted ms-3" style="width: 40px" id="2text">
-                                                    <%=allscore.two%>%
+                                                    <%= parseFloat(allscore.two).toFixed(0) %>%
                                                 </div>
                                             </div>
-                                            <div class="d-flex align-items-center mb-1">
+                                            <div class="d-flex align-items-center">
                                                 <div class="text-muted me-3" style="width: 60px">1 ดาว</div>
                                                 <div class="progress flex-grow-1" style="height: 10px;">
                                                     <div class="progress-bar bg-warning" role="progressbar" id="1star">
                                                     </div>
                                                 </div>
                                                 <div class="text-muted ms-3" style="width: 40px" id="1text">
-                                                    <%=allscore.one%>%
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <div class="text-muted me-3" style="width: 60px">0 ดาว</div>
-                                                <div class="progress flex-grow-1" style="height: 10px;">
-                                                    <div class="progress-bar bg-warning" role="progressbar" id="0star">
-                                                    </div>
-                                                </div>
-                                                <div class="text-muted ms-3" style="width: 40px" id="0text">
-                                                    <%=allscore.zero%>%
+                                                    <%= parseFloat(allscore.one).toFixed(0) %>%
                                                 </div>
                                             </div>
                                         </div>
@@ -284,7 +275,6 @@
                                         document.getElementById("3star").style.width = document.getElementById("3text").innerText;
                                         document.getElementById("2star").style.width = document.getElementById("2text").innerText;
                                         document.getElementById("1star").style.width = document.getElementById("1text").innerText;
-                                        document.getElementById("0star").style.width = document.getElementById("0text").innerText;
                                     </script>
 
                                     <!-- Individual Reviews -->
