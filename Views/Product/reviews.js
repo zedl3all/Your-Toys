@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const title = document.getElementById('reviewTitle').value.trim();
         const content = document.getElementById('reviewContent').value.trim();
         const userId = localStorage.getItem('user_id') // Assuming userId is available in a hidden input field
-        const productId = document.getElementById('productId').innerHTML.replace("<i class=\"bi bi-box-seam me-1\"></i> Product ID: ", ""); // Assuming productId is available in a hidden input field
+        const productId = document.getElementById('productId').innerHTML.replace("<i class=\"bi bi-box-seam me-1\"></i>รหัสสินค้า: ", ""); // Assuming productId is available in a hidden input field
         
         // Add review to DOM
         // addReviewToDOM({
