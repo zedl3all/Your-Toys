@@ -1185,7 +1185,7 @@ app.get('/tracking/:id', (req, res) => {
         FROM orders o
         JOIN products p ON o.product_id = p.id
         JOIN users u ON o.customer_id = u.user_id
-        WHERE o.order_id = ? AND o.status_id BETWEEN 2 AND 4
+        WHERE o.order_id = ? AND o.status_id BETWEEN 2 AND 5
     `;
 
     db.all(query, [orderId], (err, items) => {
@@ -1230,7 +1230,8 @@ app.get('/AllOrder/:id', (req, res) => {
             statusLabels: {
                 2: "Ordered",
                 3: "Packed",
-                4: "Completed"
+                4: "Completed",
+                5: "Failed"
             }
         });
     }
@@ -1241,7 +1242,7 @@ app.get('/AllOrder/:id', (req, res) => {
                o.total_price, o.bill_img bill, o.img custom
         FROM orders o
         JOIN products p ON o.product_id = p.id
-        WHERE o.customer_id = ? AND o.status_id BETWEEN 2 AND 4
+        WHERE o.customer_id = ? AND o.status_id BETWEEN 2 AND 5
         ORDER BY o.order_date DESC
     `;
 
@@ -1308,7 +1309,8 @@ app.get('/AllOrder/:id', (req, res) => {
             statusLabels: {
                 2: "Ordered",
                 3: "Packed",
-                4: "Completed"
+                4: "Completed",
+                5: "Failed"
             }
         });
     });

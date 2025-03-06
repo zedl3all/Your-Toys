@@ -24,7 +24,7 @@
         <% } else { %>
             <h1 class="tracking-title">ติดตามคำสั่งซื้อ</h1>
             
-            <div class="progress__container" data-status-id="<%= order.status_id %>">
+            <div class="progress__container <%= order.status_id >= 5 ? 'failed' : '' %>" data-status-id="<%= order.status_id %>">
                 <div class="progress__bar js-bar"></div>
                 
                 <div class="progress__step">
