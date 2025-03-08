@@ -67,8 +67,8 @@ html {
 
 .item {
     border: 1px solid #e0e0e0;
-    width: 220px;         /* เพิ่มความกว้างจาก 150px เป็น 220px */
-    height: 420px;        /* เพิ่มความสูงจาก 380px เป็น 420px */
+    width: 220px;
+    height: 420px;
     background-color: #ffffff;
     margin: 15px;
     padding: 15px;
@@ -93,24 +93,24 @@ html {
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
-    height: 180px;        /* ลดความสูงลงเล็กน้อยจาก 200px เป็น 180px */
+    height: 180px;
     overflow: hidden;
 }
 
 .item-top img {
-    width: 90%;            /* เพิ่มความกว้างของรูปภาพจาก 80% เป็น 90% */
-    height: 160px;         /* กำหนดความสูงคงที่ */
+    width: 90%;
+    height: 160px;
     object-fit: contain;
     border-radius: 5px;
 }
 
 
 .item-bottom {
-    margin-left: 5px;    /* ลดขอบซ้ายจาก 10px เป็น 5px เพื่อให้มีพื้นที่ข้อความมากขึ้น */
+    margin-left: 5px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    height: 180px;       /* เพิ่มความสูงจาก 120px เป็น 180px */
+    height: 180px;
     padding: 5px;
 }
 
@@ -133,14 +133,14 @@ html {
 }
 
 .p-price {
-    font-size: 1.2rem;     /* ลดขนาดตัวอักษรจาก 1.3rem เป็น 1.2rem */
+    font-size: 1.2rem;
     font-weight: bold;
-    margin-top: auto;      /* คงไว้เพื่อให้ราคาอยู่ด้านล่างเสมอ */
+    margin-top: auto;
     color: #ff6b6b;
 }
 
 .p-name {
-    font-size: 1.2rem;    /* ลดขนาดตัวอักษรจาก 1.5rem เป็น 1.2rem */
+    font-size: 1.2rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -149,7 +149,7 @@ html {
     line-height: 1.2;
     margin-bottom: 1rem;
     font-weight: 500;
-    height: 2.4em;       /* กำหนดความสูงคงที่เพื่อให้พื้นที่เท่ากันแม้ว่าข้อความจะสั้นหรือยาว */
+    height: 2.4em;
 }
 
 .item img {
@@ -216,7 +216,6 @@ html {
 .slick-prev:hover,
 .slick-next:hover {
     background-color: rgba(51, 51, 51, 1) !important;
-    /* transform: scale(1.1); */
 }
 
 .container-ad {
@@ -229,7 +228,7 @@ html {
 
 .rating {
     color: #ffc107;
-    font-size: 0.8rem;     /* ลดขนาดตัวอักษรจาก 0.9rem เป็น 0.8rem */
+    font-size: 0.8rem;
     margin-bottom: 6px;
 }
 
