@@ -11,7 +11,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 60px; /* Add this line */
+    padding-top: 60px;
 }
 
 .container {
@@ -22,8 +22,8 @@ body {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     transform: translateY(0);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin: 0; /* Remove margin */
-    position: relative; /* Add this line */
+    margin: 0;
+    position: relative;
 }
 
 .container:hover {
@@ -61,7 +61,7 @@ h2:after {
     border-radius: 8px;
     font-weight: 500;
     transition: all 0.3s ease;
-    z-index: 1000; /* Add this line */
+    z-index: 1000;
 }
 
 .back-button:hover {
@@ -120,13 +120,13 @@ input[type="submit"] {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    background-image: none; /* Remove gradient */
+    background-image: none;
 }
 
 input[type="submit"]:hover {
     background-color: #4cae4c;
     transform: translateY(-2px);
-    box-shadow: none; /* Remove specific shadow */
+    box-shadow: none;
 }
 
 .login-link {
@@ -151,13 +151,12 @@ input[type="submit"]:hover {
     text-decoration: none;
 }
 
-/* Update media queries to match login page */
 @media screen and (max-width: 480px) {
     .container {
         width: 90%;
-        margin: 0 20px; /* Modify this line */
+        margin: 0 20px;
         padding: 20px;
-        position: relative; /* Add this line */
+        position: relative;
     }
 
     h2 {
@@ -170,7 +169,7 @@ input[type="submit"]:hover {
     }
 
     .back-button {
-        position: fixed; /* Change to fixed */
+        position: fixed;
         top: 10px;
         left: 10px;
         padding: 8px 15px;
